@@ -1,6 +1,5 @@
 # Microsoft HPC Pack
-This repository provides a communication channel for customers using
-the [Microsoft HPC Pack](https://aka.ms/hpcpack) product.
+This repository provides a communication channel for customers using [Microsoft HPC Pack](https://aka.ms/hpcpack) product.
 
 * Announcements
     * HPC Pack 2019 Preview (coming soon...)
@@ -10,22 +9,23 @@ the [Microsoft HPC Pack](https://aka.ms/hpcpack) product.
     * [Notices](https://github.com/Azure/hpcpack/labels/notice)
     * [Known issues](https://github.com/Azure/hpcpack/labels/known%20issue)
     * [Questions](https://github.com/Azure/hpcpack/labels/question)
-    * [Bug report template](https://github.com/Azure/hpcpack/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
-    * [Feature request template](https://github.com/Azure/hpcpack/blob/master/.github/ISSUE_TEMPLATE/feature_request.md)
+* Templates
+    * [Bug report](https://github.com/Azure/hpcpack/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
+    * [Feature request](https://github.com/Azure/hpcpack/blob/master/.github/ISSUE_TEMPLATE/feature_request.md)
 
 
 ## Resources
 
 ### About
 
-* [Documentation](https://aka.ms/hpcpack)
+* [HPC Pack Documentation](https://aka.ms/hpcpack)
 
 ### Community
 
-* [Stack Overflow hpcpack tagged questions](https://stackoverflow.com/questions/tagged/hpcpack)
+* [Stack Overflow](https://stackoverflow.com/questions/tagged/hpcpack) -  hpcpack tagged questions
 * [MSDN Forum](https://social.microsoft.com/Forums/en-US/home?category=windowshpc) -
 please post new questions under [GitHub issues](https://github.com/Azure/hpcpack/issues)
-or Stack Overflow
+or [Stack Overflow](https://stackoverflow.com/questions/tagged/hpcpack)
 
 ### SDK and Samples
 
