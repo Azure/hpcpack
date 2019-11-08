@@ -1,14 +1,43 @@
+# Microsoft HPC Pack
+This repository provides a communication channel for customers using
+the [Microsoft HPC Pack](https://aka.ms/hpcpack) product.
 
-# Contributing
+* Announcements
+    * HPC Pack 2019 Preview (coming soon...)
+    * HPC Pack 2016 Update 3 (version 5.3.6435) is released on Aug. 2nd, 2019 ([What's New](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2016-update-3?view=hpc16-ps), [Release Notes](https://docs.microsoft.com/en-us/powershell/high-performance-computing/release-notes-for-hpc-pack-2016-update-3?view=hpc16-ps))
+    * HPC Pack 2012 R2 Update 3 QFE KB4505153 (version 4.5.5202) is released on Jun. 11th, 2019 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=58380))
+* [Issue Tracking](https://github.com/Azure/hpcpack/issues)
+    * [Notices](https://github.com/Azure/hpcpack/labels/notice)
+    * [Known issues](https://github.com/Azure/hpcpack/labels/known%20issue)
+    * [Questions](https://github.com/Azure/hpcpack/labels/question)
+    * [Bug report template](https://github.com/Azure/hpcpack/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
+    * [Feature request template](https://github.com/Azure/hpcpack/blob/master/.github/ISSUE_TEMPLATE/feature_request.md)
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+## Resources
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+### About
+
+* [Documentation](https://aka.ms/hpcpack)
+
+### Community
+
+* [Stack Overflow hpcpack tagged questions](https://stackoverflow.com/questions/tagged/hpcpack)
+* [MSDN Forum](https://social.microsoft.com/Forums/en-US/home?category=windowshpc) -
+please post new questions under [GitHub issues](https://github.com/Azure/hpcpack/issues)
+or Stack Overflow
+
+### SDK and Samples
+
+* [Nuget SDK](https://www.nuget.org/packages/Microsoft.HPC.SDK/)
+* [Sample Code](https://github.com/Azure-Samples/hpcpack-samples)
+
+### Azure ARM Templates
+
+* [HPC Pack 2016 Update 3](https://github.com/Azure/hpcpack-template-2016)
+* [HPC Pack 2019 Preview](): coming soon...
+
+* * *
+
+**Repository Notices:** [Contributing](CONTRIBUTING.md),
+[Code of Conduct](CODE_OF_CONDUCT.md), [Legal Notices](LEGAL_NOTICES.md)
