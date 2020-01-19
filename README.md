@@ -13,8 +13,8 @@ This repository provides a communication channel for customers using [Microsoft 
     * [Bug report](https://github.com/Azure/hpcpack/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
     * [Feature request](https://github.com/Azure/hpcpack/blob/master/.github/ISSUE_TEMPLATE/feature_request.md)
 * Knowledge Base
-    * [KBs](https://github.com/Azure/hpcpack/blob/master/.github/kb)
-    * [Template](https://github.com/Azure/hpcpack/blob/master/.github/kb/kb_template.md)
+    * [KBs](https://github.com/Azure/hpcpack/blob/master/kb)
+    * [Template](https://github.com/Azure/hpcpack/blob/master/kb/kb_template.md)
 
 
 
