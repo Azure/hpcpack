@@ -8,13 +8,13 @@
 
 ## Resolution
 
-0. How to check HPC Pack version
+### 0. How to check HPC Pack version
 
     Open Hpc Cluster Manager GUI -> Help -> About.
 
     Or, go to %CCP_HOME%Bin folder and check the file version of the HPC bits e.g. HpcSchedulerCore.dll.
 
-1. Bin file locations
+### 1. Bin file locations
 
     All service logs are under %CCP_DATA%LogFiles folder on the cluster nodes. The log configurations are in the service app.config file under %CCP_HOME%Bin folder.
     > Note: the log file with the largest suffix number [N] is always empty. The latest logs are in [N-1].bin file.
@@ -44,22 +44,22 @@
 * SOA\HpcServiceHost_*.bin -- SOA service host logs
   
 
-2. How to open and search logs
+### 2. How to open and search logs
 
     Use the following GUI tools
 
     1. LogFlow – LogFlow is a graphical tool that can parse HPC logs in BIN format. It can be downloaded and installed from http://logflow.blob.core.windows.net/install/publish.htm
     2. LogViewerUI – LogViewerUI is an alternative graphical tool that can parse HPC Pack 2016 logs. It is available here: https://hpconlineservice.blob.core.windows.net/logviewer/LogViewer.UI.application
 
-3. How to collect logs for Job scheduling issue
+### 3. How to collect logs for Job scheduling issue
 
     Normally we need the HpcScheduler service logs on the head node and the HpcNodeManager service logs on the compute nodes. Please indicate the job and task Ids and make sure the logs collected cover the timespan of the job and task.
 
-4. How to collect logs for Node management issue
+### 4. How to collect logs for Node management issue
 
     Normally we need the HpcManagement, HpcSdm service logs on the head node and the HpcManagement service logs on the compute node. Please indicate the node name and make sure the logs collected cove the timespan of the node error.
 
-5. How to collect logs for SOA jobs
+### 5. How to collect logs for SOA jobs
 
     Normally we need the HpcSession service logs on the head node, Hpcbroker service logs and HpcBrokerWorker process logs on the broker node, and HpcServiceHost process logs on the compute node.
 
@@ -128,7 +128,7 @@
 
     ```
 
-6. How to collect logs for client side issue
+### 6. How to collect logs for client side issue
 
     Normally we may want to collect the Hpc Cluster/Job Manager or Hpc Powershell logs.
 
