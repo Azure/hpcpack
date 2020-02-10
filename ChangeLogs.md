@@ -29,7 +29,7 @@
 * Scheduler
   * Change the way of translating AAD(email format) username to domain format username. (Remove hash and use completed AAD name as username for Linux node. Include domain name in hash for Windows node).
   * Custom scheduler node sorter.
-  * To use the custom node sorter for node selection when scheduling jobs, first implement the Microsoft.Hpc.Scheduler.AddInFilter.HpcClient.INodeSorter interface defined in Microsoft.Hpc.Scheduler.dll as shown below, then rename the custom sorter dlls to 0.dll~63.dll (max 64 custom sorters) and copy them under the folder %CCP_DATA%NodeSorters on the head node, finally use #0~#63 for job’s orderby property when submitting the job.
+  * To use the custom node sorter for node selection when scheduling jobs, first implement the Microsoft.Hpc.Scheduler.AddInFilter.HpcClient.INodeSorter interface defined in Microsoft.Hpc.Scheduler.dll as shown below, then rename the custom sorter dlls to 0.dll\~63.dll (max 64 custom sorters) and copy them under the folder %CCP_DATA%NodeSorters on the head node, finally use #0\~#63 for job’s orderby property when submitting the job.
   * Support gMSA (Group Managed Service Account). With this support, the cluster may have gMSA accounts setup for cluster users or admins. To setup gMSA accounts, please check the online docs. Basically it requires to add a KDS root key and create an ADServiceAccount, and install the ADServiceAccount on the nodes. To submit a job with gMSA account, just specify the pseudo password “GMSA”. E.g. job submit /user:hpc\hpcgmsa$ /password:GMSA hostname. Note job owner who is submitting the job must use the same gMSA account.
   * Support docker task on Windows.
   * Support job template environments.
@@ -52,7 +52,7 @@
     * Support monitoring InfiniBand network usage.
     * Support monitoring multiple instances of network usage, which is set as default instead of monitoring total usage.
 
-## [HPC Pack 2016 Update 2 QFE KB4481650 (5.2.6291) - 1/4/2019 ](https://www.microsoft.com/en-us/download/details.aspx?id=57703)
+## [HPC Pack 2016 Update 2 QFE KB4481650 (5.2.6291) - 1/4/2019](https://www.microsoft.com/en-us/download/details.aspx?id=57703)
 - Fix a task dependency issue
 - Fix dependent assembly loading issue of activation/submission filter
 - Fix an issue that HPC Web portal cannot be loaded
