@@ -1,4 +1,4 @@
-# Change logs for releases
+# Change Log for Release
 
 # HPC Pack 2019
 ## [HPC Pack 2019 Preview (6.0.7121) - 11/15/2019](https://www.microsoft.com/en-us/download/details.aspx?id=100592)
