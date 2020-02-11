@@ -6,9 +6,10 @@ This repository provides a communication channel for customers using [Microsoft 
     * **HPC Pack 2016 Update 3** (5.3.6435) - 8/2/2019 ([What's New](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2016-update-3?view=hpc16-ps), [Release Notes](https://docs.microsoft.com/en-us/powershell/high-performance-computing/release-notes-for-hpc-pack-2016-update-3?view=hpc16-ps), [Download](https://www.microsoft.com/en-us/download/details.aspx?id=58506), [Azure ARM Templates](https://github.com/Azure/hpcpack-template-2016))
     * **HPC Pack 2012 R2 Update 3 QFE KB4505153** (4.5.5202) - 6/11/2019 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=58380))
     * **HPC Pack 2016 Update 2 QFE KB4481650** (5.2.6291) - 1/4/2019 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=57703))
-* Change logs
-    * [Change logs for releases](https://github.com/Azure/hpcpack/blob/master/ChangeLogs.md)
-* [Issue Tracking](https://github.com/Azure/hpcpack/issues)
+* Change Logs
+    * [Change logs for releases](https://github.com/Azure/hpcpack/blob/master/CHANGELOG.md)
+* Issue Tracking
+    * [Issues](https://github.com/Azure/hpcpack/issues)
     * [Notices](https://github.com/Azure/hpcpack/labels/notice)
     * [Known issues](https://github.com/Azure/hpcpack/labels/known%20issue)
     * [Questions](https://github.com/Azure/hpcpack/labels/question)
