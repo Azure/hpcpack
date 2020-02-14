@@ -8,6 +8,40 @@
 * Fundamental supports: Windows Server 2019/SQL Server 2019/Excel 2019,.Net Framework 4.7.2, New Azure SDKs
 
 # HPC Pack 2016
+
+## [HPC Pack 2016 Update 3 QFE KB4537169 (5.3.6450) - 2/14/2020](https://www.microsoft.com/en-us/download/details.aspx?id=100918)
+- Improve the SOA performance and reliability.
+- Fix the issue that sometimes the cluster utilization rate is shown greater than 100% in the cluster utilization chart.
+- Fix the issue that NAT is not working if the OS of the head node is Windows Server 2016 or above.
+- Support UEFI boot for bare metal deployment.
+- Fix an issue that in some situation HPCUsers cannot call service registration REST API.
+- Fix an issue that in some rare condition, some compute nodes are in OK state, but cannot run tasks.
+- Fix an issue that a parametric sweep job cannot finish when all its tasks finish.
+- Fix an issue that old jobs are not cleaned up in time.
+- Fix an issue that “SortByNodes” query parameter doesn’t work in HPC Web API.
+- Support pagination in HPC Web API at endpoint “/hpc”: A “StartRow” query parameter can be used when getting list of jobs/tasks/nodes. The first row has index 0. When this parameter presents in request,  
+  a) The server will returns the requested range of rows defined by “StartRow” and “RowsPerRead”(default to 10).  
+  b) The total row count is returned in the response header “x-ms-row-count”.  
+  c) The response headers "x-ms-continuation-QueryId" and "x-ms-continuation-CurrentObjectNumber" will not be returned.
+- Support sorting order in HPC Web API at endpoint “/hpc”: A “Asc” query parameter can be used when getting list of jobs/tasks/nodes. The parameter has a default value “True”, to sort the list ascendingly. When given a value “False”, the return list is in descending order. The sort field is specified by “SortNodesBy”/”SortJobsBy”/”SortTasks” query parameters as before.
+- Enforce authorization of SignalR Hubs for job & task events.
+- Increase the life time of continuation token/rowset in web service to 60 min.
+- Fix an issue that start/stop IaaS nodes may fail unexpectedly.
+- Fix an error in auto grow shrink when the monitoring service is temporarily unavailable.
+- Fix a possible job scheduler hang when the scheduler service restarts.
+- Fix an issue that SOA message level trace cannot be viewed after system reboot.
+- Fix Web Portal connection and port leak.
+- Fix an issue that HpcMonitoring service may stop to persist minute counters.
+- Sort nodes by node group and node name for auto grow and avoid to retry the same batch of failed nodes.
+- Add change role button back to the context menu for Azure IaaS nodes.
+- Fix a scheduler SQL insert NULL exception when adding job/task allocation history caused by node GUID changing.
+- Fix an issue that Linux node with FQDN host name may not be recognized by scheduler.
+- Improve Linux node GPU instance name readability in metric info.
+- Fix an issue that Azure IaaS nodes are stuck at Provisioning state occasionally when auto grow shrink is enabled.
+- Fix an issue that sometimes compute node cannot join the cluster with “node name already exists” error.
+- Fix an issue that Cluster Manager cannot view reporting charts after moving HPCReporting database to another SQL server instance.
+- Fix some issues in French OS.
+
 ## [HPC Pack 2016 Update 3 (5.3.6435) - 8/2/2019](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2016-update-3?view=hpc16-ps) 
 * Performance and reliability improvements
   * Improve scheduler task dispatching rate.
