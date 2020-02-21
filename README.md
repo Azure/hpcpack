@@ -7,6 +7,15 @@ This repository provides a communication channel for customers using [Microsoft 
     * **HPC Pack 2016 Update 3** (5.3.6435) - 8/2/2019 ([What's New](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2016-update-3?view=hpc16-ps), [Release Notes](https://docs.microsoft.com/en-us/powershell/high-performance-computing/release-notes-for-hpc-pack-2016-update-3?view=hpc16-ps), [Download](https://www.microsoft.com/en-us/download/details.aspx?id=58506), [Azure ARM Templates](https://github.com/Azure/hpcpack-template-2016))
     * **HPC Pack 2012 R2 Update 3 QFE KB4505153** (4.5.5202) - 6/11/2019 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=58380))
     * **HPC Pack 2016 Update 2 QFE KB4481650** (5.2.6291) - 1/4/2019 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=57703))
+    * **HPC Pack 2016 Update 2** (5.2.6277) - 9/29/2018 ([What's New](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2016-update-2?view=hpc16-ps), [Release Notes](https://docs.microsoft.com/en-us/powershell/high-performance-computing/release-notes-for-hpc-pack-2016-update-2?view=hpc16-ps), [Download](https://www.microsoft.com/en-us/download/details.aspx?id=57344))
+    * **HPC Pack 2016 Update 1 QFE KB4342793** (5.1.6125) - 7/26/2018 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=57174))
+    * **HPC Pack 2016 Update 1 QFE KB4135110** (5.1.6112) - 5/28/2018 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=57703))
+    * **HPC Pack 2016 Update 1** (5.1.6086) - 12/18/2017 ([What's New](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2016-update-1?view=hpc16-ps), [Release Notes](https://docs.microsoft.com/en-us/powershell/high-performance-computing/release-notes-for-hpc-pack-2016-update-1?view=hpc16-ps), [Download](https://www.microsoft.com/en-us/download/details.aspx?id=56360))
+    * **HPC Pack 2016 RTM** (5.0.5826) - 12/29/2016 ([What's New](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2016?view=hpc16-ps), [Release Notes](https://docs.microsoft.com/en-us/powershell/high-performance-computing/release-notes-for-hpc-pack-2016?view=hpc16-ps), [Download](https://www.microsoft.com/en-us/download/details.aspx?id=54507))
+    
+
+    
+
 * Change Log
     * [Change log for release](https://github.com/Azure/hpcpack/blob/master/CHANGELOG.md)
 * Issue Tracking
