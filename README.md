@@ -2,7 +2,7 @@
 This repository provides a communication channel for customers using [Microsoft HPC Pack](https://aka.ms/hpcpack) product.
 
 * Announcements
-    * **HPC Pack 2019 RTM (Coming soon by end of April, 2020)**  
+    * **HPC Pack 2019 RTM (Coming soon by end of May, 2020)**  
     Release Candidate build (6.0.7192) is now available [here](https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Fhpclogs.blob.core.windows.net%2Fprivatebits%2FHPC_Pack_2019_RC_6.0.7192.zip%3Fst%3D2020-04-16T14%253A58%253A00Z%26se%3D2020-05-16T14%253A58%253A00Z%26sp%3Drl%26sv%3D2018-03-28%26sr%3Db%26sig%3DEtdAn9fca1M%252F3Sfep38LGUb1JGuUk8qzpjKBwQ%252FwRCo%253D&data=02%7C01%7CSun.Yutong%40microsoft.com%7C60c8cc92e40e49787b2b08d7e21e5689%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C637226492275605568&sdata=eEuiWkg62lDV3EmY%2BXygLIbPHH4%2FVaMpn23Mu9TWpQg%3D&reserved=0) for early evaluations.
     * **HPC Pack 2016 Update 3 QFE KB4537169** (5.3.6450) - 2/14/2020 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=100918))
     * **HPC Pack 2019 Preview** (6.0.7121) - 11/15/2019 ([Download & Document](https://www.microsoft.com/en-us/download/details.aspx?id=100592), [Azure ARM Templates](https://github.com/Azure/hpcpack-template/tree/master/HPCPack2019))
