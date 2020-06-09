@@ -1,6 +1,57 @@
 # Change Log for Release
 
 # HPC Pack 2019
+
+## [HPC Pack 2019 (6.0.7205) - 6/9/2020](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019?view=hpc19-ps)
+* Built-in High Availability  
+  - In HPC Pack 2019, we have a built-in high availability architecture for head nodes. Compared to the architecture in HPC Pack 2016 which leverages Microsoft Service Fabric, the new architecture requires less CPU and memory resources. In the new architecture, just two nodes are sufficient to create a highly available HPC Pack cluster. Using the built-in HA architecture provides additional flexibility as well. The new architecture allows additional head nodes to be added into a cluster at any time. See the Get started guide for Microsoft HPC Pack 2019 to create a highly available HPC Pack cluster on-premises. If you want to deploy a highly available HPC Pack cluster in Azure, see Deploy an HPC Pack 2019 cluster in Azure.
+
+* New Admin Portal  
+  - With the new HPC Pack 2019 release, we provide a new Admin Portal for a fresh cluster admin experience. The new Portal is enabled and available by default. It is accessible at the URL https://hostname/hpc/portal, where the hostname is the name or IP address of an HPC Head node. If you have multiple head nodes deployed in your cluster, you may use any head node's name or address. Note, Only the latest versions of Chrome and Firefox are supported.
+
+* Job Scheduler  
+  - Job cost and core hours – Now in the GUI and command line, you can view the job cost and core hours in real time. Job cost count the resource used by a job as the sum of cost of each core on which the job's tasks are running. Job core hours count the resource used by a job as the sum of hours of each core on which the job's tasks are running.
+
+  - Job purge command line – A new ‘purge’ verb is added to the job command line for admin to purge the old jobs in the database if the scheduled cleanup is not yet doing so.
+
+* Management
+  - Support managed identity to manage Azure IaaS compute nodes – If the head nodes of your HPC Pack cluster are Azure VMs, you can now use Azure managed identity to manage the Azure IaaS compute nodes. For more details please refer to Enable Azure Managed Identity to manage Azure resources.
+
+  - Support Azure Spot VMs (Experimental) - In HPC Pack 2019, you can now use an experimental feature to create Azure IaaS compute nodes with Azure Spot VMs. Using Azure Spot VMs allows you to take advantage of unused Azure compute capacity at a significant cost savings. For more details about this feature, please refer to Burst to Azure IaaS compute nodes.
+
+  - Virtual file system for Azure Batch pool nodes – Azure Batch pool nodes can now mount virtual file systems like Azure Files by just providing the mount configuration when adding the nodes. Here is an example mount configuration string to mount Azure Files on Windows nodes, {"Type":"AzureFiles","AccountName":"","AccountKey":"","AzureFileUrl":"","Source":null,"ContainerName":null,"SasKey":null,"MountPath":"Y","MountOptions":"/persistent:Yes"}  
+  The “Type” could be “AzureFiles”, /”AzureBlob”/, ”NFS” or /”CIFS”. Please refer to this doc (https://docs.microsoft.com/azure/batch/virtual-file-mount) for detailed mount configurations. You may specify multiple mount configurations by joining the configuration strings with semicolon (;).
+
+  - Node start checker – In certain situations when a compute node restarts, it is preferred to check a certain condition, i.e. Infiniband network IP is ready, before reporting heartbeats for job allocation. To achieve this, just adding the following registry keys and changing the NodeChecker.cmd under %CCP_HOME%Bin folder on the compute nodes.  
+  The node start checker would run NodeChecker.cmd with NodeCheckerTimeout (by default -1/infinite). If the exit code is non-zero or timeout occurs, it will rerun in NodeCheckerInterval (by default 10 seconds) for NodeCheckerCount (by default 3) in total. Note, no matter the final exit code is zero or not, the heartbeats will start for the node.
+
+      Windows Registry Editor Version 5.00  
+      [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\HPC]  
+      "NodeCheckerCount"=dword:00000003  
+      "NodeCheckerInterval"=dword:0000000a  
+      "NodeCheckerTimeout"=dword:0000003c  
+
+  - PowerShell module – In HPC Pack 2019, the HPC PowerShell cmdlets are loaded automatically in a module named Microsoft.Hpc when running the cmdlets. There is no need to add the snapin any more.
+
+* Fixes and improvements  
+  HPC Pack 2019 includes all the previous fixes for HPC Pack 2012 R2 Update 3 (latest 4.5.5202) and HPC Pack 2016 Update 3 (latest 5.3.6450). Besides, it also contains the following fixes,
+
+  - Auto grow shrink  
+  Fix a grow issue when the job has resource type for Node or Socket growing by auto calculated Min or Max.
+Fix a shrink issue when the management service failed to connect to HpcMonitoringServer to update metric value.
+
+  - Service reliability improvements - Fix a few exceptions e.g. ArgumentOutOfRangeException, NullReferenceException and InvalidCastException in HpcScheduler and HpcManagement services to impove the reliability.
+
+  - Accessibility fixes - Fix a bunch of accessibility bugs in GUI.
+
+  - Management Database size - Fix an issue that the size of HPC Management database grows fast when there are hundreds of compute nodes in the cluster.
+
+* Fundamental updates
+  - Window Server 2019/SQL Server 2019/Excel 2019
+  - .Net Framework 4.7.2
+  - Azure SDKs
+
+
 ## [HPC Pack 2019 Preview (6.0.7121) - 11/15/2019](https://www.microsoft.com/en-us/download/details.aspx?id=100592)
 * Built-in High Availability model for head nodes
 * New admin and job portal
