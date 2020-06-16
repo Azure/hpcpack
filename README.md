@@ -2,9 +2,9 @@
 This repository provides a communication channel for customers using [Microsoft HPC Pack](https://aka.ms/hpcpack) product.
 
 * Announcements
-    * **HPC Pack 2019** (6.0.7205) - 6/9/2020 ([What's New](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019?view=hpc19-ps), [Release Notes](https://docs.microsoft.com/en-us/powershell/high-performance-computing/release-notes-for-hpc-pack-2019?view=hpc19-ps), [Download](https://www.microsoft.com/en-us/download/details.aspx?id=101360))  
+    * **HPC Pack 2019** (6.0.7205) - 6/9/2020 ([What's New](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019?view=hpc19-ps), [Release Notes](https://docs.microsoft.com/en-us/powershell/high-performance-computing/release-notes-for-hpc-pack-2019?view=hpc19-ps), [Download](https://www.microsoft.com/en-us/download/details.aspx?id=101360), [Azure ARM Templates](https://github.com/Azure/hpcpack-template/tree/master/HPCPack2019))  
     * **HPC Pack 2016 Update 3 QFE KB4537169** (5.3.6450) - 2/14/2020 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=100918))
-    * **HPC Pack 2019 Preview** (6.0.7121) - 11/15/2019 ([Download & Document](https://www.microsoft.com/en-us/download/details.aspx?id=100592), [Azure ARM Templates](https://github.com/Azure/hpcpack-template/tree/master/HPCPack2019))
+    * **HPC Pack 2019 Preview** (6.0.7121) - 11/15/2019 ([Download & Document](https://www.microsoft.com/en-us/download/details.aspx?id=100592))
     * **HPC Pack 2016 Update 3** (5.3.6435) - 8/2/2019 ([What's New](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2016-update-3?view=hpc16-ps), [Release Notes](https://docs.microsoft.com/en-us/powershell/high-performance-computing/release-notes-for-hpc-pack-2016-update-3?view=hpc16-ps), [Download](https://www.microsoft.com/en-us/download/details.aspx?id=58506), [Azure ARM Templates](https://github.com/Azure/hpcpack-template-2016))
     * **HPC Pack 2012 R2 Update 3 QFE KB4505153** (4.5.5202) - 6/11/2019 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=58380))
     * **HPC Pack 2016 Update 2 QFE KB4481650** (5.2.6291) - 1/4/2019 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=57703))
