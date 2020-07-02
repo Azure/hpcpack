@@ -42,8 +42,8 @@ This repository provides a communication channel for customers using [Microsoft 
 
 * Knowledge Base
     * [KBs](https://github.com/Azure/hpcpack/blob/master/kb)
-    * [Template](kb\kb_template.md)
-    * [Troubleshooting: How to collect HPC Pack log files](kb\000000_How%20to%20collect%20HPC%20Pack%20logs.md)
+    * [Template](kb/kb_template.md)
+    * [Troubleshooting: How to collect HPC Pack log files](kb/000000_How%20to%20collect%20HPC%20Pack%20logs.md)
 
 ## Resources
 
