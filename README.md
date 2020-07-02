@@ -28,23 +28,22 @@ This repository provides a communication channel for customers using [Microsoft 
     * **HPC Pack 2012 R2 RTM** (4.2.4400) - 1/14/2014 ([What's New](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/hpc-server-2012-R2-and-2012/dn582020(v=ws.11)))
 
 
-    
+* [Change log for Microsoft HPC Pack releases](CHANGELOG.md)
 
-* Change Log
-    * [Change log for release](https://github.com/Azure/hpcpack/blob/master/CHANGELOG.md)
 * Issue Tracking
     * [Issues](https://github.com/Azure/hpcpack/issues)
     * [Notices](https://github.com/Azure/hpcpack/labels/notice)
     * [Known issues](https://github.com/Azure/hpcpack/labels/known%20issue)
     * [Questions](https://github.com/Azure/hpcpack/labels/question)
+
 * Issue Templates
     * [Bug report](https://github.com/Azure/hpcpack/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
     * [Feature request](https://github.com/Azure/hpcpack/blob/master/.github/ISSUE_TEMPLATE/feature_request.md)
+
 * Knowledge Base
     * [KBs](https://github.com/Azure/hpcpack/blob/master/kb)
-    * [Template](https://github.com/Azure/hpcpack/blob/master/kb/kb_template.md)
-
-
+    * [Template](kb\kb_template.md)
+    * [Troubleshooting: How to collect HPC Pack log files](kb\000000_How%20to%20collect%20HPC%20Pack%20logs.md)
 
 ## Resources
 
