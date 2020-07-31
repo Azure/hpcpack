@@ -2,7 +2,7 @@
 
 # HPC Pack 2019
 
-## [HPC Pack 2019 (6.0.7205) - 6/9/2020](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019?view=hpc19-ps)
+## [HPC Pack 2019 (6.0.7205 & 6.0.7213) - 6/9/2020](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019?view=hpc19-ps)
 * Built-in High Availability  
   - In HPC Pack 2019, we have a built-in high availability architecture for head nodes. Compared to the architecture in HPC Pack 2016 which leverages Microsoft Service Fabric, the new architecture requires less CPU and memory resources. In the new architecture, just two nodes are sufficient to create a highly available HPC Pack cluster. Using the built-in HA architecture provides additional flexibility as well. The new architecture allows additional head nodes to be added into a cluster at any time. See the Get started guide for Microsoft HPC Pack 2019 to create a highly available HPC Pack cluster on-premises. If you want to deploy a highly available HPC Pack cluster in Azure, see Deploy an HPC Pack 2019 cluster in Azure.
 
@@ -51,6 +51,9 @@ Fix a shrink issue when the management service failed to connect to HpcMonitorin
   - .Net Framework 4.7.2
   - Azure SDKs
 
+* Additional fixes in refresh build 6.0.7213 - 7/31/2020
+  -  A setup fix to support managed identify for Azure SQL databases
+  -  A Linux node agent fix for memory/CPU leaks
 
 ## [HPC Pack 2019 Preview (6.0.7121) - 11/15/2019](https://www.microsoft.com/en-us/download/details.aspx?id=100592)
 * Built-in High Availability model for head nodes
