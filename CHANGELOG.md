@@ -51,6 +51,9 @@ Fix a shrink issue when the management service failed to connect to HpcMonitorin
   - .Net Framework 4.7.2
   - Azure SDKs
 
+* Additional fixes in refreshed build 6.0.7214 - 8/7/2020
+  - A setup fix to support managed identify for Azure SQL databases
+  - A Linux node agent fix for memory/CPU leaks
 
 ## [HPC Pack 2019 Preview (6.0.7121) - 11/15/2019](https://www.microsoft.com/en-us/download/details.aspx?id=100592)
 * Built-in High Availability model for head nodes
