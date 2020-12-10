@@ -22,7 +22,7 @@ This repository provides a communication channel for customers using [Microsoft 
     * **HPC Pack 2012 R2 Update 3 QFE Accumulative KB3161422** (4.5.5111) - 6/22/2016 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=52983))
     * **HPC Pack 2012 R2 Update 3 QFE KB3147178** (4.5.5102) - 4/1/2016 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=51662))
     * **HPC Pack 2012 R2 Update 3 QFE KB3134307** (4.5.5094) - 2/2/2016 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=50809))
-    * **HPC Pack 2012 R2 Update 3** (4.5.5079) - 11/14/2015 ([What's New](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/hpc-server-2012-R2-and-2012/mt595796(v=ws.11)))
+    * **HPC Pack 2012 R2 Update 3** (4.5.5079) - 11/14/2015 ([What's New](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/hpc-server-2012-R2-and-2012/mt595796(v=ws.11)), [Download](https://www.microsoft.com/download/details.aspx?id=49922))
     * **HPC Pack 2012 R2 Update 2** (4.4.4864) - 7/7/2015 ([What's New](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/hpc-server-2012-R**2-and-2012/mt269417(v=ws.11)))
     * **HPC Pack 2012 R2 Update 1** (4.3.4652) - 11/17/2014 ([What's New](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/hpc-server-2012-R2-and-2012/dn864736(v=ws.11)))
     * **HPC Pack 2012 R2 RTM** (4.2.4400) - 1/14/2014 ([What's New](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/hpc-server-2012-R2-and-2012/dn582020(v=ws.11)))
