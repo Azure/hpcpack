@@ -172,6 +172,13 @@ Normally we need the HpcSession service logs on the head node, Hpcbroker service
   Normally we may want to collect the HPC Cluster/Job Manager or HPC Powershell logs
 
 
+### 7. How to collect logs for Linux nodes
+
+   - The Linux node manager logs are under path `/opt/hpcnodemanager/logs/`, named `nodemanager(.*)`
+   
+   - The On-premise Linux node manager daemon log is under path `/opt/hpcnodemanager/logs/`, named `hpclinuxagent.log`
+   
+   - The Azure Linux node extension waagent log is under path `/var/log/azure/<name>/`, named `extension.log`
 
 ## Status
 
