@@ -180,6 +180,11 @@ Normally we need the HpcSession service logs on the head node, Hpcbroker service
    
    - The Azure Linux node extension waagent log is under path `/var/log/azure/<name>/`, named `extension.log`
 
+### 8. How to collect setup and patch logs
+
+   The setup and patch logs are under path `%windir%\Temp\HPCSetuplogs` on the node.
+
+
 ## Status
 
   1/19/2020 - Init
