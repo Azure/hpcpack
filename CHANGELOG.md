@@ -206,7 +206,7 @@ Lizard is a tool that runs and tunes Linpack benchmark on HPC Pack cluster. We n
   Type: REG_DWORD  
   Data: 1
 
-## [HPC Pack 2016 Update 1 QFE KB4135110 (5.1.6112) - 5/28/2018](https://www.microsoft.com/en-us/download/details.aspx?id=57703)
+## [HPC Pack 2016 Update 1 QFE KB4135110 (5.1.6112) - 5/28/2018](https://www.microsoft.com/en-us/download/details.aspx?id=56964)
 Scheduler Fixes
 - Fix “task min unit” not specified error when submitting job after switching job's unit type.
 - Add a new value “KEEP” for job environment variable HPC_CREATECONSOLE, when this value specified, we will create a new logon console session if not exists or attach to the existing one and keep the console session after the job completes on the compute nodes.
