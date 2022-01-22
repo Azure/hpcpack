@@ -2,6 +2,74 @@
 
 # HPC Pack 2019
 
+## [HPC Pack 2019 Update 1 (6.1.7531) - 1/22/2022](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019-update-1?view=hpc19-ps)
+
+* Job Scheduler
+
+	- Fix task statistics issue in Linux node agent
+	- Support HPC_SESSIONCONSOLE so tasks can run either in user session or console on compute nodes - Users may specify job environment HPC_SESSIONCONSOLE equals True so the job will run under user session if exists or it would create user console and run job in it.
+	- Add job cost/corehours cache in scheduler to reduce SQL query - The cache refresh interval can be configured by 'Set-HpcClusterProperty -JobCostCacheRefreshInterval &lt;int&gt;'. The value is in seconds with a default 60.
+	- Fix an issue in job history reporting Get-HpcJobHistory : Value cannot be null.
+	- Fix for the incorrect node group cache issue
+	- Fix an error "Method EncryptCredentialForSpecifiedOwner is not supported" when using command "hpccred setcreds /owner"
+	- Allow non-exclusive jobs of a same user run on a same node with HPC_CREATECONSOLE=Keep.
+	- Add config EmailUseAsciiEncoding to solve mail body containing strange character problem in certain environment
+	- Fix task failures when linux nodes just get started
+	- Fix a compute node heartbeat lost issue
+	- Fix the task dispatching timeout in 3 minutes
+	- Fix a bug that rerunning failed parametric sweep sub task may lead to master task stuck in running due to failed task counter incorrect
+	- Fix node release task failure
+	- Fix the issue that task got killed for only one heartbeat loss
+	- Support to specify port for SMTP server
+	- Fix random SchedulerException: Could not register with the server. Try again later.
+	- Fix unexpctedly canceled task and set proper error code and message
+	- Fix a leak of SQLConnection Pool in scheduler
+
+* Setup and Management
+
+  - Support Windows Server 2022 as compute nodes
+	- Support idle node pool for auto grow shrink - Users may keep a number of nodes in idle node pool in Azure auto grow shrink by running 'Set-HpcClusterProperty -IdleNodePool &lt;int&gt;'. The default value is 0 which means no idle node pool.
+	- Give notification in cluster manager when the certificate on the head node is near expiry date
+	- Support Hyper-V generation 2 images for Azure IaaS VM compute nodes
+	- Support to specify SSH public key instead of password when creating Azure IaaS Linux compute nodes
+	- Fix the issue that some firewall rules are incorrectly configured when creating Azure IaaS compute node with "Windows Server 2012 R2 Datacenter with Excel" or "Windows Server 2016 Datacenter with Excel" image
+	- Support to specify preferred OS Disk type for IaaS VMs
+	- Fix an installation failure due to HpcManagement service start timeout
+	- Support more VM sizes for Azure IaaS compute nodes
+	- Support more Linux distros
+	- Fix duplicate UDP senders in HpcMonitoringClient
+	- Fix handle leaks in HpcMonitoringClient on Win10/WS2016 zh-cn nodes
+	- Fix an issue that sometimes the Diagnostics Pivot View cannot be shown in HPC Cluster Manager when Filters are applied
+	- Fix the issue that Linux node agent cannot be installed when python 2.x is not installed
+	- Fix an issue that network may breaks every several minutes in certain network configurations
+	- Fix an issue that auto grow shrink service keeps failing when one head node is not available in a cluster with multiple head nodes
+	- Support client from a different domain
+	- Add a setup argument to allow the customer to specify certificate validation option when installing Client components in unattended mode
+	- Fix an issue that sometimes some HPC stateless services cannot automatically recover  when losing connection with database
+	- Fix an issue that HpcReporting service enters into stopped state and doesn’t automatically recover
+	- Fix an issue that HpcManagement service fails to start in a rare condition
+	- Fix an issue in for Handler.cmd in HpcComputeNode manifest when deploying Azure IaaS Nodes
+	- Add new auto grow shrink option GrowOnlyFullySatisfied to grow only when the job is fully satisfied
+	- Add a diagnostic test case for node communication certificate
+	- Fix Cross-site Scripting (XSS) vulnerabilities
+	- Fix linux node scale issue
+	- Built-in HA module: fix a datetime conversion issue
+	- Fix the node sid translation issue by adding ouPath for IaaS nodes
+	- Fix a blocking issue in auto grow shrink caused by deleted node groups
+	- Fix the issue that the diagnostic test case "Excel workbook configuration Test" always fails
+	- Fix a potential issue that user may get HTTP status 500 without any message/log
+	- Fix a bare metal deployment failure in some rare condition
+	- Fix an issue that existing tags in the Azure resource group are removed when creating new Azure IaaS nodes
+
+* SOA Runtime and Excel
+
+	- Fix the issue that calling ExcelClient.Dispose would exit the Excel workbook and application
+	- Fix the issue that two regular users cannot run non-interactively on a same node
+
+* UI & SDK
+
+	- Fix HpcClusterManager task list view in job property pane refresh too quick
+
 ## [HPC Pack 2019 (6.0.7205) - 6/9/2020](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019?view=hpc19-ps)
 * Built-in High Availability  
   - In HPC Pack 2019, we have a built-in high availability architecture for head nodes. Compared to the architecture in HPC Pack 2016 which leverages Microsoft Service Fabric, the new architecture requires less CPU and memory resources. In the new architecture, just two nodes are sufficient to create a highly available HPC Pack cluster. Using the built-in HA architecture provides additional flexibility as well. The new architecture allows additional head nodes to be added into a cluster at any time. See the Get started guide for Microsoft HPC Pack 2019 to create a highly available HPC Pack cluster on-premises. If you want to deploy a highly available HPC Pack cluster in Azure, see Deploy an HPC Pack 2019 cluster in Azure.
