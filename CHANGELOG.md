@@ -27,7 +27,7 @@
 
 * Setup and Management
 
-  - Support Windows Server 2022 as compute nodes
+	- Support Windows Server 2022 as compute nodes
 	- Support idle node pool for auto grow shrink - Users may keep a number of nodes in idle node pool in Azure auto grow shrink by running 'Set-HpcClusterProperty -IdleNodePool &lt;int&gt;'. The default value is 0 which means no idle node pool.
 	- Give notification in cluster manager when the certificate on the head node is near expiry date
 	- Support Hyper-V generation 2 images for Azure IaaS VM compute nodes
