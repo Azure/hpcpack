@@ -43,7 +43,7 @@
 	- Fix the issue that Linux node agent cannot be installed when python 2.x is not installed
 	- Fix an issue that network may breaks every several minutes in certain network configurations
 	- Fix an issue that auto grow shrink service keeps failing when one head node is not available in a cluster with multiple head nodes
-	- Support client from a different domain
+	- Support client connect from a different domain when FQDN of cluster node is required in that domain
 	- Add a setup argument to allow the customer to specify certificate validation option when installing Client components in unattended mode
 	- Fix an issue that sometimes some HPC stateless services cannot automatically recover  when losing connection with database
 	- Fix an issue that HpcReporting service enters into stopped state and doesn’t automatically recover
