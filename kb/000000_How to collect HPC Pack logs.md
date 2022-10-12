@@ -75,14 +75,13 @@ All client logs are under at %CCP_LOGROOT_USR% on the client machine. In a defau
 
 ### 2. How to open and search logs
 
-  Use the following GUI tools
+  Use the following GUI tool
 
-  1. LogFlow – LogFlow is a graphical tool that can parse HPC logs in BIN format. It can be downloaded and installed from http://logflow.blob.core.windows.net/install/publish.htm
-  2. LogViewerUI – LogViewerUI is an alternative graphical tool that can parse HPC Pack 2016 logs. It is available here: https://hpconlineservice.blob.core.windows.net/logviewer/LogViewer.UI.application
+  * LogViewerUI – LogViewerUI is a graphical tool that can parse HPC Pack service logs. It is available here: https://hpconlineservice.blob.core.windows.net/logviewer/LogViewer.UI.application
 
   > [!Tips]
   >
-  > You can use the above tools to view the content and check the timespan of a bin log file, so that you can collect the correct log files for issue troubleshooting. Note that the timestamps for all log messages are in **UTC time**. 
+  > You can use the above tool to view the content and check the timespan of a bin log file, so that you can collect the correct log files for issue troubleshooting. Note that the timestamps for all log messages are in **UTC time**. You may also use the FindStr feature to search the log files that contain a key word from all log files under a specific folder.
 
 
 
