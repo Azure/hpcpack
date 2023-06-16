@@ -203,9 +203,11 @@ Param(
 		PostImportItem;
 	}
     
-    PreImportItem -Name:"Cluster registry" -Target:"$Path\ClusterRegistry.xml";
-    Import-Clixml -Path "$Path\ClusterRegistry.xml" | ?{$bypassRegistry -inotcontains $_.Name} | %{ImportClusterRegistry -Name $_.Name -Value $_.Value}
-    PostImportItem
+	if(Test-Path "$Path\ClusterRegistry.xml") {
+		PreImportItem -Name:"Cluster registry" -Target:"$Path\ClusterRegistry.xml";
+		Import-Clixml -Path "$Path\ClusterRegistry.xml" | ?{$bypassRegistry -inotcontains $_.Name} | %{ImportClusterRegistry -Name $_.Name -Value $_.Value}
+		PostImportItem
+	}
 	
 	WriteWarning ("Some configurations are not imported due to either security reason or it's not supported to import them: "+ [string]::join(", ", $bypassCfg) + ".");
 	WriteWarning "Some imported configurations may refer to the original cluster name or UNC path. You need to review and change appropriately.";

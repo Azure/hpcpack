@@ -138,9 +138,11 @@ Param(
 	$mgmtCfgNames = "AzureCollectionInterval","CollectCounters","MinuteCounterRetention","NodeNamingSeries","WDSMode","InstallCredential","AzureStorageConnectionString", "AzureLogsToBlob", "AzureLogsToBlobThrottling", "AzureLogsToBlobInterval", "AzureMetricsCollectionEnabled","AzureMetricsJobStatisticsDelayMinutes","AzureIaaSMetricsCollectionEnabled","OperationArchive","OperationRetention";
 	$rptCfgNames = "DataExtensibilityEnabled","DataExtensibilityTtl","AllocationHistoryTtl","ReportingDbSize";
 
-    PreExportItem -Name:"Cluster registry" -Target:"$Path\ClusterRegistry.xml" -IsFolder:$false;
-    Get-HpcClusterRegistry | Export-CliXml -Path "$Path\ClusterRegistry.xml";
-    PostExportItem;
+	if($Configuration -icontains "Management") {
+		PreExportItem -Name:"Cluster registry" -Target:"$Path\ClusterRegistry.xml" -IsFolder:$false;
+		Get-HpcClusterRegistry | Export-CliXml -Path "$Path\ClusterRegistry.xml";
+		PostExportItem;
+	}
 
 	if($Configuration -icontains "Diagnostics") {
 		PreExportItem -Name:"diagnostics configurations" -Target:"$Path\Diagnostics" -IsFolder:$true;
