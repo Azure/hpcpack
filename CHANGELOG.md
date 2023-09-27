@@ -2,6 +2,59 @@
 
 # HPC Pack 2019
 
+## [HPC Pack 2019 Update 2 (6.2.7756) - 9/27/2023](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019-update-2?view=hpc19-ps)
+
+* Job Scheduler
+
+	- Resolved long-running task failure during head node failover
+	- Reduced recovery time for highly available head nodes
+	- Fixed unreachable nodes issue due to heartbeat hang when head nodes fail over
+	- Added support for HPC_CREATESESSION, allowing tasks to run in a user session without RDP to compute nodes beforehand** - Users may specify job environment HPC_CREATESESSION equals True so the job will run under a user session if exists or it would create the user session and run job in it
+	- Fixed utilization over 100% issue caused by null task allocation end time
+	- Corrected cluster metric counters with highly available head nodes
+	- Addressed an issue that job may get stuck when DB transaction timed out but actually succeeded
+	- Fixed an issue that job may fail to shrink resource when it has task dependencies
+	- Resolved regression preventing IP address usage as the scheduler name
+	- Fixed an issue that node could be stuck in draining state due to a divide by zero error when removing the node
+	- Introduced support for single node tasks** - To enable this feature,
+      - Set the scheduler feature flag and restart HpcScheduler service on all head nodes: 
+        Set-HpcClusterProperty -SchedulerEnvFeatureFlags 'TASK_ON_SINGLE_NODE'
+      - Set job environment. E.g. 
+        job submit /numcores:5-5 /jobenv:CCP_TASK_ON_SINGLE_NODE=True hostname
+	- Introduced support min and max cores for job and task on a node** - To enable this feature,
+      - Set the scheduler feature flag and restart HpcScheduler service on all head nodes
+        Set-HpcClusterProperty -SchedulerEnvFeatureFlags 'MIN_MAX_ON_NODE'
+      - Set job and task environment.	E.g.
+        job new /numcores:8-8 /jobenv:CCP_JOB_MIN_MAX_ON_NODE=4-4
+        job add !! /numcores:4-4 /env:CCP_TASK_MIN_MAX_ON_NODE=2-2 hostname
+  - Extended job activation and submission filter timeouts from 3 to 10 minutes
+  - Increased maximum project name length from 80 to 128 characters
+  - Improved speed for job task dependency validation**
+
+* Setup and Management
+
+	- Replaced ADAL with MSAL for Azure authentication
+	- Migrated from Azure AD Graph to Microsoft Graph
+	- Added configurable Azure VM Create/Start Timeout
+	- Fixed BadRequest error when creating AAD service principal with HPC Cluster Manager
+	- Resolved ModelUpdate object leaks
+	- Addressed large IaaS VM deployment issue by partitioning Start/Stop operations into multiple changes
+	- Set DB recovery mode to Simple for HPCHAWitness and HPCHAStorage databases to reduce DB size
+	- Enabled integrated Windows authentication for SQL server in cases where domain user check failed
+	- Added support for more recent Linux distributions**
+
+* SOA Runtime and Excel
+
+	- Fixed slow Excel job execution due to leftover auto recovery files
+	- Resolved SOA broker worker crash caused by unhandled exception in rare conditions**
+
+* UI & SDK
+
+	- Fixed task environment variable cleanup issue when copying jobs from GUI
+	- Resolved GUI hang issue caused by excessive project names
+	- Fixed UI crash due to service-side NullReferenceException
+	- Added waitState parameter for scheduler job/task submit API to enable fast submission**
+
 ## [HPC Pack 2019 Update 1 (6.1.7531) - 1/22/2022](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019-update-1?view=hpc19-ps)
 
 * Job Scheduler
