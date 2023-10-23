@@ -61,7 +61,7 @@
 
 	- Fix task statistics issue in Linux node agent
 	- Support HPC_SESSIONCONSOLE so tasks can run either in user session or console on compute nodes - Users may specify job environment HPC_SESSIONCONSOLE equals True so the job will run under user session if exists or it would create user console and run job in it.
-	- Add job cost/corehours cache in scheduler to reduce SQL query - The cache refresh interval can be configured by 'Set-HpcClusterProperty -JobCostCacheRefreshInterval &lt;int&gt;'. The value is in seconds with a default 60.
+	- Add job cost/corehours cache in scheduler to reduce SQL query - The cache refresh interval can be configured by 'cluscfg setparams JobCostCacheRefreshInterval=&lt;int&gt;'. The value is in seconds with a default 60. Value 0 means disabling the cache. Value -1 means disabling the job cost/corehours feature.
 	- Fix an issue in job history reporting Get-HpcJobHistory : Value cannot be null.
 	- Fix for the incorrect node group cache issue
 	- Fix an error "Method EncryptCredentialForSpecifiedOwner is not supported" when using command "hpccred setcreds /owner"
