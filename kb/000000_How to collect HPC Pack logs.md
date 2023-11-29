@@ -78,10 +78,25 @@ All client logs are under at %CCP_LOGROOT_USR% on the client machine. In a defau
   Use the following GUI tool
 
   * LogViewerUI – LogViewerUI is a graphical tool that can parse HPC Pack service logs. It is available here: https://hpconlineservice.blob.core.windows.net/logviewer/LogViewer.UI.application
+  * LogViewerUI v2 - More powerful in parsing log files and filtering. It is available here:
+    ClickOnce installation:
+    https://hpconlineservice.blob.core.windows.net/logviewerv2/LogViewer.UI.application
+    XCOPY Package:
+    https://hpconlineservice.blob.core.windows.net/logviewerv2green/LogViewer_2.0.0.7.zip
 
   > [!Tips]
   >
   > You can use the above tool to view the content and check the timespan of a bin log file, so that you can collect the correct log files for issue troubleshooting. Note that the timestamps for all log messages are in **UTC time**. You may also use the FindStr feature to search the log files that contain a key word from all log files under a specific folder.
+
+  * Search logs via FindStr:
+    1. Locate the directory that stores the logs. For example: C:\code\logs.
+    ![image info](./images/directory.png)
+
+    2. Click `FindStr`. Fill in the `Filters`. Leave the `Skim` as default (-1). Browse the folder that stores the logs. Click `Find`, it will find the log files that contain any log that meets the filter. You can then open the logs by double-clicking the logs below. In this example, it will find log files that contain "job 231" (case insensitive).
+    ![image info](./images/findstr.png)
+
+    3. You can find more about filter in `Help`.
+    ![image info](./images/help.png)
 
 
 
