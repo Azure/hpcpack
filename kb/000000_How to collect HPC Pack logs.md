@@ -82,7 +82,6 @@ All client logs are under at %CCP_LOGROOT_USR% on the client machine. In a defau
     ClickOnce installation:
     https://hpconlineservice.blob.core.windows.net/logviewerv2/LogViewer.UI.application
     XCOPY Package:
-
     https://hpconlineservice.blob.core.windows.net/logviewerv2green/LogViewer_2.0.0.7.zip
 
   > [!Tips]
@@ -91,14 +90,15 @@ All client logs are under at %CCP_LOGROOT_USR% on the client machine. In a defau
 
   * Search logs via FindStr:
     1. Locate the directory that stores the logs. For example: C:\code\logs.
-    ![image info](./src/images/directory.png)
+    ![image info](./images/directory.png)
 
-    2. Click `FindStr`. Fill in the `Filters`. Leave the `Skim` as default (-1). Browse the folder that stores the logs. Press `Find`, it will find the log files that contain any log that meets the filter. You can then open the logs by double-clicking the logs below. 
-    ![image info](./src/images/findstr.png)
+    2. Click `FindStr`. Fill in the `Filters`. Leave the `Skim` as default (-1). Browse the folder that stores the logs. Click `Find`, it will find the log files that contain any log that meets the filter. You can then open the logs by double-clicking the logs below. In this example, it will find log files that contain "job 231" (case insensitive).
+    ![image info](./images/findstr.png)
 
-    4. You can find more about filter in `Help`.
-    ![image info](./src/images/help.png)
-  
+    3. You can find more about filter in `Help`.
+    ![image info](./images/help.png)
+
+
 
 ### 3. How to collect logs for Job scheduling issue
 
