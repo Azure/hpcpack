@@ -41,16 +41,11 @@ $nodes = @("computer 1", "computer 2", "computer 3")
 Then
 
 ```ps1
-.\Test-FileRead.ps1 -Credential $cred -Computers $nodes -FilePath "full path to a file in a SMB share" -NumOfParallel 50
+.\Test-FileRead.ps1 -Credential $cred -Computers $nodes -FilePath "full path to a file in a SMB share" -NumOfParallel 25 -Delay 15
 ```
 
-The script opens and reads the file given by the parameter `-FilePath` (like "\\\\hpcpack2019\CcpSpoolDir\data.xlsm") on all the computers given by the parameter `-Computers` at the same time. And for each computer, it starts a number of processes given by the parameter `-NumOfParallel`. Each process opens and reads the file at the same time.
+The script opens and reads the file given by the parameter `-FilePath` (like "\\\\hpcpack2019\CcpSpoolDir\data.xlsm") on all the computers given by the parameter `-Computers` at the same time. And for each computer, it starts a number of processes given by the parameter `-NumOfParallel`. Each process opens and reads the file at the same time, and then sleeps for seconds specified by the parameter `-Delay` before ending.
 
-This script tries to simulate HPC Pack's behavior of reading a SMB-shared file from multiple computer nodes when doing Excel offloading, but without using any function from HPC Pack.
+This script tries to simulate HPC Pack's behavior of reading a SMB-shared file from multiple computer nodes when doing Excel offloading, but without using any function from HPC Pack. You can try different combinations of `-NumOfParallel` and `-Delay` to see how the SMB sessions change.
 
 You may find that when the `Test-FileRead.ps1` ends, there're still remaining SMB sessions. That's OK and they will be cleared in a short idle time, usually no more than one minute. If you find that the sessions remain there for a long time or never get cleared, then please check your SMB configuration/server, or consult an SMB export for help.
-
-
-## Status
-
-## More Information
