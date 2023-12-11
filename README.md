@@ -46,6 +46,7 @@ This repository provides a communication channel for customers using [Microsoft 
     * [KBs](https://github.com/Azure/hpcpack/blob/master/kb)
     * [Template](kb/kb_template.md)
     * [Troubleshooting: How to collect HPC Pack log files](kb/how_to_collect_hpc_pack_logs.md)
+    * [Troubleshooting: Diagnose SMB file issue](kb/smb_file_diagnosis.md)
 
 ## Resources
 
