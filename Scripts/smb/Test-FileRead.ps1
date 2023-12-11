@@ -4,7 +4,7 @@ param(
     [string]$FilePath,
 
     [Alias("d")]
-    [int]$Delay = 30,
+    [int]$Delay = 0,
 
     [Alias("n")]
     [int]$NumOfParallel = 20,
@@ -47,7 +47,9 @@ $openFile = {
             "[$env:COMPUTERNAME][$Index] Opening $FilePath in process $PID..." | out-string
             $bytes = [System.IO.File]::ReadAllBytes($FilePath)
             "[$env:COMPUTERNAME][$Index] Read $($bytes.Count) bytes" | out-string
-            sleep $Delay
+            if ($Delay -and $Delay -lt 0) {
+                sleep $Delay
+            }
         } -ArgumentList @($FilePath, $Delay, $i)
         $jobs += $j
     }
