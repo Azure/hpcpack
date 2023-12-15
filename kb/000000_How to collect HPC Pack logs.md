@@ -56,7 +56,7 @@ All HPC service log files are under **%CCP_DATA%LogFiles** folder on the cluster
 
 * SOA\HpcSoaDiagMon_*.bin -- HpcSoaDiagMon service logs
 
-  
+
 
 All client logs are under at %CCP_LOGROOT_USR% on the client machine. In a default install this will resolve to C:\Users\\\<User Profile>\AppData\Local\Microsoft\Hpc\LogFiles
 
@@ -69,7 +69,7 @@ All client logs are under at %CCP_LOGROOT_USR% on the client machine. In a defau
 * MAPI\powershell.exe_*.bin -- Hpc PowerShell logs
 
 * SOA\HpcServiceHost_*.bin -- SOA service host logs
-  
+
 
 
 
@@ -102,7 +102,7 @@ All client logs are under at %CCP_LOGROOT_USR% on the client machine. In a defau
 
 ### 3. How to collect logs for Job scheduling issue
 
-Normally we need the HpcScheduler service logs on the head node and the HpcNodeManager service logs on the compute nodes. Please indicate the job and task Ids and make sure the logs collected cover the timespan of the job and task. 
+Normally we need the HpcScheduler service logs on the head node and the HpcNodeManager service logs on the compute nodes. Please indicate the job and task Ids and make sure the logs collected cover the timespan of the job and task.
 
 
 
@@ -122,10 +122,11 @@ Normally we need the HpcSession service logs on the head node, Hpcbroker service
   ```xml
     <system.diagnostics>
     <sources>
+      <!-- Uncomment the following block for more log info, especially for Excel SOA service. -->
       <!--
       <source name="Microsoft.Hpc.HpcServiceHosting" switchValue="All">
         <listeners>
-          <add name="Console" />
+          <add name="SoaListener" />
         </listeners>
       </source>
        -->
@@ -164,7 +165,7 @@ Normally we need the HpcSession service logs on the head node, Hpcbroker service
   ```xml
     <system.diagnostics>
     <trace autoflush="true" />
-    <sharedListeners>  
+    <sharedListeners>
     <add name="xml"
               type="System.Diagnostics.XmlWriterTraceListener"
               initializeData= "c:\TEMP\session.svclog" />
@@ -189,9 +190,9 @@ Normally we need the HpcSession service logs on the head node, Hpcbroker service
 ### 7. How to collect logs for Linux nodes
 
    - The Linux node manager logs are under path `/opt/hpcnodemanager/logs/`, named `nodemanager(.*)`
-   
+
    - The On-premise Linux node manager daemon log is under path `/opt/hpcnodemanager/logs/`, named `hpclinuxagent.log`
-   
+
    - The Azure Linux node extension waagent log is under path `/var/log/azure/<name>/`, named `extension.log`
 
 ### 8. How to collect setup and patch logs
