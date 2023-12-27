@@ -2,6 +2,19 @@
 
 # HPC Pack 2019
 
+## [HPC Pack .Net SDK (6.3.8022-beta) - 12/27/2023](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8022-beta)
+* This preview SDK release targets both .Net Standard 2.0 and .Net Framework 4.7.2.
+* Note .Net Standard SDK does not have full feature partiy with .Net Framework SDK due to reduced platform API availability. Feature gaps include:
+  - WCF certificate subject name and certificate name checks are skipped
+  - No TLB support
+  - SOA endpoints cannot be configured via XML files
+  - .NET Remoting is unsupported
+  - Excel feature isn't tested
+  - Excel feature won't emit Windows Events logs
+* Currently .Net Standard SDK works on Windows only. Linux support is coming soon.
+* Additionally the new SDK supports Azure AD joined client machine connecting to domain joined clusters with Windows authentication.
+* Please report any issues via [issues](https://github.com/Azure/hpcpack/issues).
+
 ## [HPC Pack 2019 Update 2 (6.2.7756) - 9/27/2023](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019-update-2?view=hpc19-ps)
 
 * Job Scheduler
