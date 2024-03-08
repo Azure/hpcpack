@@ -2,6 +2,10 @@
 
 # HPC Pack 2019
 
+## [HPC Pack .Net SDK (6.3.8025-beta) - 3/8/2024](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8025-beta)
+* Fixed scheduler connection leak
+* Fixed job modify exception
+
 ## [HPC Pack .Net SDK (6.3.8022-beta) - 12/27/2023](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8022-beta)
 * This preview SDK release targets both .Net Standard 2.0 and .Net Framework 4.7.2.
 * Note .Net Standard SDK does not have full feature partiy with .Net Framework SDK due to reduced platform API availability. Feature gaps include:
