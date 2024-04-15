@@ -118,7 +118,7 @@ Normally we need the HpcSession service logs on the head node, Hpcbroker service
 
   * By default, HpcBrokerWorker_\*.bin log files are not per session. To collect per session broker worker logs for each SOA session, on the broker node, set PerSessionLogging="1" for the shared listener “SoaListener” in HpcBrokerWorker.exe.config under %CCP_HOME%Bin on the broker nodes and then restart the HpcBroker service. After that, when a SOA session with id [SessionId] finishes, there would be a file named HpcBrokerWorker_[LogIdentifier]\_[SessionId] under %CCP_DATA%LogFiles\SOA folder on the broker node. All the broker log files for this SOA session are named like HpcBrokerWorker\_[LogIdentifier]_\*.bin for the same LogIdentifier, they are by default 1MB files. Note if you have multiple broker nodes, you need to do the search or enable the per session logging on each broker node.
 
-  * To collect HpcServiceHost logs on the compute nodes, you need to enable it in the service registration file first. Check the built-in CcpEchoSvc.config file as an example,
+  * To collect HpcServiceHost logs on the compute nodes, you need to enable it in the service registration file first by merging below content in the file. Refer the built-in CcpEchoSvc.config file as an example,
   ```xml
     <system.diagnostics>
     <sources>
@@ -160,6 +160,7 @@ Normally we need the HpcSession service logs on the head node, Hpcbroker service
     </trace>
     </system.diagnostics>
   ```
+You will also need to copy the CosmosLoggingManaged.dll and Microsoft.Hpc.Trace.dll from %CCP_HOME%Bin folder on Head Node to the share folder where your service dll file is located. The servicehost log is generated in %CCP_LOGROOT_USR%SOA\HpcServiceHost\%CCP_JOBID%. %LOCALAPPDATA% is hidden by default. You may need to change file explorer setting to "Show hidden files" and uncheck "Hide protected operating system files" in order to see the content in this path.
 
   * To colllect SOA client session api logs, please add the following in the client app.config file,
   ```xml
