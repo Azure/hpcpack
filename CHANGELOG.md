@@ -84,6 +84,7 @@
 	- Fix an error "Method EncryptCredentialForSpecifiedOwner is not supported" when using command "hpccred setcreds /owner"
 	- Allow non-exclusive jobs of a same user run on a same node with HPC_CREATECONSOLE=Keep.
 	- Add config EmailUseAsciiEncoding to solve mail body containing strange character problem in certain environment
+      - By default EmailUseAsciiEncoding is set to False, run 'cluscfg setparams EmailUseAsciiEncoding=True' on the head node to set it to True.
 	- Fix task failures when linux nodes just get started
 	- Fix a compute node heartbeat lost issue
 	- Fix the task dispatching timeout in 3 minutes
