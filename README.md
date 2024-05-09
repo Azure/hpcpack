@@ -1,6 +1,9 @@
 # Microsoft HPC Pack
 This repository provides a communication channel for customers using [Microsoft HPC Pack](https://aka.ms/hpcpack) product.
 
+>[!NOTE]
+> Please help us understand your use cases and workloads by answering this [questionnaire](https://forms.office.com/r/jhq5NGQwEM?origin=lprLink).
+
 * Announcements
     * **HPC Pack .Net SDK** (6.3.8025-beta) - 3/8/2024 ([What's New](CHANGELOG.md#hpc-pack-net-sdk-638025-beta---382024), [Nuget](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8025-beta))
     * **HPC Pack .Net SDK** (6.3.8022-beta) - 12/27/2023 ([What's New](CHANGELOG.md#hpc-pack-net-sdk-638022-beta---12272023), [Nuget](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8022-beta))
