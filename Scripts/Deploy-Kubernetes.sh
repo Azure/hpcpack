@@ -20,66 +20,61 @@ echo "End of Installing Python 3.10 and Pip"
 
 echo "Generating ssh key and copying to all nodes"
 sudo apt install sshpass -y
-# ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 
-# # Function to display usage information
-# usage() {
-#     echo "Usage: $0 [-p password] [ip1 ip2 ...]" 1>&2
-#     exit 1
-# }
+# Function to display usage information
+usage() {
+    echo "Usage: $0 [-p password] [ip1 ip2 ...]" 1>&2
+    exit 1
+}
 
-# # Parse command line options
-# while getopts ":p:" opt; do
-#     case ${opt} in
-#         p)
-#             password=$OPTARG
-#             ;;
-#         \?)
-#             echo "Invalid option: -$OPTARG" >&2
-#             usage
-#             ;;
-#         :)
-#             echo "Option -$OPTARG requires an argument." >&2
-#             usage
-#             ;;
-#     esac
-# done
-# shift $((OPTIND -1))
+# Parse command line options
+while getopts ":p:" opt; do
+    case ${opt} in
+        p)
+            password=$OPTARG
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            usage
+            ;;
+        :)
+            echo "Option -$OPTARG requires an argument." >&2
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND -1))
 
-# # Check if at least one IP address is provided
-# if [ $# -eq 0 ]; then
-#     echo "Please provide at least one IP address." >&2
-#     usage
-# fi
+# Check if at least one IP address is provided
+if [ $# -eq 0 ]; then
+    echo "Please provide at least one IP address." >&2
+    usage
+fi
 
-# # Check if password is provided
-# if [ -z "$password" ]; then
-#     read -s -p "Enter password for SSH authentication: " password
-#     echo
-# fi
+# Check if password is provided
+if [ -z "$password" ]; then
+    read -s -p "Enter password for SSH authentication: " password
+    echo
+fi
 
-# echo "password: $password"
-# IPS=()
+IPS=()
 
-# # Loop through each IP address and copy SSH key
-# for ip in "$@"; do
-#     IPS+=($ip)
-#     echo "Copying SSH key to $ip..."
-#     sshpass -p "$password" ssh-copy-id -o StrictHostKeyChecking=no "$ip"
-#     if [ $? -eq 0 ]; then
-#         echo "SSH key copied successfully to $ip."
-#     else
-#         echo "Failed to copy SSH key to $ip. Please check the password or connectivity."
-#     fi
-# done
+# Loop through each IP address and copy SSH key
+for ip in "$@"; do
+    IPS+=($ip)
+    echo "Copying SSH key to $ip..."
+    sshpass -p "$password" ssh-copy-id -o StrictHostKeyChecking=no "$ip"
+    if [ $? -eq 0 ]; then
+        echo "SSH key copied successfully to $ip."
+    else
+        echo "Failed to copy SSH key to $ip. Please check the password or connectivity."
+    fi
+done
 
-# for ip in "${IPS[@]}"; do
-#     echo "IP: $ip"
-# done
-
-# echo "Installing and disabling firewalld"
-# sudo apt install firewalld -y
-# sudo systemctl disable --now firewalld
+echo "Installing and disabling firewalld"
+sudo apt install firewalld -y
+sudo systemctl disable --now firewalld
 
 
 # echo "Installing and configuring Kubernetes via kubespray"
@@ -90,7 +85,7 @@ sudo apt install sshpass -y
 # sudo pip3 install -r requirements.txt
 # cp -rfp inventory/sample inventory/mycluster
 # CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
-# ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root reset.yml
+# echo "yes" | ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root reset.yml
 # ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml
 # mkdir -p $HOME/.kube
 # sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
