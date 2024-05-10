@@ -64,17 +64,17 @@ fi
 
 # install_python
 
-# IPS=()
+IPS=()
 
-# # Loop through each IP address and copy SSH key
-# for hostname in "$@"; do
-#     # Resolve the hostname to IP address and append to the array
-#     ip=$(resolve_hostname $hostname)
-#     IPS+=($ip)
-# done
+# Loop through each IP address and copy SSH key
+for hostname in "$@"; do
+    # Resolve the hostname to IP address and append to the array
+    ip=$(resolve_hostname $hostname)
+    IPS+=($ip)
+done
 
 # echo "Generating ssh key and copying to all nodes"
-# sudo apt install sshpass -y
+sudo apt install sshpass -y
 # ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 
 for ip in "${IPS[@]}"; do
