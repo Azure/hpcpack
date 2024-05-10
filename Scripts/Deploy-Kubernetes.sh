@@ -79,32 +79,32 @@ sudo apt install sshpass -y
 rm ~/.ssh/id_rsa*
 ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 
-for ip in "${IPS[@]}"; do
-    echo "Copying SSH key to $ip..."
-    # Copy SSH key to the IP address
-    sshpass -p $password ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no $ip
-    if [ $? -eq 0 ]; then
-        echo "SSH key copied successfully to $ip."
-    else
-        echo "Failed to copy SSH key to $ip. Please check the password or connectivity."
-    fi
-done
+# for ip in "${IPS[@]}"; do
+#     echo "Copying SSH key to $ip..."
+#     # Copy SSH key to the IP address
+#     sshpass -p $password ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no $ip
+#     if [ $? -eq 0 ]; then
+#         echo "SSH key copied successfully to $ip."
+#     else
+#         echo "Failed to copy SSH key to $ip. Please check the password or connectivity."
+#     fi
+# done
 
-echo "------------------------------------------"
-echo "Installing and disabling firewalld"
-sudo apt install firewalld -y
-sudo systemctl disable --now firewalld
+# echo "------------------------------------------"
+# echo "Installing and disabling firewalld"
+# sudo apt install firewalld -y
+# sudo systemctl disable --now firewalld
 
 
-echo "Installing and configuring Kubernetes via kubespray"
-git clone https://github.com/kubernetes-sigs/kubespray
-cd kubespray
-# We may customize the version of kubespray here
-git checkout release-2.24
-sudo pip3 install -r requirements.txt
-echo "------------------------------------------"
-cp -rfp inventory/sample inventory/mycluster
-CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+# echo "Installing and configuring Kubernetes via kubespray"
+# git clone https://github.com/kubernetes-sigs/kubespray
+# cd kubespray
+# # We may customize the version of kubespray here
+# git checkout release-2.24
+# sudo pip3 install -r requirements.txt
+# echo "------------------------------------------"
+# cp -rfp inventory/sample inventory/mycluster
+# CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 
 # echo "------------------------------------------"
 # echo "yes" | ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root reset.yml
