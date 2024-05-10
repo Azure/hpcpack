@@ -75,12 +75,14 @@ done
 
 echo "Generating ssh key and copying to all nodes"
 sudo apt install sshpass -y
-ssh-keygen -t rsa -N "" -f ~/.ssh/kube_key
+
+rm ~/.ssh/id_rsa*
+ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 
 for ip in "${IPS[@]}"; do
     echo "Copying SSH key to $ip..."
     # Copy SSH key to the IP address
-    sshpass -p $password ssh-copy-id -i ~/.ssh/kube_key.pub -o StrictHostKeyChecking=no $ip
+    sshpass -p $password ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no $ip
     if [ $? -eq 0 ]; then
         echo "SSH key copied successfully to $ip."
     else
