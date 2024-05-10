@@ -62,7 +62,7 @@ if [ -z "$password" ]; then
     echo
 fi
 
-# install_python
+install_python
 
 IPS=()
 
@@ -73,9 +73,9 @@ for hostname in "$@"; do
     IPS+=($ip)
 done
 
-# echo "Generating ssh key and copying to all nodes"
+echo "Generating ssh key and copying to all nodes"
 sudo apt install sshpass -y
-# ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 
 for ip in "${IPS[@]}"; do
     echo "Copying SSH key to $ip..."
@@ -88,21 +88,21 @@ for ip in "${IPS[@]}"; do
     fi
 done
 
-# echo "------------------------------------------"
-# echo "Installing and disabling firewalld"
-# sudo apt install firewalld -y
-# sudo systemctl disable --now firewalld
+echo "------------------------------------------"
+echo "Installing and disabling firewalld"
+sudo apt install firewalld -y
+sudo systemctl disable --now firewalld
 
 
-# echo "Installing and configuring Kubernetes via kubespray"
-# git clone https://github.com/kubernetes-sigs/kubespray
-# cd kubespray
-# # We may customize the version of kubespray here
-# git checkout release-2.24
-# sudo pip3 install -r requirements.txt
-# echo "------------------------------------------"
-# cp -rfp inventory/sample inventory/mycluster
-# CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+echo "Installing and configuring Kubernetes via kubespray"
+git clone https://github.com/kubernetes-sigs/kubespray
+cd kubespray
+# We may customize the version of kubespray here
+git checkout release-2.24
+sudo pip3 install -r requirements.txt
+echo "------------------------------------------"
+cp -rfp inventory/sample inventory/mycluster
+CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 
 # echo "------------------------------------------"
 # echo "yes" | ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root reset.yml
