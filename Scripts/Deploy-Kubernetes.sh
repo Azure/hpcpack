@@ -62,31 +62,31 @@ if [ -z "$password" ]; then
     echo
 fi
 
-install_python
+# install_python
 
-IPS=()
+# IPS=()
 
-# Loop through each IP address and copy SSH key
-for hostname in "$@"; do
-    # Resolve the hostname to IP address and append to the array
-    ip=$(resolve_hostname $hostname)
-    IPS+=($ip)
-done
-
-echo "Generating ssh key and copying to all nodes"
-sudo apt install sshpass -y
-ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
-
-# for ip in "${IPS[@]}"; do
-#     echo "Copying SSH key to $ip..."
-#     # Copy SSH key to the IP address
-#     sshpass -p $password ssh-copy-id -o StrictHostKeyChecking=no $ip
-#     if [ $? -eq 0 ]; then
-#         echo "SSH key copied successfully to $ip."
-#     else
-#         echo "Failed to copy SSH key to $ip. Please check the password or connectivity."
-#     fi
+# # Loop through each IP address and copy SSH key
+# for hostname in "$@"; do
+#     # Resolve the hostname to IP address and append to the array
+#     ip=$(resolve_hostname $hostname)
+#     IPS+=($ip)
 # done
+
+# echo "Generating ssh key and copying to all nodes"
+# sudo apt install sshpass -y
+# ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+
+for ip in "${IPS[@]}"; do
+    echo "Copying SSH key to $ip..."
+    # Copy SSH key to the IP address
+    sshpass -p $password ssh-copy-id $ip
+    if [ $? -eq 0 ]; then
+        echo "SSH key copied successfully to $ip."
+    else
+        echo "Failed to copy SSH key to $ip. Please check the password or connectivity."
+    fi
+done
 
 # echo "------------------------------------------"
 # echo "Installing and disabling firewalld"
