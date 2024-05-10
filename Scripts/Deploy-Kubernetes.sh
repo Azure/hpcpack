@@ -17,7 +17,6 @@ install_python() {
     python3 -V
     pip3 -V
     echo "End of Installing Python 3.10 and Pip"
-    # end of Installing Python 3.10 and Pip
 }
 
 # Function to display usage information
@@ -63,7 +62,7 @@ if [ -z "$password" ]; then
     echo
 fi
 
-# install_python
+install_python
 
 IPS=()
 
