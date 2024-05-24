@@ -47,5 +47,5 @@ for hostname in "$@"; do
     # Resolve the hostname to IP address and append to the array
     ip=$(resolve_hostname $hostname)
     IPS+=($ip)
-    sshpass -p $password ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no $ip
+    sshpass -p $password ssh-copy-id -i ~/.ssh/kube_key.pub -o StrictHostKeyChecking=no $ip
 done
