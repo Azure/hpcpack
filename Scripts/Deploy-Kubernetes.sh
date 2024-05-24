@@ -76,6 +76,7 @@ done
 echo "Generating ssh key and copying to all nodes"
 sudo apt install sshpass -y
 
+rm -f ~/.ssh/kube_key*
 ssh-keygen -t rsa -N "" -f ~/.ssh/kube_key
 
 for ip in "${IPS[@]}"; do
@@ -94,7 +95,6 @@ echo "Installing and disabling firewalld"
 sudo apt install firewalld -y
 sudo systemctl disable --now firewalld
 
-
 echo "Installing and configuring Kubernetes via kubespray"
 git clone https://github.com/kubernetes-sigs/kubespray
 cd kubespray
@@ -105,13 +105,13 @@ echo "------------------------------------------"
 cp -rfp inventory/sample inventory/mycluster
 CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 
-# echo "------------------------------------------"
-# echo "yes" | ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root reset.yml
-# echo "------------------------------------------"
-# ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml
-# echo "------------------------------------------"
-# mkdir -p $HOME/.kube
-# sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-# sudo chown $(id -u):$(id -g) $HOME/.kube/config
+echo "------------------------------------------"
+echo "yes" | ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root reset.yml
+echo "------------------------------------------"
+ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml
+echo "------------------------------------------"
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-# kubectl version
+kubectl version
