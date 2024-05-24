@@ -106,9 +106,9 @@ cp -rfp inventory/sample inventory/mycluster
 CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 
 echo "------------------------------------------"
-echo "yes" | ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root reset.yml
+ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root reset.yml --extra-vars reset_confirmation=yes --private-key=~/.ssh/kube_key
 echo "------------------------------------------"
-ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml
+ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root cluster.yml --private-key=~/.ssh/kube_key
 echo "------------------------------------------"
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
