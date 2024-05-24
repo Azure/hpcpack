@@ -39,6 +39,7 @@ if [ -z "$password" ]; then
     echo
 fi
 
+echo "password: $password"
 IPS=()
 
 # Loop through each IP address and copy SSH key
