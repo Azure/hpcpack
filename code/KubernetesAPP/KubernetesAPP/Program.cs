@@ -8,7 +8,7 @@ namespace KubernetesAPP
         {
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
             homeDirectory = homeDirectory ?? "/home/hpcadmin";
-            var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{ homeDirectory }/config");
+            var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{ homeDirectory }/.kube/config");
             IKubernetes client = new Kubernetes(config);
             Console.WriteLine("Starting Request!");
 
