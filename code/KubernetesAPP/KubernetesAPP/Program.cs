@@ -20,8 +20,8 @@ namespace KubernetesAPP
             //{
             //    Console.WriteLine("Empty!");
             //}
-            var fi = new FileInfo("/home/hpcadmin/.kube/config");
-            Console.WriteLine(fi.DirectoryName);
+            string homeDirectory = Environment.GetEnvironmentVariable("HOME");
+            Console.WriteLine(homeDirectory);
         }
     }
 }
