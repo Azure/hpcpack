@@ -1,4 +1,5 @@
 ﻿using k8s;
+using k8s.Models;
 
 namespace KubernetesAPP
 {
@@ -12,16 +13,25 @@ namespace KubernetesAPP
             IKubernetes client = new Kubernetes(config);
             Console.WriteLine("Starting Request!");
 
-            var list = client.CoreV1.ListNamespacedPod("default");
-            foreach (var item in list.Items)
+            client.CoreV1.CreateNamespacedPod(new V1Pod
             {
-                Console.WriteLine(item.Metadata.Name);
-            }
-
-            if (list.Items.Count == 0)
-            {
-                Console.WriteLine("Empty!");
-            }
+                Metadata = new V1ObjectMeta
+                {
+                    Name = "test-pod"
+                },
+                Spec = new V1PodSpec
+                {
+                    Containers = new List<V1Container>
+                    {
+                        new V1Container
+                        {
+                            Name = "test-container",
+                            Image = "busybox",
+                            Command = new List<string> { "sleep", "5" }
+                        }
+                    }
+                }
+            }, "default");
 
         }
     }
