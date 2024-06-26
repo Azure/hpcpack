@@ -1,11 +1,13 @@
 ﻿using k8s;
 using k8s.Models;
+using YamlDotNet.Serialization.NamingConventions;
+using YamlDotNet.Serialization;
 
 namespace KubernetesAPP
 {
     internal class PodList
     {
-        private static void Main(string[] args)
+        private static async void Main(string[] args)
         {
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
             homeDirectory = homeDirectory ?? "/home/hpcadmin";
@@ -13,61 +15,72 @@ namespace KubernetesAPP
             IKubernetes client = new Kubernetes(config);
             Console.WriteLine("Starting Request!");
 
-            //client.CoreV1.CreateNamespacedPod(new V1Pod
-            //{
-            //    Metadata = new V1ObjectMeta
-            //    {
-            //        Name = "test-pod"
-            //    },
-            //    Spec = new V1PodSpec
-            //    {
-            //        Containers = new List<V1Container>
-            //        {
-            //            new V1Container
-            //            {
-            //                Name = "test-container",
-            //                Image = "busybox",
-            //                Command = new [] { "sleep", "5" }
-            //            }
-            //        }
-            //    }
-            //}, "default");
-
-            client.BatchV1.CreateNamespacedJob(new V1Job
+            var job = new V1Job
             {
                 ApiVersion = "batch/v1",
                 Kind = "Job",
                 Metadata = new V1ObjectMeta
                 {
-                    Name = "busybox-job"
+                    Name = "stress-job"
                 },
                 Spec = new V1JobSpec
                 {
-                    TtlSecondsAfterFinished = 10,
                     Template = new V1PodTemplateSpec
                     {
                         Metadata = new V1ObjectMeta
                         {
-                            Name = "busybox-pod"
+                            Name = "stress-job"
                         },
                         Spec = new V1PodSpec
                         {
-                            RestartPolicy = "Never",
                             Containers = new[]
-                            {
+                        {
                                 new V1Container
                                 {
-                                    Name = "busybox-container",
-                                    Image = "busybox",
-                                    Command = new [] { "sleep", "5" }
+                                    Name = "stress",
+                                    Image = "progrium/stress",
+                                    Command = new []
+                                    {
+                                        "stress"
+                                    },
+                                    Args = new []
+                                    {
+                                        "--cpu", "4", "--timeout", "60s"
+                                    },
+                                    Resources = new V1ResourceRequirements
+                                    {
+                                        Requests = new System.Collections.Generic.Dictionary<string, ResourceQuantity>
+                                        {
+                                            { "cpu", new ResourceQuantity("500m") }
+                                        },
+                                        Limits = new System.Collections.Generic.Dictionary<string, ResourceQuantity>
+                                        {
+                                            { "cpu", new ResourceQuantity("2") }
+                                        }
+                                    }
                                 }
-                            }
+                            },
+                            RestartPolicy = "Never"
                         }
-                    }
+                    },
+                    BackoffLimit = 0,
+                    TtlSecondsAfterFinished = 60
                 }
-            }, "default");
+            };
 
-            Console.WriteLine("Request Completed!");
+            var createdJob = await client.BatchV1.CreateNamespacedJobAsync(job, "default");
+
+            //var podlistResp = client.CoreV1.ListNamespacedPodAsync("default", watch: true);
+            var podlistResp = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync("default", watch: true);
+            // C# 8 required https://docs.microsoft.com/en-us/archive/msdn-magazine/2019/november/csharp-iterating-with-async-enumerables-in-csharp-8
+            await foreach (var (type, item) in podlistResp.WatchAsync<V1Pod, V1PodList>())
+            {
+                Console.WriteLine("==on watch event==");
+                Console.WriteLine(type);
+                Console.WriteLine(item.Metadata.Name);
+                Console.WriteLine("==on watch event==");
+            }
         }
+
     }
 }

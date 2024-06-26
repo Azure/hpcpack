@@ -1,6 +1,7 @@
 #!/bin/bash
 
-install_python() {
+install_package() {
+    # install python and pip
     sudo apt update
     echo "Installing Python 3.10 and Pip"
     sudo apt install software-properties-common -y
@@ -13,10 +14,15 @@ install_python() {
     sudo ln -s /usr/lib/python3/dist-packages/apt_pkg.cpython-38-x86_64-linux-gnu.so /usr/lib/python3/dist-packages/apt_pkg.so
     curl https://bootstrap.pypa.io/get-pip.py | sudo python3
 
-    echo "Testing python3 and pip3"
     python3 -V
     pip3 -V
-    echo "End of Installing Python 3.10 and Pip"
+
+    # install .net8 sdk
+    wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+    sudo dpkg -i packages-microsoft-prod.deb
+    rm packages-microsoft-prod.deb
+    sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
+
 }
 
 # Function to display usage information
@@ -62,7 +68,7 @@ if [ -z "$password" ]; then
     echo
 fi
 
-install_python
+install_package
 
 IPS=()
 
