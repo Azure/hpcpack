@@ -7,7 +7,7 @@ namespace KubernetesAPP
 {
     internal class PodList
     {
-        private static async void Main(string[] args)
+        private static async Task Main(string[] args)
         {
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
             homeDirectory = homeDirectory ?? "/home/hpcadmin";
