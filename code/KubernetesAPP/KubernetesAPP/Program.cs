@@ -1,7 +1,5 @@
 ﻿using k8s;
 using k8s.Models;
-using YamlDotNet.Serialization.NamingConventions;
-using YamlDotNet.Serialization;
 
 namespace KubernetesAPP
 {
@@ -34,7 +32,7 @@ namespace KubernetesAPP
                         Spec = new V1PodSpec
                         {
                             Containers = new[]
-                        {
+                            {
                                 new V1Container
                                 {
                                     Name = "stress",
@@ -82,6 +80,11 @@ namespace KubernetesAPP
                 Console.WriteLine(item.Metadata.Name);
                 Console.WriteLine(item.Status.Phase);
                 Console.WriteLine("==on watch event==");
+                if (item.Status.Phase == "Succeeded")
+                {
+                    Console.WriteLine("Pod is done!");
+                    break;
+                }
             }
         }
 
