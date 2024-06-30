@@ -1,6 +1,11 @@
 # Change Log for Release
 
 # HPC Pack 2019
+## [HPC Pack .Net SDK (6.3.8187-beta) - 6/30/2024](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8187-beta)
+* Supported SDK logging
+* Supported Linux clients
+* Supported WCF certificate subject name and certificate name checks
+* Fixed the client crash due to WCF AsyncCallBack duplicate completion
 
 ## [HPC Pack .Net SDK (6.3.8025-beta) - 3/8/2024](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8025-beta)
 * Fixed scheduler connection leak
