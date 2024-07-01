@@ -14,16 +14,8 @@ namespace KubernetesAPP
                 Console.WriteLine("Usage: <podName> <containerName> <imageName> <namespaceName> <command>");
                 return;
             }
-
             var (podName, containerName, imageName, namespaceName, command) = Util.ProcessArgs(args);
 
-            Console.WriteLine($"Pod Name: {podName}");
-            Console.WriteLine($"command: {command}");
-            Console.WriteLine(command.Length);
-            foreach (var item in command)
-            {
-                Console.WriteLine($"command item: {item}");
-            }
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
             homeDirectory = homeDirectory ?? "/home/hpcadmin";
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
@@ -50,7 +42,7 @@ namespace KubernetesAPP
                         {
                             Name = containerName,
                             Image = imageName,
-                            Command = ["sh", "-c", "sleep", "3600"]
+                            Command = command
                         }
                     ],
                     RestartPolicy = "Always"
