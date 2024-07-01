@@ -55,8 +55,8 @@ namespace KubernetesAPP
                         {
                             Name = containerName,
                             Image = imageName,
-                            Command = new[] { "sh", "-c" },
-                            Args = new[] { "sleep 3600" }
+                            Command = command,
+                            Args = arguments
                         }
                     ],
                     RestartPolicy = "Always"

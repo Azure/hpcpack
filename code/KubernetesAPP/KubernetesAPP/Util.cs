@@ -20,7 +20,7 @@
             string imageName = args[2];
             string namespaceName = args[3];
             string[] command = SplitStringBySpaces(args[4]);
-            string[] arguments = SplitStringBySpaces(args[5]);
+            string[] arguments = new[] { args[5] };
             return (podName, containerName, imageName, namespaceName, command, arguments);
         }
     }
