@@ -1,4 +1,5 @@
 ﻿using k8s;
+using k8s.Autorest;
 using k8s.Models;
 
 namespace KubernetesAPP
@@ -34,10 +35,47 @@ namespace KubernetesAPP
                 }
             };
 
-            // Create the pod in the default namespace
-            var createdPod = await client.CoreV1.CreateNamespacedPodAsync(pod, "default");
+            V1Pod? createdPod = null;
+            try
+            {
+                // Create the pod in the default namespace
+                createdPod = await client.CoreV1.CreateNamespacedPodAsync(pod, "default");
+            }
+            catch (HttpOperationException e)
+            {
+                Console.WriteLine($"Exception in creating pod: {e.Message}");
+                return;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Unknown exception in creating pod: {e.Message}");
+                return;
+            }
 
-            //var podlistResp = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync("default", watch: true);
+            var podName = createdPod.Metadata.Name;
+            var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync("default",
+                fieldSelector: $"metadata.name={podName}",
+                watch: true);
+
+            podWatcher.Watch<V1Pod, V1PodList>(
+                onEvent: (type, item) =>
+                {
+                    Console.WriteLine($"Event Type: {type}");
+                    Console.WriteLine($"Pod Name: {item.Metadata.Name}");
+                    Console.WriteLine($"Pod Status: {item.Status.Phase}");
+                    Console.WriteLine($"Pod Conditions: {string.Join(", ", item.Status.Conditions.Select(c => $"{c.Type}={c.Status}"))}");
+                    Console.WriteLine(new string('-', 20));
+                },
+                onError: e =>
+                {
+                    Console.WriteLine($"Watcher error: {e.Message}");
+                },
+                onClosed: () =>
+                {
+                    Console.WriteLine("Watcher closed.");
+                }
+            );
+
             //await foreach (var (type, item) in podlistResp.WatchAsync<V1Pod, V1PodList>())
             //{
             //    Console.WriteLine("==on watch event==");
