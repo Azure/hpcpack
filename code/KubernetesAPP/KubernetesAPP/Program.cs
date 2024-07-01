@@ -6,6 +6,8 @@ namespace KubernetesAPP
 {
     internal class PodList
     {
+
+        static string RUNNINGSTATUS = "Running";
         private static async Task Main(string[] args)
         {
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
@@ -59,25 +61,6 @@ namespace KubernetesAPP
                 fieldSelector: $"metadata.name={podName}",
                 watch: true);
 
-            //podWatcher.Watch<V1Pod, V1PodList>(
-            //    onEvent: (type, item) =>
-            //    {
-            //        Console.WriteLine($"Event Type: {type}");
-            //        Console.WriteLine($"Pod Name: {item.Metadata.Name}");
-            //        Console.WriteLine($"Pod Status: {item.Status.Phase}");
-            //        Console.WriteLine($"Pod Conditions: {string.Join(", ", item.Status.Conditions.Select(c => $"{c.Type}={c.Status}"))}");
-            //        Console.WriteLine(new string('-', 20));
-            //    },
-            //    onError: e =>
-            //    {
-            //        Console.WriteLine($"Watcher error: {e.Message}");
-            //    },
-            //    onClosed: () =>
-            //    {
-            //        Console.WriteLine("Watcher closed.");
-            //    }
-            //);
-
             await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
                 onError: e =>
                 {
@@ -89,9 +72,13 @@ namespace KubernetesAPP
                 Console.WriteLine($"Pod Status: {item.Status.Phase}");
                 Console.WriteLine($"Pod Conditions: {string.Join(", ", item.Status.Conditions.Select(c => $"{c.Type}={c.Status}"))}");
                 Console.WriteLine(new string('-', 20));
-            }
 
-            
+                if (item.Status.Phase == RUNNINGSTATUS)
+                {
+                    Console.WriteLine($"Pod {podName} is running. Exit monitoring.");
+                    break;
+                }
+            }
         }
     }
 }
