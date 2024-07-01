@@ -78,19 +78,20 @@ namespace KubernetesAPP
             //    }
             //);
 
-            await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>())
-            {
-                Console.WriteLine("==on watch event==");
-                Console.WriteLine(type);
-                Console.WriteLine(item.Metadata.Name);
-                Console.WriteLine(item.Status.Phase);
-                Console.WriteLine("==on watch event==");
-                if (item.Status.Phase == "Succeeded")
+            await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
+                onError: e =>
                 {
-                    Console.WriteLine("Pod is done!");
-                    break;
-                }
+                    Console.WriteLine($"Watcher error: {e.Message}");
+                }))
+            {
+                Console.WriteLine($"Event Type: {type}");
+                Console.WriteLine($"Pod Name: {item.Metadata.Name}");
+                Console.WriteLine($"Pod Status: {item.Status.Phase}");
+                Console.WriteLine($"Pod Conditions: {string.Join(", ", item.Status.Conditions.Select(c => $"{c.Type}={c.Status}"))}");
+                Console.WriteLine(new string('-', 20));
             }
+
+            
         }
     }
 }
