@@ -37,6 +37,12 @@ namespace KubernetesAPP
                 }
             };
 
+            Console.CancelKeyPress += (sender, e) =>
+            {
+                Console.WriteLine("Ctrl+C pressed, shutting down...");
+                e.Cancel = true; // Prevent the process from terminating immediately
+            };
+
             V1Pod? createdPod = null;
             try
             {
