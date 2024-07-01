@@ -16,6 +16,11 @@ namespace KubernetesAPP
             }
             var (podName, containerName, imageName, namespaceName, command) = Util.ProcessArgs(args);
 
+            foreach (var item in command)
+            {
+               Console.WriteLine(item);
+            }
+
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
             homeDirectory = homeDirectory ?? "/home/hpcadmin";
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
