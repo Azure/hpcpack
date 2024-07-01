@@ -9,18 +9,14 @@ namespace KubernetesAPP
         static string RUNNINGSTATUS = "Running";
         private static async Task Main(string[] args)
         {
-            if (args.Length < 4)
+            if (args.Length < 5)
             {
-                Console.WriteLine("Usage: <podName> <containerName> <imageName> <command>");
+                Console.WriteLine("Usage: <podName> <containerName> <imageName> <namespaceName> <command>");
                 return;
             }
 
-            string podName = args[0];
-            string containerName = args[1];
-            string imageName = args[2];
-            string command = args[3];
-            string namespaceName = "default"; // You can also take namespace as an argument if needed
-            
+            var (podName, containerName, imageName, command, namespaceName) = Util.ProcessArgs(args);
+
             Console.WriteLine($"Pod Name: {podName}");
             Console.WriteLine($"command: {command}");
 
