@@ -13,15 +13,15 @@
             return input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public static (string podName, string containerName, string imageName, string namespaceName, string[] command) ProcessArgs(string[] args)
+        public static (string podName, string containerName, string imageName, string namespaceName, string[] command, string[] arguments) ProcessArgs(string[] args)
         {
             string podName = args[0];
             string containerName = args[1];
             string imageName = args[2];
             string namespaceName = args[3];
             string[] command = SplitStringBySpaces(args[4]);
-
-            return (podName, containerName, imageName, namespaceName, command);
+            string[] arguments = SplitStringBySpaces(args[5]);
+            return (podName, containerName, imageName, namespaceName, command, arguments);
         }
     }
 }

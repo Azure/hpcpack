@@ -9,17 +9,25 @@ namespace KubernetesAPP
         static string RUNNINGSTATUS = "Running";
         private static async Task Main(string[] args)
         {
-            if (args.Length < 5)
+            if (args.Length < 6)
             {
                 Console.WriteLine("Usage: <podName> <containerName> <imageName> <namespaceName> <command>");
                 return;
             }
-            var (podName, containerName, imageName, namespaceName, command) = Util.ProcessArgs(args);
+            var (podName, containerName, imageName, namespaceName, command, arguments) = Util.ProcessArgs(args);
 
             foreach (var item in command)
             {
                Console.WriteLine(item);
             }
+            Console.WriteLine("----");
+
+            foreach (var item in arguments)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("----");
+
 
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
             homeDirectory = homeDirectory ?? "/home/hpcadmin";
@@ -47,7 +55,8 @@ namespace KubernetesAPP
                         {
                             Name = containerName,
                             Image = imageName,
-                            Command = command
+                            Command = command,
+                            Args = arguments
                         }
                     ],
                     RestartPolicy = "Always"
