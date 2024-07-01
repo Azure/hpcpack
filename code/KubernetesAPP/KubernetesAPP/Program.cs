@@ -53,7 +53,9 @@ namespace KubernetesAPP
             }
 
             var podName = createdPod.Metadata.Name;
-            var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync("default",
+            Console.WriteLine($"Pod {podName} created.");
+            var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
+                "default",
                 fieldSelector: $"metadata.name={podName}",
                 watch: true);
 
