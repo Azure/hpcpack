@@ -15,7 +15,7 @@ namespace KubernetesAPP
                 return;
             }
 
-            var (podName, containerName, imageName, command, namespaceName) = Util.ProcessArgs(args);
+            var (podName, containerName, imageName, namespaceName, command) = Util.ProcessArgs(args);
 
             Console.WriteLine($"Pod Name: {podName}");
             Console.WriteLine($"command: {command}");
