@@ -11,10 +11,16 @@ namespace KubernetesAPP
         {
             if (args.Length < 6)
             {
-                Console.WriteLine("Usage: <podName> <containerName> <imageName> <namespaceName> <command>");
+                Console.WriteLine("Usage: <podName> <containerName> <imageName> <namespaceName> <command> <arguments>");
                 return;
             }
             var (podName, containerName, imageName, namespaceName, command, arguments) = Util.ProcessArgs(args);
+
+            Console.WriteLine($"Pod Name: {podName}");
+            Console.WriteLine($"Container Name: {containerName}");
+            Console.WriteLine($"Image Name: {imageName}");
+            Console.WriteLine($"Namespace Name: {namespaceName}");
+            Console.WriteLine("----");
 
             foreach (var item in command)
             {
