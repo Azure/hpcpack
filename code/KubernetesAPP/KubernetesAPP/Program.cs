@@ -39,13 +39,57 @@ namespace KubernetesAPP
             homeDirectory = homeDirectory ?? "/home/hpcadmin";
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
             IKubernetes client = new Kubernetes(config);
-
             Console.CancelKeyPress += (sender, e) =>
             {
-                Console.WriteLine("Ctrl+C pressed, shutting down...");
+                for (int i = 0; i < 5; i++)
+                {
+                    Console.WriteLine("interrupt!!");
+                }
                 e.Cancel = true; // Prevent the process from terminating immediately
             };
 
+            try
+            {
+                Console.WriteLine("Waiting for 10 seconds or until interrupted...");
+                await Task.Delay(TimeSpan.FromSeconds(10));
+                Console.WriteLine("Wait completed successfully.");
+            }
+            catch (TaskCanceledException)
+            {
+                Console.WriteLine("Operation was cancelled.");
+            }
+
+
+            //var pod = await CreatePod(client, podName, containerName, imageName, namespaceName, command, arguments);
+            //Console.WriteLine($"Pod {podName} created.");
+
+            //var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
+            //    "default",
+            //    fieldSelector: $"metadata.name={podName}",
+            //    watch: true);
+
+            //await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
+            //    onError: e =>
+            //    {
+            //        Console.WriteLine($"Watcher error: {e.Message}");
+            //    }))
+            //{
+            //    Console.WriteLine($"Event Type: {type}");
+            //    Console.WriteLine($"Pod Name: {item.Metadata.Name}");
+            //    Console.WriteLine($"Pod Status: {item.Status.Phase}");
+            //    Console.WriteLine($"Pod Conditions: {string.Join(", ", item.Status.Conditions.Select(c => $"{c.Type}={c.Status}"))}");
+            //    Console.WriteLine(new string('-', 20));
+
+            //    if (item.Status.Phase == RUNNINGSTATUS)
+            //    {
+            //        Console.WriteLine($"Pod {podName} is running. Exit monitoring.");
+            //        break;
+            //    }
+            //}
+        }
+
+        public static async Task<V1Pod?> CreatePod(IKubernetes client, string podName, string containerName, string imageName, string namespaceName, string[] command, string[] arguments)
+        {
             var pod = new V1Pod
             {
                 Metadata = new V1ObjectMeta
@@ -69,7 +113,7 @@ namespace KubernetesAPP
                 }
             };
 
-            V1Pod? createdPod = null;
+            V1Pod? createdPod;
             try
             {
                 // Create the pod in the default namespace
@@ -78,38 +122,15 @@ namespace KubernetesAPP
             catch (HttpOperationException e)
             {
                 Console.WriteLine($"Exception in creating pod: {e.Message}");
-                return;
+                return null;
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Unknown exception in creating pod: {e.Message}");
-                return;
+                return null;
             }
 
-            Console.WriteLine($"Pod {podName} created.");
-            var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
-                "default",
-                fieldSelector: $"metadata.name={podName}",
-                watch: true);
-
-            await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
-                onError: e =>
-                {
-                    Console.WriteLine($"Watcher error: {e.Message}");
-                }))
-            {
-                Console.WriteLine($"Event Type: {type}");
-                Console.WriteLine($"Pod Name: {item.Metadata.Name}");
-                Console.WriteLine($"Pod Status: {item.Status.Phase}");
-                Console.WriteLine($"Pod Conditions: {string.Join(", ", item.Status.Conditions.Select(c => $"{c.Type}={c.Status}"))}");
-                Console.WriteLine(new string('-', 20));
-
-                if (item.Status.Phase == RUNNINGSTATUS)
-                {
-                    Console.WriteLine($"Pod {podName} is running. Exit monitoring.");
-                    break;
-                }
-            }
+            return createdPod;
         }
     }
 }
