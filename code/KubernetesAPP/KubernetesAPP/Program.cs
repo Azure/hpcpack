@@ -59,7 +59,7 @@ namespace KubernetesAPP
 
             var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
                 "default",
-                labelSelector: $"app={deploymentName}",
+                labelSelector: $"app={containerName}",
                 watch: true);
 
             await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
