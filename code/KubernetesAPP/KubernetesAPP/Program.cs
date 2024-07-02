@@ -57,29 +57,28 @@ namespace KubernetesAPP
 
             var pod = await CreateDeployment(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList);
 
-            //var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
-            //    "default",
-            //    fieldSelector: $"metadata.name={deploymentName}",
-            //    watch: true);
+            var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
+                "default",
+                fieldSelector: $"metadata.name={deploymentName}",
+                watch: true);
 
-            //await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
-            //    onError: e =>
-            //    {
-            //        Console.WriteLine($"Watcher error: {e.Message}");
-            //    }))
-            //{
-            //    Console.WriteLine($"Event Type: {type}");
-            //    Console.WriteLine($"Pod Name: {item.Metadata.Name}");
-            //    Console.WriteLine($"Pod Status: {item.Status.Phase}");
-            //    Console.WriteLine($"Pod Conditions: {string.Join(", ", item.Status.Conditions.Select(c => $"{c.Type}={c.Status}"))}");
-            //    Console.WriteLine(new string('-', 20));
+            await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
+                onError: e =>
+                {
+                    Console.WriteLine($"Watcher error: {e.Message}");
+                }))
+            {
+                Console.WriteLine($"Event Type: {type}");
+                Console.WriteLine($"Pod Name: {item.Metadata.Name}");
+                Console.WriteLine($"Pod Status: {item.Status.Phase}");
+                Console.WriteLine(new string('-', 20));
 
-            //    if (item.Status.Phase == RUNNINGSTATUS)
-            //    {
-            //        Console.WriteLine($"Pod {deploymentName} is running. Exit monitoring.");
-            //        break;
-            //    }
-            //}
+                if (item.Status.Phase == RUNNINGSTATUS)
+                {
+                    Console.WriteLine($"Pod {deploymentName} is running. Exit monitoring.");
+                    break;
+                }
+            }
         }
 
         public static async Task<V1Deployment?> CreateDeployment(IKubernetes client, string deploymentName, string containerName, string imageName, 
@@ -100,7 +99,7 @@ namespace KubernetesAPP
                     {
                         MatchLabels = new System.Collections.Generic.Dictionary<string, string>
                         {
-                            { "app", "busybox" }
+                            { "app", containerName }
                         }
                     },
                     Template = new V1PodTemplateSpec
@@ -109,7 +108,7 @@ namespace KubernetesAPP
                         {
                             Labels = new System.Collections.Generic.Dictionary<string, string>
                             {
-                                { "app", "busybox" }
+                                { "app", containerName }
                             }
                         },
                         Spec = new V1PodSpec
