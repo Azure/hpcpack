@@ -9,36 +9,36 @@ namespace KubernetesAPP
         static string RUNNINGSTATUS = "Running";
         private static async Task Main(string[] args)
         {
-            if (args.Length < 6)
-            {
-                Console.WriteLine("Usage: <podName> <containerName> <imageName> <namespaceName> <command> <arguments>");
-                return;
-            }
-            var (podName, containerName, imageName, namespaceName, command, arguments) = Util.ProcessArgs(args);
+            //if (args.Length < 6)
+            //{
+            //    Console.WriteLine("Usage: <podName> <containerName> <imageName> <namespaceName> <command> <arguments>");
+            //    return;
+            //}
+            //var (podName, containerName, imageName, namespaceName, command, arguments) = Util.ProcessArgs(args);
 
-            Console.WriteLine($"Pod Name: {podName}");
-            Console.WriteLine($"Container Name: {containerName}");
-            Console.WriteLine($"Image Name: {imageName}");
-            Console.WriteLine($"Namespace Name: {namespaceName}");
-            Console.WriteLine("----");
+            //Console.WriteLine($"Pod Name: {podName}");
+            //Console.WriteLine($"Container Name: {containerName}");
+            //Console.WriteLine($"Image Name: {imageName}");
+            //Console.WriteLine($"Namespace Name: {namespaceName}");
+            //Console.WriteLine("----");
 
-            foreach (var item in command)
-            {
-               Console.WriteLine(item);
-            }
-            Console.WriteLine("----");
+            //foreach (var item in command)
+            //{
+            //   Console.WriteLine(item);
+            //}
+            //Console.WriteLine("----");
 
-            foreach (var item in arguments)
-            {
-                Console.WriteLine(item);
-            }
-            Console.WriteLine("----");
-
+            //foreach (var item in arguments)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            //Console.WriteLine("----");
 
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
             homeDirectory = homeDirectory ?? "/home/hpcadmin";
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
             IKubernetes client = new Kubernetes(config);
+
             Console.CancelKeyPress += (sender, e) =>
             {
                 for (int i = 0; i < 5; i++)
@@ -48,17 +48,10 @@ namespace KubernetesAPP
                 e.Cancel = true; // Prevent the process from terminating immediately
             };
 
-            try
-            {
-                Console.WriteLine("Waiting for 10 seconds or until interrupted...");
-                await Task.Delay(TimeSpan.FromSeconds(10));
-                Console.WriteLine("Wait completed successfully.");
-            }
-            catch (TaskCanceledException)
-            {
-                Console.WriteLine("Operation was cancelled.");
-            }
-
+            var v1 = Environment.GetEnvironmentVariable("key1");
+            var v2 = Environment.GetEnvironmentVariable("key2");
+            Console.WriteLine($"key1: {v1}");
+            Console.WriteLine($"key2: {v2}");
 
             //var pod = await CreatePod(client, podName, containerName, imageName, namespaceName, command, arguments);
             //Console.WriteLine($"Pod {podName} created.");
