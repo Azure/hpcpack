@@ -22,6 +22,7 @@ namespace KubernetesAPP
             var command = new[] { "sleep", "3600" };
             var arguments = new[] { "" };
             var nodeList = new[] {"node3", "node4"};
+            
             Console.WriteLine($"deployment Name: {deploymentName}");
             Console.WriteLine($"Container Name: {containerName}");
             Console.WriteLine($"Image Name: {imageName}");
@@ -55,7 +56,6 @@ namespace KubernetesAPP
             };
 
             var pod = await CreateDeployment(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList);
-            Console.WriteLine($"Deployment {deploymentName} created.");
 
             //var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
             //    "default",
@@ -121,7 +121,7 @@ namespace KubernetesAPP
                                     Name = containerName,
                                     Image = imageName,
                                     Command = command,
-                                    Args = arguments
+                                    //Args = arguments
                                 }
                             ],
                             Affinity = new V1Affinity
