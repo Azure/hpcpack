@@ -46,20 +46,20 @@ namespace KubernetesAPP
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
             IKubernetes client = new Kubernetes(config);
 
-            Console.CancelKeyPress += (sender, e) =>
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    Console.WriteLine("interrupt!!");
-                }
-                e.Cancel = true; // Prevent the process from terminating immediately
-            };
+            //Console.CancelKeyPress += (sender, e) =>
+            //{
+            //    for (int i = 0; i < 5; i++)
+            //    {
+            //        Console.WriteLine("interrupt!!");
+            //    }
+            //    e.Cancel = true; // Prevent the process from terminating immediately
+            //};
 
             var pod = await CreateDeployment(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList);
 
             var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
                 "default",
-                fieldSelector: $"metadata.name={deploymentName}",
+                fieldSelector: $"app={deploymentName}",
                 watch: true);
 
             await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
