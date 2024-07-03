@@ -46,58 +46,60 @@ namespace KubernetesAPP
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
             IKubernetes client = new Kubernetes(config);
 
-            Console.CancelKeyPress += async (sender, e) =>
-            {
-                e.Cancel = true; // Prevent the process from terminating immediately
-                Console.WriteLine("interrupt!!");
+            var nodes = Environment.GetEnvironmentVariable("CCP_NODES");
+            Console.WriteLine($"CCP_NODES: {nodes}");
+            //Console.CancelKeyPress += async (sender, e) =>
+            //{
+            //    e.Cancel = true; // Prevent the process from terminating immediately
+            //    Console.WriteLine("interrupt!!");
                 
-                try
-                {
-                    var deployment = await client.AppsV1.ReadNamespacedDeploymentAsync(deploymentName, namespaceName);
-                    Console.WriteLine($"Deployment '{deploymentName}' found.");
+            //    try
+            //    {
+            //        var deployment = await client.AppsV1.ReadNamespacedDeploymentAsync(deploymentName, namespaceName);
+            //        Console.WriteLine($"Deployment '{deploymentName}' found.");
 
-                    // Deployment exists, so delete it
-                    var deleteResult = await client.AppsV1.DeleteNamespacedDeploymentAsync(
-                        name: deploymentName,
-                        namespaceParameter: namespaceName
-                    );
-                    Console.WriteLine($"Deployment '{deploymentName}' deleted successfully.");
+            //        // Deployment exists, so delete it
+            //        var deleteResult = await client.AppsV1.DeleteNamespacedDeploymentAsync(
+            //            name: deploymentName,
+            //            namespaceParameter: namespaceName
+            //        );
+            //        Console.WriteLine($"Deployment '{deploymentName}' deleted successfully.");
 
-                }
-                catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    Console.WriteLine($"Deployment '{deploymentName}' does not exist.");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                }
-            };
+            //    }
+            //    catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            //    {
+            //        Console.WriteLine($"Deployment '{deploymentName}' does not exist.");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine($"Error: {ex.Message}");
+            //    }
+            //};
 
-            var pod = await CreateDeployment(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList);
+            //var pod = await CreateDeployment(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList);
 
-            var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
-                "default",
-                labelSelector: $"app={containerName}",
-                watch: true);
+            //var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
+            //    "default",
+            //    labelSelector: $"app={containerName}",
+            //    watch: true);
 
-            await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
-                onError: e =>
-                {
-                    Console.WriteLine($"Watcher error: {e.Message}");
-                }))
-            {
-                Console.WriteLine($"Event Type: {type}");
-                Console.WriteLine($"Pod Name: {item.Metadata.Name}");
-                Console.WriteLine($"Pod Status: {item.Status.Phase}");
-                Console.WriteLine(new string('-', 20));
+            //await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
+            //    onError: e =>
+            //    {
+            //        Console.WriteLine($"Watcher error: {e.Message}");
+            //    }))
+            //{
+            //    Console.WriteLine($"Event Type: {type}");
+            //    Console.WriteLine($"Pod Name: {item.Metadata.Name}");
+            //    Console.WriteLine($"Pod Status: {item.Status.Phase}");
+            //    Console.WriteLine(new string('-', 20));
 
-                if (item.Status.Phase == RUNNINGSTATUS)
-                {
-                    Console.WriteLine($"Pod {deploymentName} is running. Exit monitoring.");
-                    break;
-                }
-            }
+            //    if (item.Status.Phase == RUNNINGSTATUS)
+            //    {
+            //        Console.WriteLine($"Pod {deploymentName} is running. Exit monitoring.");
+            //        break;
+            //    }
+            //}
         }
 
         public static async Task<V1Deployment?> CreateDeployment(IKubernetes client, string deploymentName, string containerName, string imageName, 
