@@ -48,6 +48,7 @@ namespace KubernetesAPP
 
             Console.CancelKeyPress += async (sender, e) =>
             {
+                e.Cancel = true; // Prevent the process from terminating immediately
                 Console.WriteLine("interrupt!!");
                 
                 try
@@ -71,9 +72,6 @@ namespace KubernetesAPP
                 {
                     Console.WriteLine($"Error: {ex.Message}");
                 }
-
-                e.Cancel = true; // Prevent the process from terminating immediately
-
             };
             await Task.Delay(10000);
             //var pod = await CreateDeployment(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList);
