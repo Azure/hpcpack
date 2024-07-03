@@ -72,7 +72,7 @@ namespace KubernetesAPP
                     Console.WriteLine($"Error: {ex.Message}");
                 }
 
-                //e.Cancel = true; // Prevent the process from terminating immediately
+                e.Cancel = true; // Prevent the process from terminating immediately
 
             };
             await Task.Delay(10000);
