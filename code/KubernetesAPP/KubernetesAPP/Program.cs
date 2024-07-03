@@ -46,39 +46,60 @@ namespace KubernetesAPP
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
             IKubernetes client = new Kubernetes(config);
 
-            //Console.CancelKeyPress += (sender, e) =>
-            //{
-            //    for (int i = 0; i < 5; i++)
-            //    {
-            //        Console.WriteLine("interrupt!!");
-            //    }
-            //    e.Cancel = true; // Prevent the process from terminating immediately
-            //};
-
-            var pod = await CreateDeployment(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList);
-
-            var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
-                "default",
-                labelSelector: $"app={containerName}",
-                watch: true);
-
-            await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
-                onError: e =>
-                {
-                    Console.WriteLine($"Watcher error: {e.Message}");
-                }))
+            Console.CancelKeyPress += async (sender, e) =>
             {
-                Console.WriteLine($"Event Type: {type}");
-                Console.WriteLine($"Pod Name: {item.Metadata.Name}");
-                Console.WriteLine($"Pod Status: {item.Status.Phase}");
-                Console.WriteLine(new string('-', 20));
-
-                if (item.Status.Phase == RUNNINGSTATUS)
+                Console.WriteLine("interrupt!!");
+                
+                try
                 {
-                    Console.WriteLine($"Pod {deploymentName} is running. Exit monitoring.");
-                    break;
+                    var deployment = await client.AppsV1.ReadNamespacedDeploymentAsync(deploymentName, namespaceName);
+                    Console.WriteLine($"Deployment '{deploymentName}' found.");
+
+                    // Deployment exists, so delete it
+                    var deleteResult = await client.AppsV1.DeleteNamespacedDeploymentAsync(
+                        name: deploymentName,
+                        namespaceParameter: namespaceName
+                    );
+                    Console.WriteLine($"Deployment '{deploymentName}' deleted successfully.");
+
                 }
-            }
+                catch (k8s.Autorest.HttpOperationException e) when (e.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    Console.WriteLine($"Deployment '{deploymentName}' does not exist.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+
+                //e.Cancel = true; // Prevent the process from terminating immediately
+
+            };
+
+            //var pod = await CreateDeployment(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList);
+
+            //var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
+            //    "default",
+            //    labelSelector: $"app={containerName}",
+            //    watch: true);
+
+            //await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
+            //    onError: e =>
+            //    {
+            //        Console.WriteLine($"Watcher error: {e.Message}");
+            //    }))
+            //{
+            //    Console.WriteLine($"Event Type: {type}");
+            //    Console.WriteLine($"Pod Name: {item.Metadata.Name}");
+            //    Console.WriteLine($"Pod Status: {item.Status.Phase}");
+            //    Console.WriteLine(new string('-', 20));
+
+            //    if (item.Status.Phase == RUNNINGSTATUS)
+            //    {
+            //        Console.WriteLine($"Pod {deploymentName} is running. Exit monitoring.");
+            //        break;
+            //    }
+            //}
         }
 
         public static async Task<V1Deployment?> CreateDeployment(IKubernetes client, string deploymentName, string containerName, string imageName, 
