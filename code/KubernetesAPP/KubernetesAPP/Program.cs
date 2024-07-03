@@ -177,6 +177,10 @@ namespace KubernetesAPP
                 result = await client.AppsV1.CreateNamespacedDeploymentAsync(deployment, namespaceName);
                 Console.WriteLine($"Deployment '{deploymentName}' created successfully.");
             }
+            catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                Console.WriteLine($"Deployment '{deploymentName}' already exists. Error: {ex.Message}");
+            }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error creating deployment: {ex.Message}");
