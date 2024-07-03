@@ -63,7 +63,7 @@ namespace KubernetesAPP
                     Console.WriteLine($"Deployment '{deploymentName}' deleted successfully.");
 
                 }
-                catch (k8s.Autorest.HttpOperationException e) when (e.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
                     Console.WriteLine($"Deployment '{deploymentName}' does not exist.");
                 }
@@ -75,7 +75,7 @@ namespace KubernetesAPP
                 //e.Cancel = true; // Prevent the process from terminating immediately
 
             };
-
+            await Task.Delay(10000);
             //var pod = await CreateDeployment(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList);
 
             //var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
