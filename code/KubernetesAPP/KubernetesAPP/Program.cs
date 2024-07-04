@@ -52,7 +52,7 @@ namespace KubernetesAPP
             //{
             //    e.Cancel = true; // Prevent the process from terminating immediately
             //    Console.WriteLine("interrupt!!");
-                
+
             //    try
             //    {
             //        var deployment = await client.AppsV1.ReadNamespacedDeploymentAsync(deploymentName, namespaceName);
@@ -76,7 +76,7 @@ namespace KubernetesAPP
             //    }
             //};
 
-            //var pod = await CreateDeployment(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList);
+            var job = await CreateJob(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList, 5);
 
             //var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
             //    "default",
@@ -102,27 +102,22 @@ namespace KubernetesAPP
             //}
         }
 
-        public static async Task<V1Deployment?> CreateDeployment(IKubernetes client, string deploymentName, string containerName, string imageName, 
-            string namespaceName, string[] command, string[] arguments, string[] nodeList)
+        public static async Task<V1Job?> CreateJob(IKubernetes client, string jobName, string containerName, string imageName, 
+            string namespaceName, string[] command, string[] arguments, string[] nodeList, int ttlSecondsAfterFinished)
         {
-            var deployment = new V1Deployment
+            var job = new V1Job
             {
-                ApiVersion = "apps/v1",
-                Kind = "Deployment",
+                ApiVersion = "batch/v1",
+                Kind = "Job",
                 Metadata = new V1ObjectMeta
                 {
-                    Name = deploymentName
+                    Name = jobName
                 },
-                Spec = new V1DeploymentSpec
+                Spec = new V1JobSpec
                 {
-                    Replicas = nodeList.Length,
-                    Selector = new V1LabelSelector
-                    {
-                        MatchLabels = new System.Collections.Generic.Dictionary<string, string>
-                        {
-                            { "app", containerName }
-                        }
-                    },
+                    Completions = nodeList.Length,
+                    Parallelism = nodeList.Length,
+                    TtlSecondsAfterFinished = ttlSecondsAfterFinished,
                     Template = new V1PodTemplateSpec
                     {
                         Metadata = new V1ObjectMeta
@@ -134,16 +129,6 @@ namespace KubernetesAPP
                         },
                         Spec = new V1PodSpec
                         {
-                            Containers =
-                            [
-                                new()
-                                {
-                                    Name = containerName,
-                                    Image = imageName,
-                                    Command = command,
-                                    //Args = arguments
-                                }
-                            ],
                             Affinity = new V1Affinity
                             {
                                 NodeAffinity = new V1NodeAffinity
@@ -156,8 +141,7 @@ namespace KubernetesAPP
                                             {
                                                 MatchExpressions =
                                                 [
-                                                    new()
-                                                    {
+                                                    new() {
                                                         Key = "kubernetes.io/hostname",
                                                         OperatorProperty = "In",
                                                         Values = nodeList
@@ -167,21 +151,31 @@ namespace KubernetesAPP
                                         ]
                                     }
                                 }
-                            }
+                            },
+                            Containers =
+                            [
+                                new V1Container
+                                {
+                                    Name = containerName,
+                                    Image = imageName,
+                                    Command = command
+                                }
+                            ],
+                            RestartPolicy = "Never"
                         }
                     }
                 }
             };
 
-            V1Deployment? result = null;
+            V1Job? result = null;
             try
             {
-                result = await client.AppsV1.CreateNamespacedDeploymentAsync(deployment, namespaceName);
-                Console.WriteLine($"Deployment '{deploymentName}' created successfully.");
+                result = await client.BatchV1.CreateNamespacedJobAsync(job, namespaceName);
+                Console.WriteLine($"Job '{jobName}' created successfully.");
             }
             catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
-                Console.WriteLine($"Deployment '{deploymentName}' already exists. Error: {ex.Message}");
+                Console.WriteLine($"Job '{jobName}' already exists. Error: {ex.Message}");
             }
             catch (Exception ex)
             {
