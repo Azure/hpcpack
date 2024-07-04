@@ -19,7 +19,7 @@ namespace KubernetesAPP
             var containerName = "busybox";
             var imageName = "busybox";
             var namespaceName = "default";
-            var command = new[] { "sleep", "5" };
+            var command = new[] { "sleep", "3600" };
             var arguments = new[] { "" };
             var nodeList = new[] {"node3", "node4"};
             
@@ -78,8 +78,8 @@ namespace KubernetesAPP
 
             var job = await CreateJob(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList, 5);
 
-            //var podWatcher = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
-            //    "default",
+            //var podWatcher = client.BatchV1.ListNamespacedJobWithHttpMessagesAsync(
+            //    namespaceName,
             //    labelSelector: $"app={containerName}",
             //    watch: true);
 
@@ -111,7 +111,11 @@ namespace KubernetesAPP
                 Kind = "Job",
                 Metadata = new V1ObjectMeta
                 {
-                    Name = jobName
+                    Name = jobName,
+                    Labels = new System.Collections.Generic.Dictionary<string, string>
+                    {
+                        { "app", containerName }
+                    }
                 },
                 Spec = new V1JobSpec
                 {
