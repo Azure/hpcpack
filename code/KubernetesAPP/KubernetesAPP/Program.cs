@@ -22,7 +22,8 @@ namespace KubernetesAPP
             var command = new[] { "sleep", "5" };
             var arguments = new[] { "" };
             var nodeList = new[] {"node3", "node4"};
-            
+            int ttlSecondsAfterFinished = 5;
+
             Console.WriteLine($"deployment Name: {deploymentName}");
             Console.WriteLine($"Container Name: {containerName}");
             Console.WriteLine($"Image Name: {imageName}");
@@ -76,7 +77,7 @@ namespace KubernetesAPP
             //    }
             //};
 
-            var job = await CreateJob(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList, 5);
+            var job = await CreateJob(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList, ttlSecondsAfterFinished);
 
             var jobWatcher = client.BatchV1.ListNamespacedJobWithHttpMessagesAsync(
                 namespaceName,
@@ -93,16 +94,17 @@ namespace KubernetesAPP
                 Console.WriteLine($"Job Name: {item.Metadata.Name}");
                 Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
 
-                if (item.Status.Succeeded == nodeList.Length)
-                {
-                    Console.WriteLine($"All pods reach success state");
-                }
-
                 if (type == WatchEventType.Deleted)
                 {
-                    Console.WriteLine("Job reaches Deleted State. Exit monitoring soon");
+                    Console.WriteLine("Job reaches Deleted State. Exit monitoring now.");
                     break;
+                } 
+                else if (item.Status.Succeeded == nodeList.Length)
+                {
+                    Console.WriteLine($"All pods reach Success state. About to exit in {ttlSecondsAfterFinished} seconds.");
                 }
+
+                Console.WriteLine("----");
             }
         }
 
