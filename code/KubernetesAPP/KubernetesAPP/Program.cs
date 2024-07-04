@@ -78,28 +78,29 @@ namespace KubernetesAPP
 
             var job = await CreateJob(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList, 5);
 
-            //var podWatcher = client.BatchV1.ListNamespacedJobWithHttpMessagesAsync(
-            //    namespaceName,
-            //    labelSelector: $"app={containerName}",
-            //    watch: true);
+            var jobWatcher = client.BatchV1.ListNamespacedJobWithHttpMessagesAsync(
+                namespaceName,
+                labelSelector: $"app={containerName}",
+                watch: true);
 
-            //await foreach (var (type, item) in podWatcher.WatchAsync<V1Pod, V1PodList>(
-            //    onError: e =>
-            //    {
-            //        Console.WriteLine($"Watcher error: {e.Message}");
-            //    }))
-            //{
-            //    Console.WriteLine($"Event Type: {type}");
-            //    Console.WriteLine($"Pod Name: {item.Metadata.Name}");
-            //    Console.WriteLine($"Pod Status: {item.Status.Phase}");
-            //    Console.WriteLine(new string('-', 20));
+            await foreach (var (type, item) in jobWatcher.WatchAsync<V1Job, V1JobList>(
+                onError: e =>
+                {
+                    Console.WriteLine($"Watcher error: {e.Message}");
+                }))
+            {
+                Console.WriteLine($"Event Type: {type}");
+                Console.WriteLine($"Job Name: {item.Metadata.Name}");
+                Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
+                Console.WriteLine($"Job Status Terminating: {item.Status.Terminating}");
+                Console.WriteLine(new string('-', 20));
 
-            //    if (item.Status.Phase == RUNNINGSTATUS)
-            //    {
-            //        Console.WriteLine($"Pod {deploymentName} is running. Exit monitoring.");
-            //        break;
-            //    }
-            //}
+                //if (item.Status.Phase == RUNNINGSTATUS)
+                //{
+                //    Console.WriteLine($"Pod {deploymentName} is running. Exit monitoring.");
+                //    break;
+                //}
+            }
         }
 
         public static async Task<V1Job?> CreateJob(IKubernetes client, string jobName, string containerName, string imageName, 
