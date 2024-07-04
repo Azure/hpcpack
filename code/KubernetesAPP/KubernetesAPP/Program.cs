@@ -6,7 +6,6 @@ namespace KubernetesAPP
 {
     internal class PodList
     {
-        static string RUNNINGSTATUS = "Running";
         private static async Task Main(string[] args)
         {
             //if (args.Length < 6)
@@ -21,7 +20,7 @@ namespace KubernetesAPP
             var namespaceName = "default";
             var command = new[] { "sleep", "5" };
             var arguments = new[] { "" };
-            //var nodeList = new[] {"node3", "node4"};
+            var nodeList = new[] { "node1", "node2" };
             int ttlSecondsAfterFinished = 5;
 
             Console.WriteLine($"deployment Name: {deploymentName}");
@@ -47,12 +46,12 @@ namespace KubernetesAPP
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
             IKubernetes client = new Kubernetes(config);
 
-            var nodes = Environment.GetEnvironmentVariable("CCP_NODES");
-            var nodeList = Util.GetNodeList(nodes);
-            foreach (var item in nodeList)
-            {
-                Console.WriteLine(item);
-            }
+            //var nodes = Environment.GetEnvironmentVariable("CCP_NODES");
+            //var nodeList = Util.GetNodeList(nodes);
+            //foreach (var item in nodeList)
+            //{
+            //    Console.WriteLine(item);
+            //}
 
             //Console.CancelKeyPress += async (sender, e) =>
             //{
