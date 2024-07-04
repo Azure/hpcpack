@@ -21,7 +21,7 @@ namespace KubernetesAPP
             var namespaceName = "default";
             var command = new[] { "sleep", "5" };
             var arguments = new[] { "" };
-            var nodeList = new[] {"node3", "node4"};
+            //var nodeList = new[] {"node3", "node4"};
             int ttlSecondsAfterFinished = 5;
 
             Console.WriteLine($"deployment Name: {deploymentName}");
@@ -48,7 +48,12 @@ namespace KubernetesAPP
             IKubernetes client = new Kubernetes(config);
 
             var nodes = Environment.GetEnvironmentVariable("CCP_NODES");
-            Console.WriteLine($"CCP_NODES: {nodes}");
+            var nodeList = Util.GetNodeList(nodes);
+            foreach (var item in nodeList)
+            {
+                Console.WriteLine(item);
+            }
+
             //Console.CancelKeyPress += async (sender, e) =>
             //{
             //    e.Cancel = true; // Prevent the process from terminating immediately
@@ -96,7 +101,7 @@ namespace KubernetesAPP
 
                 if (type == WatchEventType.Deleted)
                 {
-                    Console.WriteLine("Job reaches Deleted State. Exit monitoring now.");
+                    Console.WriteLine("Job reaches Deleted state. Exit monitoring now.");
                     break;
                 } 
                 else if (item.Status.Succeeded == nodeList.Length)

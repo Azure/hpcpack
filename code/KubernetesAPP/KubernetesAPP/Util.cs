@@ -2,7 +2,7 @@
 {
     public class Util
     {
-        public static string[] SplitStringBySpaces(string input)
+        public static string[] SplitStringBySpaces(string? input)
         {
             if (string.IsNullOrEmpty(input))
             {
@@ -22,6 +22,19 @@
             string[] command = SplitStringBySpaces(args[4]);
             string[] arguments = new[] { args[5] };
             return (podName, containerName, imageName, namespaceName, command, arguments);
+        }
+
+        // input: 2 IAASCN114 4 IAASCN117 4
+        public static string[] GetNodeList(string? ccp_nodes)
+        {
+            string[] splitted = SplitStringBySpaces(ccp_nodes);
+            int length = Int32.TryParse(splitted[0], out length) ? length : 0;
+            string[] nodes = new string[length];
+            for (int i = 0; i < length; i++)
+            {
+                nodes[i] = splitted[2 * i + 1];
+            }
+            return nodes;
         }
     }
 }
