@@ -15,11 +15,11 @@ namespace KubernetesAPP
             //    return;
             //}
             //var (podName, containerName, imageName, namespaceName, command, arguments) = Util.ProcessArgs(args);
-            var deploymentName = "busybox-deployment";
+            var deploymentName = "busybox-job";
             var containerName = "busybox";
             var imageName = "busybox";
             var namespaceName = "default";
-            var command = new[] { "sleep", "3600" };
+            var command = new[] { "sleep", "5" };
             var arguments = new[] { "" };
             var nodeList = new[] {"node3", "node4"};
             
