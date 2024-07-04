@@ -19,7 +19,7 @@ namespace KubernetesAPP
             var containerName = "busybox";
             var imageName = "busybox";
             var namespaceName = "default";
-            var command = new[] { "sleep", "3600" };
+            var command = new[] { "sleep", "5" };
             var arguments = new[] { "" };
             var nodeList = new[] {"node3", "node4"};
             
