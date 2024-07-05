@@ -1,5 +1,4 @@
 ﻿using k8s;
-using k8s.Autorest;
 using k8s.Models;
 
 namespace KubernetesAPP
