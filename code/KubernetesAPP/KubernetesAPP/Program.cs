@@ -14,7 +14,7 @@ namespace KubernetesAPP
             //    return;
             //}
             //var (podName, containerName, imageName, namespaceName, command, arguments) = Util.ProcessArgs(args);
-            var deploymentName = "busybox-job";
+            var jobName = "busybox-job";
             var containerName = "busybox";
             var imageName = "busybox";
             var namespaceName = "default";
@@ -23,7 +23,7 @@ namespace KubernetesAPP
             var nodeList = new[] { "node1", "node2" };
             int ttlSecondsAfterFinished = 5;
 
-            Console.WriteLine($"deployment Name: {deploymentName}");
+            Console.WriteLine($"deployment Name: {jobName}");
             Console.WriteLine($"Container Name: {containerName}");
             Console.WriteLine($"Image Name: {imageName}");
             Console.WriteLine($"Namespace Name: {namespaceName}");
@@ -53,35 +53,35 @@ namespace KubernetesAPP
             //    Console.WriteLine(item);
             //}
 
-            //Console.CancelKeyPress += async (sender, e) =>
-            //{
-            //    e.Cancel = true; // Prevent the process from terminating immediately
-            //    Console.WriteLine("interrupt!!");
+            Console.CancelKeyPress += async (sender, e) =>
+            {
+                e.Cancel = true; // Prevent the process from terminating immediately
+                Console.WriteLine("interrupt!!");
 
-            //    try
-            //    {
-            //        var deployment = await client.AppsV1.ReadNamespacedDeploymentAsync(deploymentName, namespaceName);
-            //        Console.WriteLine($"Deployment '{deploymentName}' found.");
+                try
+                {
+                    var deployment = await client.BatchV1.ReadNamespacedJobAsync(jobName, namespaceName);
+                    Console.WriteLine($"Job '{jobName}' found.");
 
-            //        // Deployment exists, so delete it
-            //        var deleteResult = await client.AppsV1.DeleteNamespacedDeploymentAsync(
-            //            name: deploymentName,
-            //            namespaceParameter: namespaceName
-            //        );
-            //        Console.WriteLine($"Deployment '{deploymentName}' deleted successfully.");
+                    // Deployment exists, so delete it
+                    var deleteResult = await client.BatchV1.DeleteNamespacedJobAsync(
+                        name: jobName,
+                        namespaceParameter: namespaceName
+                    );
+                    Console.WriteLine($"Job '{jobName}' deleted successfully.");
 
-            //    }
-            //    catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
-            //    {
-            //        Console.WriteLine($"Deployment '{deploymentName}' does not exist.");
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Console.WriteLine($"Error: {ex.Message}");
-            //    }
-            //};
+                }
+                catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    Console.WriteLine($"Job '{jobName}' does not exist.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+            };
 
-            var job = await CreateJob(client, deploymentName, containerName, imageName, namespaceName, command, arguments, nodeList, ttlSecondsAfterFinished);
+            var job = await CreateJob(client, jobName, containerName, imageName, namespaceName, command, arguments, nodeList, ttlSecondsAfterFinished);
 
             var jobWatcher = client.BatchV1.ListNamespacedJobWithHttpMessagesAsync(
                 namespaceName,
