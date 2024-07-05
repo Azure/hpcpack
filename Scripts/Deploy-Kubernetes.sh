@@ -104,7 +104,7 @@ echo "${result% }"
 
 # echo "Installing and configuring Kubernetes via kubespray"
 # git clone https://github.com/kubernetes-sigs/kubespray
-# cd kubespray
+cd kubespray
 # # We may customize the version of kubespray here
 # git checkout release-2.24
 # sudo pip3 install -r requirements.txt
