@@ -57,6 +57,11 @@ namespace KubernetesAPP
                 return;
             }
 
+            if (nodeList.Count == 0)
+            {
+                nodeList = ["iaascn127", "iaascn128"];
+            }
+
             Console.CancelKeyPress += async (sender, e) =>
             {
                 e.Cancel = true; // Prevent the process from terminating immediately
