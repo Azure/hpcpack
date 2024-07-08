@@ -19,7 +19,7 @@ namespace KubernetesAPP
             var namespaceName = "default";
             var command = new[] { "sleep", "5" };
             var arguments = new[] { "" };
-            var nodeList = new[] { "iaascn127", "iaascn128" };
+            //var nodeList = new[] { "iaascn127", "iaascn128" };
             int ttlSecondsAfterFinished = 5;
 
             Console.WriteLine($"deployment Name: {jobName}");
@@ -45,12 +45,12 @@ namespace KubernetesAPP
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
             IKubernetes client = new Kubernetes(config);
 
-            //var nodes = Environment.GetEnvironmentVariable("CCP_NODES");
-            //var nodeList = Util.GetNodeList(nodes);
-            //foreach (var item in nodeList)
-            //{
-            //    Console.WriteLine(item);
-            //}
+            var nodes = Environment.GetEnvironmentVariable("CCP_NODES");
+            var nodeList = Util.GetNodeList(nodes);
+            foreach (var item in nodeList)
+            {
+                Console.WriteLine(item);
+            }
 
             Console.CancelKeyPress += async (sender, e) =>
             {
@@ -106,8 +106,6 @@ namespace KubernetesAPP
                 {
                     Console.WriteLine($"All pods reach Success state. About to exit in {ttlSecondsAfterFinished} seconds.");
                 }
-
-                Console.WriteLine("----");
             }
         }
 

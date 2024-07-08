@@ -32,7 +32,7 @@
             string[] nodes = new string[length];
             for (int i = 0; i < length; i++)
             {
-                nodes[i] = splitted[2 * i + 1];
+                nodes[i] = splitted[2 * i + 1].ToLower();
             }
             return nodes;
         }
