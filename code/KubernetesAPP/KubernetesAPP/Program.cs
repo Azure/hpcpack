@@ -53,13 +53,13 @@ namespace KubernetesAPP
 
             if (nodeList.Count == 0)
             {
-                Console.WriteLine("Node list is empty. Exiting...");
-                return;
+                nodeList = ["iaascn127", "iaascn128"];
             }
 
             if (nodeList.Count == 0)
             {
-                nodeList = ["iaascn127", "iaascn128"];
+                Console.WriteLine("Node list is empty. Exiting...");
+                return;
             }
 
             Console.CancelKeyPress += async (sender, e) =>
