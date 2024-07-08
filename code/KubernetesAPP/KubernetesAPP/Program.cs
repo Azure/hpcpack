@@ -7,20 +7,7 @@ namespace KubernetesAPP
     {
         private static async Task Main(string[] args)
         {
-            //if (args.Length < 6)
-            //{
-            //    Console.WriteLine("Usage: <podName> <containerName> <imageName> <namespaceName> <command> <arguments>");
-            //    return;
-            //}
-            var (jobName, containerName, imageName, namespaceName, command, arguments) = Util.ProcessArgs(args);
-            //var jobName = "busybox-job";
-            //var containerName = "busybox";
-            //var imageName = "busybox";
-            //var namespaceName = "default";
-            //var command = new[] { "sleep", "5" };
-            //var arguments = new[] { "" };
-            //var nodeList = new[] { "iaascn127", "iaascn128" };
-            int ttlSecondsAfterFinished = 5;
+            var (jobName, containerName, imageName, namespaceName, ttlSecondsAfterFinished, command, arguments) = Util.ProcessArgs(args);
 
             Console.WriteLine($"Job Name: {jobName}");
             Console.WriteLine($"Container Name: {containerName}");
@@ -44,6 +31,12 @@ namespace KubernetesAPP
             }
             Console.WriteLine("----");
 
+            if (command.Count == 0)
+            {
+                Console.WriteLine("Command is empty. Exiting...");
+                return;
+            }
+
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
             homeDirectory ??= "/home/hpcadmin";
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
@@ -57,6 +50,12 @@ namespace KubernetesAPP
                 Console.WriteLine(item);
             }
             Console.WriteLine("----");
+
+            if (nodeList.Count == 0)
+            {
+                Console.WriteLine("Node list is empty. Exiting...");
+                return;
+            }
 
             Console.CancelKeyPress += async (sender, e) =>
             {
@@ -86,7 +85,7 @@ namespace KubernetesAPP
                 }
             };
 
-            var job = await CreateJob(client, jobName, containerName, imageName, namespaceName, command, arguments, nodeList, ttlSecondsAfterFinished);
+            var job = await CreateJob(client, jobName, containerName, imageName, namespaceName, ttlSecondsAfterFinished, command, arguments, nodeList);
 
             var jobWatcher = client.BatchV1.ListNamespacedJobWithHttpMessagesAsync(
                 namespaceName,
@@ -116,8 +115,29 @@ namespace KubernetesAPP
         }
 
         public static async Task<V1Job?> CreateJob(IKubernetes client, string jobName, string containerName, string imageName, 
-            string namespaceName, List<string> command, List<string> arguments, List<string> nodeList, int ttlSecondsAfterFinished)
+            string namespaceName, int ttlSecondsAfterFinished, List<string> command, List<string> arguments, List<string> nodeList)
         {
+            V1Container? container;
+            if (arguments.Count == 0)
+            {
+                container = new V1Container
+                {
+                    Name = containerName,
+                    Image = imageName,
+                    Command = command
+                };
+            }
+            else
+            {
+               container = new V1Container
+                {
+                    Name = containerName,
+                    Image = imageName,
+                    Command = command,
+                    Args = arguments
+                };
+            }
+
             var job = new V1Job
             {
                 ApiVersion = "batch/v1",
@@ -172,12 +192,7 @@ namespace KubernetesAPP
                             },
                             Containers =
                             [
-                                new V1Container
-                                {
-                                    Name = containerName,
-                                    Image = imageName,
-                                    Command = command
-                                }
+                                container
                             ],
                             RestartPolicy = "Never"
                         }

@@ -13,13 +13,15 @@
             return input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public static (string jobName, string containerName, string imageName, string namespaceName, List<string> command, List<string> argument) ProcessArgs(string[] args)
+        public static (string jobName, string containerName, string imageName, string namespaceName, int ttl,
+            List<string> command, List<string> argument) ProcessArgs(string[] args)
         {
             // Initialize variables to store the parsed arguments
             string jobName = string.Empty;
             string containerName = string.Empty;
             string imageName = string.Empty;
             string namespaceName = string.Empty;
+            int ttl = 0;
             List<string> command = [];
             List<string> argument = [];
 
@@ -56,15 +58,22 @@
                             i++;
                         }
                         break;
+                    case "--ttl":
+                        if (i + 1 < args.Length)
+                        {
+                            int.TryParse(args[i + 1], out ttl);
+                            i++;
+                        }
+                        break;
                     case "--command":
-                        while (i + 1 < args.Length && !args[i + 1].StartsWith("-"))
+                        while (i + 1 < args.Length && !args[i + 1].StartsWith('-'))
                         {
                             command.Add(args[i + 1]);
                             i++;
                         }
                         break;
                     case "--argument":
-                        while (i + 1 < args.Length && !args[i + 1].StartsWith("-"))
+                        while (i + 1 < args.Length && !args[i + 1].StartsWith('-'))
                         {
                             argument.Add(args[i + 1]);
                             i++;
@@ -74,14 +83,18 @@
                 }
             }
 
-            return (jobName, containerName, imageName, namespaceName, command, argument);
+            return (jobName, containerName, imageName, namespaceName, ttl, command, argument);
         }
 
         // input: 2 IAASCN114 4 IAASCN117 4
         public static List<string> GetNodeList(string? ccp_nodes)
         {
             string[] splitted = SplitStringBySpaces(ccp_nodes);
-            int length = Int32.TryParse(splitted[0], out length) ? length : 0;
+            int length = 0;
+            if (splitted.Length != 0)
+            {
+                length = Int32.TryParse(splitted[0], out length) ? length : 0;
+            }
             List<string> nodes = [];
             for (int i = 0; i < length; i++)
             {
