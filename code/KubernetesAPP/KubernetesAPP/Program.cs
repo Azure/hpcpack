@@ -87,10 +87,12 @@ namespace KubernetesAPP
                 }
 
                 var podList = await client.CoreV1.ListNamespacedPodAsync(namespaceName, labelSelector: $"app={containerName}");
+                Console.WriteLine($"Pod list count: {podList.Items.Count}");
                 foreach (var pod in podList.Items)
                 {
                     try
                     {
+                        Console.WriteLine($"Pod: {pod.Metadata.Name}");
                         await client.CoreV1.DeleteNamespacedPodAsync(pod.Metadata.Name, namespaceName, new V1DeleteOptions());
                         Console.WriteLine($"Deleted pod: {pod.Metadata.Name}");
                     }
