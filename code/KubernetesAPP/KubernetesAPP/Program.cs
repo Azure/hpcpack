@@ -17,9 +17,9 @@ namespace KubernetesAPP
             var containerName = "busybox";
             var imageName = "busybox";
             var namespaceName = "default";
-            var command = new[] { "sleep", "3600" };
+            var command = new[] { "sleep", "5" };
             var arguments = new[] { "" };
-            var nodeList = new[] { "node1", "node2" };
+            var nodeList = new[] { "iaascn127", "iaascn128" };
             int ttlSecondsAfterFinished = 5;
 
             Console.WriteLine($"deployment Name: {jobName}");
@@ -59,10 +59,10 @@ namespace KubernetesAPP
 
                 try
                 {
-                    var deployment = await client.BatchV1.ReadNamespacedJobAsync(jobName, namespaceName);
+                    var job = await client.BatchV1.ReadNamespacedJobAsync(jobName, namespaceName);
                     Console.WriteLine($"Job '{jobName}' found.");
-
-                    // Deployment exists, so delete it
+                    
+                    // Job exists, so delete it
                     var deleteResult = await client.BatchV1.DeleteNamespacedJobAsync(
                         name: jobName,
                         namespaceParameter: namespaceName
@@ -154,7 +154,8 @@ namespace KubernetesAPP
                                             {
                                                 MatchExpressions =
                                                 [
-                                                    new() {
+                                                    new()
+                                                    {
                                                         Key = "kubernetes.io/hostname",
                                                         OperatorProperty = "In",
                                                         Values = nodeList
