@@ -12,28 +12,32 @@ namespace KubernetesAPP
             //    Console.WriteLine("Usage: <podName> <containerName> <imageName> <namespaceName> <command> <arguments>");
             //    return;
             //}
-            //var (podName, containerName, imageName, namespaceName, command, arguments) = Util.ProcessArgs(args);
-            var jobName = "busybox-job";
-            var containerName = "busybox";
-            var imageName = "busybox";
-            var namespaceName = "default";
-            var command = new[] { "sleep", "5" };
-            var arguments = new[] { "" };
+            var (jobName, containerName, imageName, namespaceName, command, arguments) = Util.ProcessArgs(args);
+            //var jobName = "busybox-job";
+            //var containerName = "busybox";
+            //var imageName = "busybox";
+            //var namespaceName = "default";
+            //var command = new[] { "sleep", "5" };
+            //var arguments = new[] { "" };
             //var nodeList = new[] { "iaascn127", "iaascn128" };
             int ttlSecondsAfterFinished = 5;
 
-            Console.WriteLine($"deployment Name: {jobName}");
+            Console.WriteLine($"Job Name: {jobName}");
             Console.WriteLine($"Container Name: {containerName}");
             Console.WriteLine($"Image Name: {imageName}");
             Console.WriteLine($"Namespace Name: {namespaceName}");
             Console.WriteLine("----");
 
+            Console.WriteLine("Command: ");
+            Console.WriteLine($"length: {command.Count}");
             foreach (var item in command)
             {
                 Console.WriteLine(item);
             }
             Console.WriteLine("----");
 
+            Console.WriteLine("Arguments: ");
+            Console.WriteLine($"length: {arguments.Count}");
             foreach (var item in arguments)
             {
                 Console.WriteLine(item);
@@ -47,10 +51,12 @@ namespace KubernetesAPP
 
             var nodes = Environment.GetEnvironmentVariable("CCP_NODES");
             var nodeList = Util.GetNodeList(nodes);
+            Console.WriteLine("node list: ");
             foreach (var item in nodeList)
             {
                 Console.WriteLine(item);
             }
+            Console.WriteLine("----");
 
             Console.CancelKeyPress += async (sender, e) =>
             {
@@ -102,7 +108,7 @@ namespace KubernetesAPP
                     Console.WriteLine("Job reaches Deleted state. Exit monitoring now.");
                     break;
                 } 
-                else if (item.Status.Succeeded == nodeList.Length)
+                else if (item.Status.Succeeded == nodeList.Count)
                 {
                     Console.WriteLine($"All pods reach Success state. About to exit in {ttlSecondsAfterFinished} seconds.");
                 }
@@ -110,7 +116,7 @@ namespace KubernetesAPP
         }
 
         public static async Task<V1Job?> CreateJob(IKubernetes client, string jobName, string containerName, string imageName, 
-            string namespaceName, string[] command, string[] arguments, string[] nodeList, int ttlSecondsAfterFinished)
+            string namespaceName, List<string> command, List<string> arguments, List<string> nodeList, int ttlSecondsAfterFinished)
         {
             var job = new V1Job
             {
@@ -126,8 +132,8 @@ namespace KubernetesAPP
                 },
                 Spec = new V1JobSpec
                 {
-                    Completions = nodeList.Length,
-                    Parallelism = nodeList.Length,
+                    Completions = nodeList.Count,
+                    Parallelism = nodeList.Count,
                     TtlSecondsAfterFinished = ttlSecondsAfterFinished,
                     Template = new V1PodTemplateSpec
                     {

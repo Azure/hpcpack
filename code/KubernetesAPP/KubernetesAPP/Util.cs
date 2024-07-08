@@ -13,26 +13,79 @@
             return input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public static (string podName, string containerName, string imageName, string namespaceName, string[] command, string[] arguments) ProcessArgs(string[] args)
+        public static (string jobName, string containerName, string imageName, string namespaceName, List<string> command, List<string> argument) ProcessArgs(string[] args)
         {
-            string podName = args[0];
-            string containerName = args[1];
-            string imageName = args[2];
-            string namespaceName = args[3];
-            string[] command = SplitStringBySpaces(args[4]);
-            string[] arguments = new[] { args[5] };
-            return (podName, containerName, imageName, namespaceName, command, arguments);
+            // Initialize variables to store the parsed arguments
+            string jobName = string.Empty;
+            string containerName = string.Empty;
+            string imageName = string.Empty;
+            string namespaceName = string.Empty;
+            List<string> command = [];
+            List<string> argument = [];
+
+            // Parse the command-line arguments
+            for (int i = 0; i < args.Length; i++)
+            {
+                switch (args[i])
+                {
+                    case "--job":
+                        if (i + 1 < args.Length)
+                        {
+                            jobName = args[i + 1];
+                            i++;
+                        }
+                        break;
+                    case "--container":
+                        if (i + 1 < args.Length)
+                        {
+                            containerName = args[i + 1];
+                            i++;
+                        }
+                        break;
+                    case "--image":
+                        if (i + 1 < args.Length)
+                        {
+                            imageName = args[i + 1];
+                            i++;
+                        }
+                        break;
+                    case "--namespace":
+                        if (i + 1 < args.Length)
+                        {
+                            namespaceName = args[i + 1];
+                            i++;
+                        }
+                        break;
+                    case "--command":
+                        while (i + 1 < args.Length && !args[i + 1].StartsWith("-"))
+                        {
+                            command.Add(args[i + 1]);
+                            i++;
+                        }
+                        break;
+                    case "--argument":
+                        while (i + 1 < args.Length && !args[i + 1].StartsWith("-"))
+                        {
+                            argument.Add(args[i + 1]);
+                            i++;
+                        }
+                        break;
+
+                }
+            }
+
+            return (jobName, containerName, imageName, namespaceName, command, argument);
         }
 
         // input: 2 IAASCN114 4 IAASCN117 4
-        public static string[] GetNodeList(string? ccp_nodes)
+        public static List<string> GetNodeList(string? ccp_nodes)
         {
             string[] splitted = SplitStringBySpaces(ccp_nodes);
             int length = Int32.TryParse(splitted[0], out length) ? length : 0;
-            string[] nodes = new string[length];
+            List<string> nodes = [];
             for (int i = 0; i < length; i++)
             {
-                nodes[i] = splitted[2 * i + 1].ToLower();
+                nodes.Add(splitted[2 * i + 1].ToLower());
             }
             return nodes;
         }
