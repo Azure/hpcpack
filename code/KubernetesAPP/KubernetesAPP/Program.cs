@@ -74,7 +74,7 @@ namespace KubernetesAPP
                     
                     // Job exists, so delete it
                     var deleteResult = await client.BatchV1.DeleteNamespacedJobAsync(
-                        name: jobName,
+                        name: "dddd",
                         namespaceParameter: namespaceName
                     );
                     Console.WriteLine($"Job '{jobName}' deleted successfully.");
