@@ -120,18 +120,19 @@ namespace KubernetesAPP
                     Console.WriteLine($"Watcher error: {e.Message}");
                 }))
             {
-                //Console.WriteLine($"Event Type: {type}");
-                //Console.WriteLine($"Job Name: {item.Metadata.Name}");
-                //Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
+                Console.WriteLine($"Event Type: {type}");
+                Console.WriteLine($"Job Name: {item.Metadata.Name}");
+                Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
 
-                if (type == WatchEventType.Deleted)
-                {
-                    Console.WriteLine("Job reaches Deleted state. Exit monitoring now.");
-                    break;
-                } 
-                else if (item.Status.Succeeded == nodeList.Count)
+                if (item.Status.Succeeded == nodeList.Count)
                 {
                     Console.WriteLine($"All pods reach Success state. About to exit in {ttlSecondsAfterFinished} seconds.");
+
+                    if (type == WatchEventType.Deleted)
+                    {
+                        Console.WriteLine("Job reaches Deleted state. Exit monitoring now.");
+                        break;
+                    }
                 }
             }
         }
