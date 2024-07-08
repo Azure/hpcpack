@@ -67,13 +67,13 @@ if [ -z "$password" ]; then
     echo
 fi
 
-# install_package
+install_package
 
 IPS=()
 result=""
 
 # Loop through each IP address and copy SSH key
-# Only lowercase-string is valid for Kubernetes nodes
+# Kubernetes nodes must be in lowercase
 for hostname in "$@"
 do
     # Resolve the hostname to IP address and append to the array
@@ -84,49 +84,49 @@ do
 done
 echo "${result% }"
 
-# echo "Generating ssh key and copying to all nodes"
-# sudo apt install sshpass -y
+echo "Generating ssh key and copying to all nodes"
+sudo apt install sshpass -y
 
-# rm -f ~/.ssh/kube_key*
-# ssh-keygen -t rsa -N "" -f ~/.ssh/kube_key
+rm -f ~/.ssh/kube_key*
+ssh-keygen -t rsa -N "" -f ~/.ssh/kube_key
 
-# for ip in "${IPS[@]}";
-# do
-#     echo "Copying SSH key to $ip..."
-#     # Copy SSH key to the IP address
-#     sshpass -p $password ssh-copy-id -i ~/.ssh/kube_key.pub -o StrictHostKeyChecking=no $ip
-#     if [ $? -eq 0 ]; then
-#         echo "SSH key copied successfully to $ip."
-#     else
-#         echo "Failed to copy SSH key to $ip. Please check the password or connectivity."
-#     fi
-# done
+for ip in "${IPS[@]}";
+do
+    echo "Copying SSH key to $ip..."
+    # Copy SSH key to the IP address
+    sshpass -p $password ssh-copy-id -i ~/.ssh/kube_key.pub -o StrictHostKeyChecking=no $ip
+    if [ $? -eq 0 ]; then
+        echo "SSH key copied successfully to $ip."
+    else
+        echo "Failed to copy SSH key to $ip. Please check the password or connectivity."
+    fi
+done
 
-# echo "------------------------------------------"
-# echo "Installing and disabling firewalld"
-# sudo apt install firewalld -y
-# sudo systemctl disable --now firewalld
+echo "------------------------------------------"
+echo "Installing and disabling firewalld"
+sudo apt install firewalld -y
+sudo systemctl disable --now firewalld
 
-# echo "Installing and configuring Kubernetes via kubespray"
-# git clone https://github.com/kubernetes-sigs/kubespray
-# cd kubespray
-# # We may customize the version of kubespray here
-# git checkout release-2.24
-# sudo pip3 install -r requirements.txt
-# echo "------------------------------------------"
-# cp -rfp inventory/sample inventory/mycluster
-# CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${result% }
+echo "Installing and configuring Kubernetes via kubespray"
+git clone https://github.com/kubernetes-sigs/kubespray
+cd kubespray
+# We may customize the version of kubespray here
+git checkout release-2.24
+sudo pip3 install -r requirements.txt
+echo "------------------------------------------"
+cp -rfp inventory/sample inventory/mycluster
+CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${result% }
 
-# echo "------------------------------------------"
-# ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root reset.yml --extra-vars reset_confirmation=yes --private-key=~/.ssh/kube_key
-# echo "------------------------------------------"
-# ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root cluster.yml --private-key=~/.ssh/kube_key
-# echo "------------------------------------------"
-# mkdir -p $HOME/.kube
-# sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-# sudo chown $(id -u):$(id -g) $HOME/.kube/config
+echo "------------------------------------------"
+ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root reset.yml --extra-vars reset_confirmation=yes --private-key=~/.ssh/kube_key
+echo "------------------------------------------"
+ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root cluster.yml --private-key=~/.ssh/kube_key
+echo "------------------------------------------"
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-# kubectl version
+kubectl version
 
 # Install Kubectl and .net8 sdk on other nodes
 ip_length=${#IPS[@]}
