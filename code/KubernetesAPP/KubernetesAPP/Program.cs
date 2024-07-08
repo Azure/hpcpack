@@ -105,6 +105,8 @@ namespace KubernetesAPP
                         Console.WriteLine($"Error: {ex.Message}");
                     }
                 }
+
+                return;
             };
 
             var job = await CreateJob(client, jobName, containerName, imageName, namespaceName, ttlSecondsAfterFinished, command, arguments, nodeList);
@@ -120,9 +122,9 @@ namespace KubernetesAPP
                     Console.WriteLine($"Watcher error: {e.Message}");
                 }))
             {
-                Console.WriteLine($"Event Type: {type}");
-                Console.WriteLine($"Job Name: {item.Metadata.Name}");
-                Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
+                //Console.WriteLine($"Event Type: {type}");
+                //Console.WriteLine($"Job Name: {item.Metadata.Name}");
+                //Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
 
                 if (item.Status.Succeeded == nodeList.Count)
                 {
