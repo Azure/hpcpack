@@ -93,9 +93,9 @@ namespace KubernetesAPP
                     Console.WriteLine($"Watcher error: {e.Message}");
                 }))
             {
-                Console.WriteLine($"Event Type: {type}");
-                Console.WriteLine($"Job Name: {item.Metadata.Name}");
-                Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
+                //Console.WriteLine($"Event Type: {type}");
+                //Console.WriteLine($"Job Name: {item.Metadata.Name}");
+                //Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
 
                 if (type == WatchEventType.Deleted)
                 {
