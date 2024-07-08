@@ -106,7 +106,7 @@ namespace KubernetesAPP
                     }
                 }
 
-                return;
+                Environment.Exit(0);
             };
 
             var job = await CreateJob(client, jobName, containerName, imageName, namespaceName, ttlSecondsAfterFinished, command, arguments, nodeList);
