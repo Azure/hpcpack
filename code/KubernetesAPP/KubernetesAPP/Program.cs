@@ -73,10 +73,7 @@ namespace KubernetesAPP
                     Console.WriteLine($"Job '{jobName}' found.");
                     
                     // Job exists, so delete it
-                    var deleteResult = await client.BatchV1.DeleteNamespacedJobAsync(
-                        name: "dddd",
-                        namespaceParameter: namespaceName
-                    );
+                    await client.BatchV1.DeleteNamespacedJobAsync(name: jobName, namespaceParameter: namespaceName);
                     Console.WriteLine($"Job '{jobName}' deleted successfully.");
 
                 }
@@ -87,6 +84,24 @@ namespace KubernetesAPP
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error: {ex.Message}");
+                }
+
+                var podList = await client.CoreV1.ListNamespacedPodAsync(namespaceName, labelSelector: $"app={containerName}");
+                foreach (var pod in podList.Items)
+                {
+                    try
+                    {
+                        await client.CoreV1.DeleteNamespacedPodAsync(pod.Metadata.Name, namespaceName, new V1DeleteOptions());
+                        Console.WriteLine($"Deleted pod: {pod.Metadata.Name}");
+                    }
+                    catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        Console.WriteLine($"Pod '{pod.Metadata.Name}' does not exist.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error: {ex.Message}");
+                    }
                 }
             };
 
