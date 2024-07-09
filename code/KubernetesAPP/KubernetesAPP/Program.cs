@@ -62,6 +62,9 @@ namespace KubernetesAPP
                 return;
             }
 
+            CancellationTokenSource source = new();
+            CancellationToken token = source.Token;
+
             Console.CancelKeyPress += async (sender, e) =>
             {
                 e.Cancel = true; // Prevent the process from terminating immediately
@@ -106,7 +109,8 @@ namespace KubernetesAPP
                     }
                 }
 
-                Environment.Exit(0);
+                //Environment.Exit(0);
+                source.Cancel();
             };
 
             var job = await CreateJob(client, jobName, containerName, imageName, namespaceName, ttlSecondsAfterFinished, command, arguments, nodeList);
@@ -120,7 +124,8 @@ namespace KubernetesAPP
                 onError: e =>
                 {
                     Console.WriteLine($"Watcher error: {e.Message}");
-                }))
+                },
+                cancellationToken: token))
             {
                 Console.WriteLine($"Event Type: {type}");
                 Console.WriteLine($"Job Name: {item.Metadata.Name}");
