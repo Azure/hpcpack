@@ -109,44 +109,53 @@ namespace KubernetesAPP
                     }
                 }
 
-                //Environment.Exit(0);
                 source.Cancel();
             };
 
-            var job = await CreateJob(client, jobName, containerName, imageName, namespaceName, ttlSecondsAfterFinished, command, arguments, nodeList);
-
-            var jobWatcher = client.BatchV1.ListNamespacedJobWithHttpMessagesAsync(
-                namespaceName,
-                labelSelector: $"app={containerName}",
-                watch: true);
-
-            await foreach (var (type, item) in jobWatcher.WatchAsync<V1Job, V1JobList>(
-                onError: e =>
-                {
-                    Console.WriteLine($"Watcher error: {e.Message}");
-                },
-                cancellationToken: token))
+            try
             {
-                Console.WriteLine($"Event Type: {type}");
-                Console.WriteLine($"Job Name: {item.Metadata.Name}");
-                Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
+                await CreateJob(client, jobName, containerName, imageName, namespaceName, 
+                    ttlSecondsAfterFinished, command, arguments, nodeList, token);
 
-                if (item.Status.Succeeded == nodeList.Count)
-                {
-                    Console.WriteLine($"All pods reach Success state. About to exit in {ttlSecondsAfterFinished} seconds.");
+                var jobWatcher = client.BatchV1.ListNamespacedJobWithHttpMessagesAsync(
+                    namespaceName,
+                    labelSelector: $"app={containerName}",
+                    watch: true,
+                    cancellationToken: token);
 
-                    if (type == WatchEventType.Deleted)
+                await foreach (var (type, item) in jobWatcher.WatchAsync<V1Job, V1JobList>(
+                    onError: e =>
                     {
-                        Console.WriteLine("Job reaches Deleted state. Exit monitoring now.");
-                        break;
+                        Console.WriteLine($"Watcher error: {e.Message}");
+                    },
+                    cancellationToken: token))
+                {
+                    Console.WriteLine($"Event Type: {type}");
+                    Console.WriteLine($"Job Name: {item.Metadata.Name}");
+                    Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
+
+                    if (item.Status.Succeeded == nodeList.Count)
+                    {
+                        Console.WriteLine($"All pods reach Success state. About to exit in {ttlSecondsAfterFinished} seconds.");
+
+                        if (type == WatchEventType.Deleted)
+                        {
+                            Console.WriteLine("Job reaches Deleted state. Exit monitoring now.");
+                            break;
+                        }
                     }
+                    Console.WriteLine("----");
                 }
-                Console.WriteLine("----");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine($"Stop watching. Task was canceled: {ex.Message}");
             }
         }
 
         public static async Task<V1Job?> CreateJob(IKubernetes client, string jobName, string containerName, string imageName, 
-            string namespaceName, int ttlSecondsAfterFinished, List<string> command, List<string> arguments, List<string> nodeList)
+            string namespaceName, int ttlSecondsAfterFinished, List<string> command, List<string> arguments, List<string> nodeList,
+            CancellationToken token)
         {
             V1Container? container;
             if (arguments.Count == 0)
@@ -230,13 +239,16 @@ namespace KubernetesAPP
                     }
                 }
             };
-            CancellationTokenSource source = new();
-            source.Cancel();
+
             V1Job? result = null;
             try
             {
-                result = await client.BatchV1.CreateNamespacedJobAsync(job, namespaceName, cancellationToken: source.Token);
+                result = await client.BatchV1.CreateNamespacedJobAsync(job, namespaceName, cancellationToken: token);
                 Console.WriteLine($"Job '{jobName}' created successfully.");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine($"Job will not be created. Task was canceled: {ex.Message}");
             }
             catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
