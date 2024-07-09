@@ -13,7 +13,7 @@ namespace KubernetesAPP
             Console.WriteLine($"Container Name: {containerName}");
             Console.WriteLine($"Image Name: {imageName}");
             Console.WriteLine($"Namespace Name: {namespaceName}");
-            Console.WriteLine("----");
+            Console.WriteLine("---------");
 
             Console.WriteLine("Command: ");
             Console.WriteLine($"length: {command.Count}");
@@ -21,7 +21,7 @@ namespace KubernetesAPP
             {
                 Console.WriteLine(item);
             }
-            Console.WriteLine("----");
+            Console.WriteLine("---------");
 
             Console.WriteLine("Arguments: ");
             Console.WriteLine($"length: {arguments.Count}");
@@ -29,7 +29,7 @@ namespace KubernetesAPP
             {
                 Console.WriteLine(item);
             }
-            Console.WriteLine("----");
+            Console.WriteLine("---------");
 
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
             homeDirectory ??= "/home/hpcadmin";
@@ -43,7 +43,7 @@ namespace KubernetesAPP
             {
                 Console.WriteLine(item);
             }
-            Console.WriteLine("----");
+            Console.WriteLine("---------");
 
             if (nodeList.Count == 0)
             {
@@ -138,7 +138,7 @@ namespace KubernetesAPP
                             break;
                         }
                     }
-                    //Console.WriteLine("----");
+                    //Console.WriteLine("---------");
                 }
             }
             catch (TaskCanceledException ex)
