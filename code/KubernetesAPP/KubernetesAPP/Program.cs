@@ -230,11 +230,12 @@ namespace KubernetesAPP
                     }
                 }
             };
-
+            CancellationTokenSource source = new();
+            source.Cancel();
             V1Job? result = null;
             try
             {
-                result = await client.BatchV1.CreateNamespacedJobAsync(job, namespaceName);
+                result = await client.BatchV1.CreateNamespacedJobAsync(job, namespaceName, cancellationToken: source.Token);
                 Console.WriteLine($"Job '{jobName}' created successfully.");
             }
             catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.Conflict)
