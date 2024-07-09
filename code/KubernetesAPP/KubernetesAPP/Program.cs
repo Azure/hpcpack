@@ -31,12 +31,6 @@ namespace KubernetesAPP
             }
             Console.WriteLine("----");
 
-            if (command.Count == 0)
-            {
-                Console.WriteLine("Command is empty. Exiting...");
-                return;
-            }
-
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
             homeDirectory ??= "/home/hpcadmin";
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
