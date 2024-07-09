@@ -130,9 +130,9 @@ namespace KubernetesAPP
                     },
                     cancellationToken: token))
                 {
-                    Console.WriteLine($"Event Type: {type}");
-                    Console.WriteLine($"Job Name: {item.Metadata.Name}");
-                    Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
+                    //Console.WriteLine($"Event Type: {type}");
+                    //Console.WriteLine($"Job Name: {item.Metadata.Name}");
+                    //Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
 
                     if (item.Status.Succeeded == nodeList.Count)
                     {
@@ -144,7 +144,7 @@ namespace KubernetesAPP
                             break;
                         }
                     }
-                    Console.WriteLine("----");
+                    //Console.WriteLine("----");
                 }
             }
             catch (TaskCanceledException ex)
@@ -157,25 +157,20 @@ namespace KubernetesAPP
             string namespaceName, int ttlSecondsAfterFinished, List<string> command, List<string> arguments, List<string> nodeList,
             CancellationToken token)
         {
-            V1Container? container;
-            if (arguments.Count == 0)
+            V1Container? container = new()
             {
-                container = new V1Container
-                {
-                    Name = containerName,
-                    Image = imageName,
-                    Command = command
-                };
+                Name = containerName,
+                Image = imageName,
+            };
+
+            if (command.Count != 0)
+            {
+                container.Command = command;
             }
-            else
+
+            if (arguments.Count != 0)
             {
-               container = new V1Container
-                {
-                    Name = containerName,
-                    Image = imageName,
-                    Command = command,
-                    Args = arguments
-                };
+                container.Args = arguments;
             }
 
             var job = new V1Job

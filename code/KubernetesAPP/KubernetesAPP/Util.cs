@@ -66,14 +66,14 @@
                         }
                         break;
                     case "--command":
-                        while (i + 1 < args.Length && !args[i + 1].StartsWith('-'))
+                        while (i + 1 < args.Length && args[i + 1] != "--argument")
                         {
                             command.Add(args[i + 1]);
                             i++;
                         }
                         break;
                     case "--argument":
-                        while (i + 1 < args.Length && !args[i + 1].StartsWith('-'))
+                        while (i + 1 < args.Length && args[i + 1] != "--command")
                         {
                             argument.Add(args[i + 1]);
                             i++;
