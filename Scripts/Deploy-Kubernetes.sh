@@ -67,7 +67,7 @@ if [ -z "$password" ]; then
     echo
 fi
 
-# install_package
+install_package
 
 IPS=()
 result=""
@@ -84,75 +84,69 @@ do
 done
 echo "${result% }"
 
-# echo "Generating ssh key and copying to all nodes"
-# sudo apt install sshpass -y
+echo "Generating ssh key and copying to all nodes"
+sudo apt install sshpass -y
 
-# rm -f ~/.ssh/kube_key*
-# ssh-keygen -t rsa -N "" -f ~/.ssh/kube_key
+rm -f ~/.ssh/kube_key*
+ssh-keygen -t rsa -N "" -f ~/.ssh/kube_key
 
-# for ip in "${IPS[@]}";
-# do
-#     echo "Copying SSH key to $ip..."
-#     # Copy SSH key to the IP address
-#     sshpass -p $password ssh-copy-id -i ~/.ssh/kube_key.pub -o StrictHostKeyChecking=no $ip
-#     if [ $? -eq 0 ]; then
-#         echo "SSH key copied successfully to $ip."
-#     else
-#         echo "Failed to copy SSH key to $ip. Please check the password or connectivity."
-#     fi
-# done
+for ip in "${IPS[@]}";
+do
+    echo "Copying SSH key to $ip..."
+    # Copy SSH key to the IP address
+    sshpass -p $password ssh-copy-id -i ~/.ssh/kube_key.pub -o StrictHostKeyChecking=no $ip
+    if [ $? -eq 0 ]; then
+        echo "SSH key copied successfully to $ip."
+    else
+        echo "Failed to copy SSH key to $ip. Please check the password or connectivity."
+    fi
+done
 
-# echo "------------------------------------------"
-# echo "Installing and disabling firewalld"
-# sudo apt install firewalld -y
-# sudo systemctl disable --now firewalld
+echo "------------------------------------------"
+echo "Installing and disabling firewalld"
+sudo apt install firewalld -y
+sudo systemctl disable --now firewalld
 
-# echo "Installing and configuring Kubernetes via kubespray"
-# git clone https://github.com/kubernetes-sigs/kubespray
-# cd kubespray
-# # We may customize the version of kubespray here
-# git checkout release-2.24
-# sudo pip3 install -r requirements.txt
-# echo "------------------------------------------"
-# cp -rfp inventory/sample inventory/mycluster
-# CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${result% }
+echo "Installing and configuring Kubernetes via kubespray"
+git clone https://github.com/kubernetes-sigs/kubespray
+cd kubespray
+# We may customize the version of kubespray here
+git checkout release-2.24
+sudo pip3 install -r requirements.txt
+echo "------------------------------------------"
+cp -rfp inventory/sample inventory/mycluster
+CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${result% }
 
-# echo "------------------------------------------"
-# ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root reset.yml --extra-vars reset_confirmation=yes --private-key=~/.ssh/kube_key
-# echo "------------------------------------------"
-# ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root cluster.yml --private-key=~/.ssh/kube_key
-# echo "------------------------------------------"
-# mkdir -p $HOME/.kube
-# sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-# sudo chown $(id -u):$(id -g) $HOME/.kube/config
+echo "------------------------------------------"
+ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root reset.yml --extra-vars reset_confirmation=yes --private-key=~/.ssh/kube_key
+echo "------------------------------------------"
+ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root cluster.yml --private-key=~/.ssh/kube_key
+echo "------------------------------------------"
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-# kubectl version
+kubectl version
 
 dotnet build hpcpack/code/KubernetesAPP/KubernetesAPP.sln
 
 # Install Kubectl, .net8 sdk, KubernetesAPP on other nodes
-# ip_length=${#IPS[@]}
-# for ((i=1; i<ip_length; i++))
-# do
-#     # Install Kubectl
-#     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'mkdir .kube'
-#     sshpass -p $password scp ~/.kube/config hpcadmin@${IPS[$i]}:~/.kube
-#     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'curl -LO "https://dl.k8s.io/release/v1.28.10/bin/linux/amd64/kubectl"'
-#     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl'
-#     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'kubectl version'
-
-#     # Install .net8 sdk
-#     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb'
-#     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo dpkg -i packages-microsoft-prod.deb'
-#     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'rm packages-microsoft-prod.deb'
-#     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0'
-
-#     # Install KubernetesAPP
-#     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'git clone https://github.com/Azure/hpcpack.git && cd hpcpack && git checkout tianyiliu/deploy-Kubernetes-script && dotnet build code/KubernetesAPP/KubernetesAPP.sln'
-# done
-
 ip_length=${#IPS[@]}
 for ((i=1; i<ip_length; i++))
 do
+    # Install Kubectl
+    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'mkdir .kube'
+    sshpass -p $password scp ~/.kube/config hpcadmin@${IPS[$i]}:~/.kube
+    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'curl -LO "https://dl.k8s.io/release/v1.28.10/bin/linux/amd64/kubectl"'
+    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl'
+    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'kubectl version'
+
+    # Install .net8 sdk
+    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb'
+    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo dpkg -i packages-microsoft-prod.deb'
+    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'rm packages-microsoft-prod.deb'
+    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0'
+
+    # Install KubernetesAPP
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'git clone https://github.com/Azure/hpcpack.git && cd hpcpack && git checkout tianyiliu/deploy-Kubernetes-script && dotnet build code/KubernetesAPP/KubernetesAPP.sln'
 done
