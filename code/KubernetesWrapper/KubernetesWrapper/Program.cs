@@ -1,7 +1,7 @@
 ﻿using k8s;
 using k8s.Models;
 
-namespace KubernetesAPP
+namespace KubernetesWrapper
 {
     internal class PodList
     {

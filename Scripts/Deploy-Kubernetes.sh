@@ -128,9 +128,9 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 kubectl version
 
-dotnet build hpcpack/code/KubernetesAPP/KubernetesAPP.sln
+dotnet build hpcpack/code/KubernetesWrapper/KubernetesWrapper.sln
 
-# Install Kubectl, .net8 sdk, KubernetesAPP on other nodes
+# Install Kubectl, .net8 sdk, KubernetesWrapper on other nodes
 ip_length=${#IPS[@]}
 for ((i=1; i<ip_length; i++))
 do
@@ -148,5 +148,5 @@ do
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0'
 
     # Install KubernetesAPP
-    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'git clone https://github.com/Azure/hpcpack.git && cd hpcpack && git checkout tianyiliu/deploy-Kubernetes-script && dotnet build code/KubernetesAPP/KubernetesAPP.sln'
+    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'git clone https://github.com/Azure/hpcpack.git && cd hpcpack && git checkout tianyiliu/deploy-Kubernetes-script && dotnet build code/KubernetesWrapper/KubernetesWrapper.sln'
 done

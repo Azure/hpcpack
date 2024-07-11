@@ -1,4 +1,4 @@
-﻿namespace KubernetesAPP
+﻿namespace KubernetesWrapper
 {
     public class Util
     {
