@@ -45,10 +45,10 @@ namespace KubernetesWrapper
             }
             Console.WriteLine("---------");
 
-            //if (nodeList.Count == 0)
-            //{
-            //    nodeList = ["iaascn168", "iaascn169"];
-            //}
+            if (nodeList.Count == 0)
+            {
+                nodeList = ["iaascn172", "iaascn173"];
+            }
 
             if (nodeList.Count == 0)
             {
