@@ -128,7 +128,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 kubectl version
 
-dotnet build hpcpack/code/KubernetesWrapper/KubernetesWrapper.sln
+dotnet build ~/hpcpack/code/KubernetesWrapper/KubernetesWrapper.sln
 
 # Install Kubectl, .net8 sdk, KubernetesWrapper on other nodes
 ip_length=${#IPS[@]}
