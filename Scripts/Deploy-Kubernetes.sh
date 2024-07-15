@@ -142,11 +142,11 @@ do
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'kubectl version'
 
     # Install .net8 sdk
-    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb'
-    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo dpkg -i packages-microsoft-prod.deb'
-    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'rm packages-microsoft-prod.deb'
-    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0'
+    # sshpass -p $password ssh hpcadmin@${IPS[$i]} 'wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb'
+    # sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo dpkg -i packages-microsoft-prod.deb'
+    # sshpass -p $password ssh hpcadmin@${IPS[$i]} 'rm packages-microsoft-prod.deb'
+    # sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0'
 
     # Install KubernetesAPP
-    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'git clone https://github.com/Azure/hpcpack.git && cd hpcpack && git checkout tianyiliu/deploy-Kubernetes-script && dotnet build code/KubernetesWrapper/KubernetesWrapper.sln'
+    # sshpass -p $password ssh hpcadmin@${IPS[$i]} 'git clone https://github.com/Azure/hpcpack.git && cd hpcpack && git checkout tianyiliu/deploy-Kubernetes-script && dotnet build code/KubernetesWrapper/KubernetesWrapper.sln'
 done
