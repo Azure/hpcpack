@@ -2,10 +2,61 @@
 
 # HPC Pack 2019
 ## [HPC Pack .Net SDK (6.3.8187-beta) - 6/30/2024](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8187-beta)
-* Supported SDK logging
-* Supported Linux clients
-* Supported WCF certificate subject name and certificate name checks
-* Fixed the client crash due to WCF AsyncCallBack duplicate completion
+* Supported SDK Logging
+   
+To enable logging in new SDK, you need to create the `appsettings.json` in project and add the following settings in `csproj` file:  
+   
+```xml  
+<ItemGroup>  
+    <Content Include="appsettings.json">  
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>  
+    </Content>  
+</ItemGroup>  
+```  
+   
+The new SDK uses Serilog as a logging tool. You can refer to the details in [serilog/serilog-settings-configuration](https://github.com/serilog/serilog-settings-configuration): A Serilog configuration provider that reads from Microsoft.Extensions.Configuration (github.com).  
+   
+Here's a simple `appsettings.json` configuration. (The project needs to install the corresponding package: `Serilog.Sinks.Console` and `Serilog.Sinks.File`)  
+   
+```json  
+{  
+    "Serilog": {  
+        "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],  
+        "MinimumLevel": "Debug",  
+        "WriteTo": [  
+            { "Name": "Console" },  
+            {  
+                "Name": "File",  
+                "Args": { "path": "D:/Logs/log.txt" }  
+            }  
+        ]  
+    }  
+}  
+```  
+   
+If you want to use other logging tools or customize your own logger, you can use `Microsoft.Hpc.Scheduler.Store.TraceHelper.Configure(Microsoft.Extensions.Logging.ILogger log)` Method, which will replace the default `ILogger` and output in the rules you defined.
+  
+* Supported Linux Clients  
+   
+You can now develop C# client applications on .NET 6/7/8 running on Linux machines that connect to HPC Pack clusters. Note that you need to specify the `CCP_USERNAME` and `CCP_PASSWORD` environment variables when submitting jobs. Additionally, there are optional configuration files (`/etc/hpcpack/config.json` for root configuration and `~/.hpcpack.json` for user configuration) that correspond to the registry settings on Windows machines, such as `ClusterConnectionString` and `CertificateValidationType`. These settings can also be specified in environment variables with the `CCP_CONFIG_` prefix, for example, `CCP_CONFIG_ClusterConnectionString` and `CCP_CONFIG_CertificateValidationType`. The environment variables will override the values in the user and root configuration files.  
+   
+* Supported WCF Certificate Subject Name and Certificate Name Checks  
+   
+On Windows machines, import the following registry to bypass the CN check, or set the value to `0` to bypass both CN and CA checks.  
+   
+```reg  
+Windows Registry Editor Version 5.00  
+   
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\HPC]  
+"CertificateValidationType"=dword:00000001  
+```  
+   
+On Linux machines, set `CertificateValidationType` in the `/etc/hpcpack/config.json` or `~/.hpcpack.json` file, or set the environment variable `CCP_CONFIG_CertificateValidationType`.  
+   
+* Fixed the client crash caused by WCF AsyncCallBack duplicate completion.
+
+
+
 
 ## [HPC Pack .Net SDK (6.3.8025-beta) - 3/8/2024](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8025-beta)
 * Fixed scheduler connection leak
