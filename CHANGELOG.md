@@ -82,19 +82,19 @@ On Linux machines, set `CertificateValidationType` in the `/etc/hpcpack/config.j
 	- Resolved long-running task failure during head node failover
 	- Reduced recovery time for highly available head nodes
 	- Fixed unreachable nodes issue due to heartbeat hang when head nodes fail over
-	- Added support for HPC_CREATESESSION, allowing tasks to run in a user session without RDP to compute nodes beforehand** - Users may specify job environment HPC_CREATESESSION equals True so the job will run under a user session if exists or it would create the user session and run job in it
+	- Added support for HPC_CREATESESSION, allowing tasks to run in a user session without RDP to compute nodes beforehand - Users may specify job environment HPC_CREATESESSION equals True so the job will run under a user session if exists or it would create the user session and run job in it
 	- Fixed utilization over 100% issue caused by null task allocation end time
 	- Corrected cluster metric counters with highly available head nodes
 	- Addressed an issue that job may get stuck when DB transaction timed out but actually succeeded
 	- Fixed an issue that job may fail to shrink resource when it has task dependencies
 	- Resolved regression preventing IP address usage as the scheduler name
 	- Fixed an issue that node could be stuck in draining state due to a divide by zero error when removing the node
-	- Introduced support for single node tasks** - To enable this feature,
+	- Introduced support for single node tasks - To enable this feature,
       - Set the scheduler feature flag and restart HpcScheduler service on all head nodes: 
         Set-HpcClusterProperty -SchedulerEnvFeatureFlags 'TASK_ON_SINGLE_NODE'
       - Set job environment. E.g. 
         job submit /numcores:5-5 /jobenv:CCP_TASK_ON_SINGLE_NODE=True hostname
-	- Introduced support min and max cores for job and task on a node** - To enable this feature,
+	- Introduced support min and max cores for job and task on a node - To enable this feature,
       - Set the scheduler feature flag and restart HpcScheduler service on all head nodes
         Set-HpcClusterProperty -SchedulerEnvFeatureFlags 'MIN_MAX_ON_NODE'
       - Set job and task environment.	E.g.
@@ -102,7 +102,7 @@ On Linux machines, set `CertificateValidationType` in the `/etc/hpcpack/config.j
         job add !! /numcores:4-4 /env:CCP_TASK_MIN_MAX_ON_NODE=2-2 hostname
   - Extended job activation and submission filter timeouts from 3 to 10 minutes
   - Increased maximum project name length from 80 to 128 characters
-  - Improved speed for job task dependency validation**
+  - Improved speed for job task dependency validation
 
 * Setup and Management
 
@@ -114,19 +114,19 @@ On Linux machines, set `CertificateValidationType` in the `/etc/hpcpack/config.j
 	- Addressed large IaaS VM deployment issue by partitioning Start/Stop operations into multiple changes
 	- Set DB recovery mode to Simple for HPCHAWitness and HPCHAStorage databases to reduce DB size
 	- Enabled integrated Windows authentication for SQL server in cases where domain user check failed
-	- Added support for more recent Linux distributions**
+	- Added support for more recent Linux distributions
 
 * SOA Runtime and Excel
 
 	- Fixed slow Excel job execution due to leftover auto recovery files
-	- Resolved SOA broker worker crash caused by unhandled exception in rare conditions**
+	- Resolved SOA broker worker crash caused by unhandled exception in rare conditions
 
 * UI & SDK
 
 	- Fixed task environment variable cleanup issue when copying jobs from GUI
 	- Resolved GUI hang issue caused by excessive project names
 	- Fixed UI crash due to service-side NullReferenceException
-	- Added waitState parameter for scheduler job/task submit API to enable fast submission**
+	- Added waitState parameter for scheduler job/task submit API to enable fast submission
 
 ## [HPC Pack 2019 Update 1 (6.1.7531) - 1/22/2022](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019-update-1?view=hpc19-ps)
 
@@ -497,7 +497,7 @@ One of the advantages of HPC Pack is that you can manage Azure compute resources
 * Support for Excel 2016.
 If you’re using Excel Workbook offloading in HPC Pack 2016 Update 1, Excel 2016 is supported by default. The way you use Excel Workbook offloading hasn’t been changed from earlier versions of HPC Pack. If you use Office 365, you need to manually activate Excel on all compute nodes.
 * Improved autogrow/shrink operation log.
-Previously you had to review management logs to check what was happening to the autogrow/shrink operations for compute resources, which is not very convenient. Now you canm read the logs within the HPC Cluster Manager GUI (Resource Management > Operations > AzureOperations). If autogrow/shrink is enabled, you see one active “Autogrow/shrink report” operation every 30 minutes. This operation logs is never archived and instead is purged after 48 hours. This behavior differs from other operations.**
+Previously you had to review management logs to check what was happening to the autogrow/shrink operations for compute resources, which is not very convenient. Now you canm read the logs within the HPC Cluster Manager GUI (Resource Management > Operations > AzureOperations). If autogrow/shrink is enabled, you see one active “Autogrow/shrink report” operation every 30 minutes. This operation logs is never archived and instead is purged after 48 hours. This behavior differs from other operations.
 Note that this feature already exists in HPC Pack 2012 R2 Update 3 with QFE4032368.
 * Improved Linux mutual trust configuration for cross-node MPI jobs
 Previously when a cluster user submitted a cross-node MPI job, they had to provide a key pair XML file generated through hpccred.exe setcreds /extendeddata:<xml>. Now this is not required, because HPC Pack 2016 Update 1 generates a key pair for the user automatically

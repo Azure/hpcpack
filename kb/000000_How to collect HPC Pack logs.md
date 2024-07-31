@@ -77,12 +77,8 @@ All client logs are under at %CCP_LOGROOT_USR% on the client machine. In a defau
 
   Use the following GUI tool
 
-  * LogViewerUI – LogViewerUI is a graphical tool that can parse HPC Pack service logs. It is available here: https://hpconlineservice.blob.core.windows.net/logviewer/LogViewer.UI.application
-  * LogViewerUI v2 - More powerful in parsing log files and filtering. It is available here:
-    ClickOnce installation:
-    https://hpconlineservice.blob.core.windows.net/logviewerv2/LogViewer.UI.application
-    XCOPY Package:
-    https://hpconlineservice.blob.core.windows.net/logviewerv2green/LogViewer_2.0.0.7.zip
+  * LogViewerUI – LogViewerUI is a graphical tool that can parse HPC Pack service logs. It is available [here](https://download.microsoft.com/download/B/B/2/BB23AC51-3AB5-4095-9CBB-FD3E0C97CED3/LogViewer_1.4.2.2.zip).
+  * LogViewerUI v2 - More powerful in parsing log files and filtering. It is available [here](https://download.microsoft.com/download/B/B/2/BB23AC51-3AB5-4095-9CBB-FD3E0C97CED3/LogViewer_2.0.0.9.zip).
 
   > [!Tips]
   >
