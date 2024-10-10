@@ -141,12 +141,13 @@ do
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl'
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'kubectl version'
 
-    Install .net8 runtime
+    # Install .net8 runtime
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb'
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo dpkg -i packages-microsoft-prod.deb'
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'rm packages-microsoft-prod.deb'
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo apt-get update && sudo apt-get install -y dotnet-runtime-8.0'
 
-    Install KubernetesAPP
-    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'git clone https://github.com/Azure/hpcpack.git && cd hpcpack && git checkout tianyiliu/deploy-Kubernetes-script && dotnet build code/KubernetesWrapper/KubernetesWrapper.sln'
+    # Copy KubernetesWrapper
+    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'mkdir KubernetesWrapper'
+    sshpass -p $password scp -r ~/hpcpack/code/KubernetesWrapper/KubernetesWrapper/bin/Debug/net8.0 hpcadmin@${IPS[$i]}:~/KubernetesWrapper
 done
