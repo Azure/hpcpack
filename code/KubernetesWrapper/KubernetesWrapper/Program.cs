@@ -47,7 +47,7 @@ namespace KubernetesWrapper
 
             if (nodeList.Count == 0)
             {
-                nodeList = ["iaascn177", "iaascn178"];
+                nodeList = ["iaascn339", "iaascn341"];
             }
 
             if (nodeList.Count == 0)
