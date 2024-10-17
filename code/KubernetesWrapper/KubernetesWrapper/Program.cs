@@ -1,5 +1,7 @@
 ﻿using k8s;
+using k8s.Autorest;
 using k8s.Models;
+using System.Net;
 
 namespace KubernetesWrapper
 {
@@ -115,7 +117,14 @@ namespace KubernetesWrapper
                     Console.WriteLine($"Job '{jobName}' already exists in namespace '{namespaceName}'.");
                     return;
                 }
+            }
+            catch (HttpOperationException ex) when (ex.Response.StatusCode == HttpStatusCode.NotFound)
+            {
+                Console.WriteLine($"Job '{jobName}' does not exist in namespace '{namespaceName}'. Proceeding to create job.");
+            }
 
+            try
+            {
                 await CreateJob(client, jobName, containerName, imageName, namespaceName, 
                     ttlSecondsAfterFinished, command, arguments, nodeList, token);
 
@@ -242,7 +251,7 @@ namespace KubernetesWrapper
             {
                 Console.WriteLine($"Job will not be created. Task was canceled: {ex.Message}");
             }
-            catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.Conflict)
+            catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == HttpStatusCode.Conflict)
             {
                 Console.WriteLine($"Job '{jobName}' already exists. Error: {ex.Message}");
             }
