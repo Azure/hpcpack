@@ -125,8 +125,25 @@ namespace KubernetesWrapper
 
             try
             {
-                await CreateJob(client, jobName, containerName, imageName, namespaceName, 
+                var job = await CreateJob(client, jobName, containerName, imageName, namespaceName, 
                     ttlSecondsAfterFinished, command, arguments, nodeList, token);
+
+                var pods = await GetPodsForJobAsync(client, jobName, namespaceName);
+                if (pods.Count == 0)
+                {
+                    Console.WriteLine($"No pods found for job '{jobName}' in namespace '{namespaceName}'.");
+                    return;
+                }
+
+                // Retrieve logs from each Pod
+                foreach (var pod in pods)
+                {
+                    Console.WriteLine($"Found Pod: {pod.Metadata.Name}. Retrieving logs...");
+
+                    string logs = await GetPodLogsAsync(client, pod.Metadata.Name, namespaceName);
+                    Console.WriteLine($"=== Logs from Pod: {pod.Metadata.Name} ===");
+                    Console.WriteLine(logs);
+                }
 
                 var jobWatcher = client.BatchV1.ListNamespacedJobWithHttpMessagesAsync(
                     namespaceName,
@@ -261,6 +278,36 @@ namespace KubernetesWrapper
             }
 
             return result;
+        }
+
+        // Method to get all Pods associated with a Job
+        static async Task<List<V1Pod>> GetPodsForJobAsync(IKubernetes client, string jobName, string namespaceName)
+        {
+            var podList = await client.CoreV1.ListNamespacedPodAsync(namespaceName, labelSelector: $"job-name={jobName}");
+            return podList.Items.ToList(); // Return all Pods as a List
+        }
+
+        // Method to get the logs of a specific Pod
+        static async Task<string> GetPodLogsAsync(IKubernetes client, string podName, string namespaceName)
+        {
+            try
+            {
+                var logs = await client.CoreV1.ReadNamespacedPodLogAsync(podName, namespaceName);
+                return await ConvertStreamToStringAsync(logs);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to get logs for pod '{podName}': {ex.Message}");
+                return string.Empty;
+            }
+        }
+
+        static async Task<string> ConvertStreamToStringAsync(Stream stream)
+        {
+            using (var reader = new StreamReader(stream))
+            {
+                return await reader.ReadToEndAsync();
+            }
         }
     }
 }
