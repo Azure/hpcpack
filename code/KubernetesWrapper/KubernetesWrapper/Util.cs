@@ -86,7 +86,7 @@
             return (jobName, containerName, imageName, namespaceName, ttl, command, argument);
         }
 
-        // input: 2 IAASCN114 4 IAASCN117 4
+        // input: 2 IAASCNxxx 4 IAASCNxxx 4
         public static List<string> GetNodeList(string? ccp_nodes)
         {
             string[] splitted = SplitStringBySpaces(ccp_nodes);

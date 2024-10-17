@@ -38,16 +38,10 @@ namespace KubernetesWrapper
 
             var nodes = Environment.GetEnvironmentVariable("CCP_NODES");
             var nodeList = Util.GetNodeList(nodes);
-            Console.WriteLine("node list: ");
-            foreach (var item in nodeList)
-            {
-                Console.WriteLine(item);
-            }
-            Console.WriteLine("---------");
-
+            
             if (nodeList.Count == 0)
             {
-                nodeList = ["iaascn339", "iaascn341"];
+                nodeList = ["iaascn370"];
             }
 
             if (nodeList.Count == 0)
@@ -55,6 +49,13 @@ namespace KubernetesWrapper
                 Console.WriteLine("Node list is empty. Exiting...");
                 return;
             }
+
+            Console.WriteLine("node list: ");
+            foreach (var item in nodeList)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("---------");
 
             CancellationTokenSource source = new();
             CancellationToken token = source.Token;
