@@ -8,7 +8,7 @@ namespace KubernetesWrapper
         private static async Task Main(string[] args)
         {
             var (jobName, containerName, imageName, namespaceName, ttlSecondsAfterFinished, command, arguments) = Util.ProcessArgs(args);
-
+            Console.WriteLine("Information about the job:");
             Console.WriteLine($"Job Name: {jobName}");
             Console.WriteLine($"Container Name: {containerName}");
             Console.WriteLine($"Image Name: {imageName}");
@@ -109,6 +109,13 @@ namespace KubernetesWrapper
 
             try
             {
+                var existingJob = await client.BatchV1.ReadNamespacedJobAsync(jobName, namespaceName);
+                if (existingJob != null)
+                {
+                    Console.WriteLine($"Job '{jobName}' already exists in namespace '{namespaceName}'.");
+                    return;
+                }
+
                 await CreateJob(client, jobName, containerName, imageName, namespaceName, 
                     ttlSecondsAfterFinished, command, arguments, nodeList, token);
 
@@ -125,10 +132,6 @@ namespace KubernetesWrapper
                     },
                     cancellationToken: token))
                 {
-                    //Console.WriteLine($"Event Type: {type}");
-                    //Console.WriteLine($"Job Name: {item.Metadata.Name}");
-                    //Console.WriteLine($"Job Status Succeeded: {item.Status.Succeeded}");
-
                     if (item.Status.Succeeded == nodeList.Count)
                     {
                         Console.WriteLine($"All pods reach Success state. About to exit in {ttlSecondsAfterFinished} seconds.");
@@ -139,7 +142,6 @@ namespace KubernetesWrapper
                             break;
                         }
                     }
-                    //Console.WriteLine("---------");
                 }
             }
             catch (TaskCanceledException ex)
