@@ -128,23 +128,6 @@ namespace KubernetesWrapper
                 var job = await CreateJob(client, jobName, containerName, imageName, namespaceName, 
                     ttlSecondsAfterFinished, command, arguments, nodeList, token);
 
-                var pods = await GetPodsForJobAsync(client, jobName, namespaceName);
-                if (pods.Count == 0)
-                {
-                    Console.WriteLine($"No pods found for job '{jobName}' in namespace '{namespaceName}'.");
-                    return;
-                }
-
-                // Retrieve logs from each Pod
-                foreach (var pod in pods)
-                {
-                    Console.WriteLine($"Found Pod: {pod.Metadata.Name}. Retrieving logs...");
-
-                    string logs = await GetPodLogsAsync(client, pod.Metadata.Name, namespaceName);
-                    Console.WriteLine($"=== Logs from Pod: {pod.Metadata.Name} ===");
-                    Console.WriteLine(logs);
-                }
-
                 var jobWatcher = client.BatchV1.ListNamespacedJobWithHttpMessagesAsync(
                     namespaceName,
                     labelSelector: $"app={containerName}",
@@ -160,6 +143,23 @@ namespace KubernetesWrapper
                 {
                     if (item.Status.Succeeded == nodeList.Count)
                     {
+                        var pods = await GetPodsForJobAsync(client, jobName, namespaceName);
+                        if (pods.Count == 0)
+                        {
+                            Console.WriteLine($"No pods found for job '{jobName}' in namespace '{namespaceName}'.");
+                            return;
+                        }
+
+                        // Retrieve logs from each Pod
+                        foreach (var pod in pods)
+                        {
+                            Console.WriteLine($"Found Pod: {pod.Metadata.Name}. Retrieving logs...");
+
+                            string logs = await GetPodLogsAsync(client, pod.Metadata.Name, namespaceName);
+                            Console.WriteLine($"=== Logs from Pod: {pod.Metadata.Name} ===");
+                            Console.WriteLine(logs);
+                        }
+
                         Console.WriteLine($"All pods reach Success state. About to exit in {ttlSecondsAfterFinished} seconds.");
 
                         if (type == WatchEventType.Deleted)
