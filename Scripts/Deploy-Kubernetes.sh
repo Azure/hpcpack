@@ -26,7 +26,7 @@ install_package() {
 
 # Function to display usage information
 usage() {
-    echo "Usage: $0 [-p password] [ip1 ip2 ...]" 1>&2
+    echo "Usage: $0 [-p password] [server1 server2 ...]" 1>&2
     exit 1
 }
 

@@ -34,17 +34,12 @@ namespace KubernetesWrapper
             Console.WriteLine("---------");
 
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
-            homeDirectory ??= "/home/hpcadmin";
-            var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"{homeDirectory}/.kube/config");
+            homeDirectory ??= "~";
+            var config = KubernetesClientConfiguration.BuildConfigFromConfigFile($"~/.kube/config");
             IKubernetes client = new Kubernetes(config);
 
             var nodes = Environment.GetEnvironmentVariable("CCP_NODES");
             var nodeList = Util.GetNodeList(nodes);
-            
-            if (nodeList.Count == 0)
-            {
-                nodeList = ["iaascn370", "iaascn371"];
-            }
 
             if (nodeList.Count == 0)
             {

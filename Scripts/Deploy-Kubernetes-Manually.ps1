@@ -65,10 +65,10 @@ for ($i = 1; $i -lt $servers.Length; $i++) {
     clusrun /nodes:$($servers[0]) "sshpass -p $password scp -r ~/KubernetesWrapper hpcadmin@$($servers[$i]):~/KubernetesWrapper"
 }
 
-# try {
-#     New-HpcGroup -Name "Kubernetes"
-# } catch {
-#     write-host "Group Kubernetes already exists"
-# }
+try {
+    New-HpcGroup -Name "Kubernetes"
+} catch {
+    write-host "Group Kubernetes already exists"
+}
 
 Add-HpcGroup -Name "Kubernetes" -NodeName $servers
