@@ -3,12 +3,13 @@
 ### Usage 
 We have 2 scripts to deploy a Kubernetes cluster, `Deploy-Kubernetes-Kubespray.ps1` and `Deploy-Kubernetes-Manually.ps1`. You can run them on your headnode. The usage is the same. 
 ```powershell
-.\Deploy-Kubernetes-Kubespray.ps1 -password '{your_password}' -servers {IaaSCN1,IaaSCN2,IaaSCN3,IaaSCN4,IaaSCN5}
+.\Deploy-Kubernetes-Kubespray.ps1 -password {password} -servers {servers}
 ```
 or
 ```powershell
-.\Deploy-Kubernetes-Manually.ps1 -password '{your_password}' -servers {IaaSCN1,IaaSCN2,IaaSCN3,IaaSCN4,IaaSCN5}
+.\Deploy-Kubernetes-Manually.ps1 -password {password} -servers {servers}
 ```
+Replace `{password}` with your password and `{servers}` with your node names seperated by commas.
 
 ### Differences
 |            | Deploy-Kubernetes-Kubespray.ps1 | Deploy-Kubernetes-Manually.ps1 |
