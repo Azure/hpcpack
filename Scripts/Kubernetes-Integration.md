@@ -18,7 +18,7 @@ or
 KubernetsWrapper is a C# application to monitor the [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/). It will create pod & job, run job, remove pod & job and print logs from pod. After running the powershell scipt in the previous part, KubernetsWrapper will be installed on each node in the cluster. 
 
 ### Usage
-The path bas been added to ~/.profile, so you can run it directly. It's a good practice to submit a HPC Pack job that starts `KubernetesWrapper`. Pass the parameters to this application.
+The path bas been added to ~/.profile, so you can run it directly. It's a good practice to submit a HPC Pack job that starts `KubernetesWrapper`, then pass the parameters to this application.
 `job submit /nodegroup:{nodegroup_name} /numcores:{numcores} bash -lc 'KubernetesWrapper --job {job_name} --container {container_name} --image {image_name} --namespace {namespace} --ttl {ttl_for_job} --argument {argument_list}'`
 
 For example,
