@@ -40,7 +40,6 @@ namespace KubernetesWrapper
             Console.WriteLine($"Kube config path: {kubeConfigPath}");
 
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile(kubeConfigPath);
-            var config1 = KubernetesClientConfiguration.BuildConfigFromConfigFile("~/.kube/config");
             IKubernetes client = new Kubernetes(config);
 
             var nodes = Environment.GetEnvironmentVariable("CCP_NODES");
