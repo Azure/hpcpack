@@ -22,7 +22,7 @@ install_package() {
     sudo dpkg -i packages-microsoft-prod.deb
     rm packages-microsoft-prod.deb
     sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
-    echo ''export PATH=$PATH:$HOME/KubernetesWrapper/net8.0'' >> ~/.profile
+    echo 'export PATH=$PATH:$HOME/KubernetesWrapper/net8.0' >> ~/.profile
 }
 
 # Function to display usage information
@@ -153,5 +153,5 @@ do
     # Copy KubernetesWrapper
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'mkdir KubernetesWrapper'
     sshpass -p $password scp -r ~/KubernetesWrapper hpcadmin@${IPS[$i]}:~/KubernetesWrapper
-    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'echo ''export PATH=$PATH:$HOME/KubernetesWrapper/net8.0'' >> ~/.profile'
+    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'echo 'export PATH=\\\$PATH:\\\$HOME/KubernetesWrapper/net8.0' >> ~/.profile'
 done
