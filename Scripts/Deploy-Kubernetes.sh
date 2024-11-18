@@ -151,7 +151,6 @@ do
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'sudo apt-get update && sudo apt-get install -y dotnet-runtime-8.0'
 
     # Copy KubernetesWrapper
-    sshpass -p $password ssh hpcadmin@${IPS[$i]} 'mkdir KubernetesWrapper'
     sshpass -p $password scp -r ~/KubernetesWrapper hpcadmin@${IPS[$i]}:~/KubernetesWrapper
     sshpass -p $password ssh hpcadmin@${IPS[$i]} 'echo 'export PATH=\\\$PATH:\\\$HOME/KubernetesWrapper/net8.0' >> ~/.profile'
 done
