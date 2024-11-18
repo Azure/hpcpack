@@ -130,7 +130,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl version
 
 dotnet build ~/hpcpack/code/KubernetesWrapper/KubernetesWrapper.sln
-mkdir KubernetesWrapper
+cd ~ && mkdir KubernetesWrapper
 cp -r ~/hpcpack/code/KubernetesWrapper/KubernetesWrapper/bin/Debug/net8.0 ~/KubernetesWrapper
 
 # Install kubectl, .net8 runtime, KubernetesWrapper on other nodes
