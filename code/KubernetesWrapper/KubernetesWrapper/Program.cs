@@ -34,7 +34,6 @@ namespace KubernetesWrapper
             Console.WriteLine("---------");
 
             string? homeDirectory = Environment.GetEnvironmentVariable("HOME");
-            homeDirectory ??= "~";
             string kubeConfigPath = $"{homeDirectory}/.kube/config";
             Console.WriteLine($"Home directory: {homeDirectory}");
             Console.WriteLine($"Kube config path: {kubeConfigPath}");
