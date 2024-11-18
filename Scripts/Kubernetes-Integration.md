@@ -16,7 +16,7 @@ Replace `{password}` with your password and `{servers}` with your node names sep
 |------------|---------------------------------|--------------------------------|
 | **Deployment** | Uses [Kubespray](https://github.com/kubernetes-sigs/kubespray) to deploy a Kubernetes cluster, providing flexibility to modify the script and install plugins. | Uses [kubeadm](https://github.com/kubernetes/kubeadm) to deploy a Kubernetes cluster, which does not support customization. | 
 | **Output** | Runs a shell within a `clusrun` command, so there will be no output until the whole shell script completes. | Provides output as soon as a single `clusrun` command finishes. | 
-| **Master Node Selection** | Selects the master node or etcl node based on its own algorithm. To configure this selection manually, modify the `inventory/mycluster/hosts.yaml` file. | Selects the first server in `servers` as the master node. | 
+| **Master Node Selection** | Selects the control-plane nodes based on its own algorithm. To configure this selection manually, modify the `inventory/mycluster/hosts.yaml` file. | Selects the first server in `servers` as the control-plane node. | 
 | **Time** | Takes more time to deploy a cluster of the same scale. | Takes less time to deploy a cluster of the same scale. |
 
 ## KubernetesWrapper
