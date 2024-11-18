@@ -37,8 +37,10 @@ namespace KubernetesWrapper
             homeDirectory ??= "~";
             string kubeConfigPath = $"{homeDirectory}/.kube/config";
             Console.WriteLine($"Home directory: {homeDirectory}");
+            Console.WriteLine($"Kube config path: {kubeConfigPath}");
 
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile(kubeConfigPath);
+            var config1 = KubernetesClientConfiguration.BuildConfigFromConfigFile("~/.kube/config");
             IKubernetes client = new Kubernetes(config);
 
             var nodes = Environment.GetEnvironmentVariable("CCP_NODES");
