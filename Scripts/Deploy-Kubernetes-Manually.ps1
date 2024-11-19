@@ -30,7 +30,7 @@ function Init-Master-Node {
     clusrun /nodes:$server 'ssh-keygen -t rsa -N """" -f ~/.ssh/kube_key'
 
     clusrun /nodes:$server 'sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0 && sudo apt install sshpass -y'
-    clusrun /nodes:$server 'git clone https://github.com/Azure/hpcpack.git && cd hpcpack && git checkout tianyiliu/deploy-Kubernetes-script'
+    clusrun /nodes:$server 'git clone https://github.com/Azure/hpcpack.git && cd hpcpack'
     clusrun /nodes:$server 'dotnet build ~/hpcpack/code/KubernetesWrapper/KubernetesWrapper.sln'
     clusrun /nodes:$server 'mkdir KubernetesWrapper && cp -r ~/hpcpack/code/KubernetesWrapper/KubernetesWrapper/bin/Debug/net8.0 ~/KubernetesWrapper'
     
