@@ -67,11 +67,11 @@ namespace KubernetesWrapper
 
                 try
                 {
-                    var job = await client.BatchV1.ReadNamespacedJobAsync(jobName, namespaceName);
+                    var job = await client.BatchV1.ReadNamespacedJobAsync(jobName, namespaceName).ConfigureAwait(false);
                     Console.WriteLine($"Job '{jobName}' found.");
                     
                     // Job exists, so delete it
-                    await client.BatchV1.DeleteNamespacedJobAsync(name: jobName, namespaceParameter: namespaceName);
+                    await client.BatchV1.DeleteNamespacedJobAsync(name: jobName, namespaceParameter: namespaceName).ConfigureAwait(false);
                     Console.WriteLine($"Job '{jobName}' deleted successfully.");
 
                 }
@@ -84,14 +84,14 @@ namespace KubernetesWrapper
                     Console.WriteLine($"Error: {ex.Message}");
                 }
 
-                var podList = await client.CoreV1.ListNamespacedPodAsync(namespaceName, labelSelector: $"app={containerName}");
+                var podList = await client.CoreV1.ListNamespacedPodAsync(namespaceName, labelSelector: $"app={containerName}").ConfigureAwait(false);
                 Console.WriteLine($"Pod list count: {podList.Items.Count}");
                 foreach (var pod in podList.Items)
                 {
                     try
                     {
                         Console.WriteLine($"Pod: {pod.Metadata.Name}");
-                        await client.CoreV1.DeleteNamespacedPodAsync(pod.Metadata.Name, namespaceName, new V1DeleteOptions());
+                        await client.CoreV1.DeleteNamespacedPodAsync(pod.Metadata.Name, namespaceName, new V1DeleteOptions()).ConfigureAwait(false);
                         Console.WriteLine($"Deleted pod: {pod.Metadata.Name}");
                     }
                     catch (k8s.Autorest.HttpOperationException ex) when (ex.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -109,7 +109,7 @@ namespace KubernetesWrapper
 
             try
             {
-                var existingJob = await client.BatchV1.ReadNamespacedJobAsync(jobName, namespaceName);
+                var existingJob = await client.BatchV1.ReadNamespacedJobAsync(jobName, namespaceName).ConfigureAwait(false);
                 if (existingJob != null)
                 {
                     Console.WriteLine($"Job '{jobName}' already exists in namespace '{namespaceName}'.");
@@ -141,7 +141,7 @@ namespace KubernetesWrapper
                 {
                     if (item.Status.Succeeded == nodeList.Count)
                     {
-                        var pods = await GetPodsForJobAsync(client, jobName, namespaceName);
+                        var pods = await GetPodsForJobAsync(client, jobName, namespaceName).ConfigureAwait(false);
                         if (pods.Count == 0)
                         {
                             Console.WriteLine($"No pods found for job '{jobName}' in namespace '{namespaceName}'.");
@@ -153,7 +153,7 @@ namespace KubernetesWrapper
                         {
                             Console.WriteLine($"Found Pod: {pod.Metadata.Name}. Retrieving logs...");
 
-                            string logs = await GetPodLogsAsync(client, pod.Metadata.Name, namespaceName);
+                            string logs = await GetPodLogsAsync(client, pod.Metadata.Name, namespaceName).ConfigureAwait(false);
                             Console.WriteLine($"=== Logs from Pod: {pod.Metadata.Name} ===");
                             Console.WriteLine(logs);
                         }
@@ -259,7 +259,7 @@ namespace KubernetesWrapper
             V1Job? result = null;
             try
             {
-                result = await client.BatchV1.CreateNamespacedJobAsync(job, namespaceName, cancellationToken: token);
+                result = await client.BatchV1.CreateNamespacedJobAsync(job, namespaceName, cancellationToken: token).ConfigureAwait(false);
                 Console.WriteLine($"Job '{jobName}' created successfully.");
             }
             catch (TaskCanceledException ex)
@@ -281,7 +281,7 @@ namespace KubernetesWrapper
         // Method to get all Pods associated with a Job
         static async Task<List<V1Pod>> GetPodsForJobAsync(IKubernetes client, string jobName, string namespaceName)
         {
-            var podList = await client.CoreV1.ListNamespacedPodAsync(namespaceName, labelSelector: $"job-name={jobName}");
+            var podList = await client.CoreV1.ListNamespacedPodAsync(namespaceName, labelSelector: $"job-name={jobName}").ConfigureAwait(false);
             return podList.Items.ToList(); // Return all Pods as a List
         }
 
@@ -290,8 +290,8 @@ namespace KubernetesWrapper
         {
             try
             {
-                var logs = await client.CoreV1.ReadNamespacedPodLogAsync(podName, namespaceName);
-                return await ConvertStreamToStringAsync(logs);
+                var logs = await client.CoreV1.ReadNamespacedPodLogAsync(podName, namespaceName).ConfigureAwait(false);
+                return await ConvertStreamToStringAsync(logs).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -304,7 +304,7 @@ namespace KubernetesWrapper
         {
             using (var reader = new StreamReader(stream))
             {
-                return await reader.ReadToEndAsync();
+                return await reader.ReadToEndAsync().ConfigureAwait(false);
             }
         }
     }
