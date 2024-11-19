@@ -1,7 +1,7 @@
 ## How to Deploy a Kubernetes Cluster in HPC Pack
 
 ### Usage 
-We have 2 scripts to deploy a Kubernetes cluster, `Deploy-Kubernetes-Kubespray.ps1` and `Deploy-Kubernetes-Manually.ps1`. You can run them on your headnode. The usage is the same. 
+There are two scripts for deploying a Kubernetes cluster: `Deploy-Kubernetes-Kubespray.ps1` and `Deploy-Kubernetes-Manually.ps1`. You can run either script on your headnode, as their usage is the same. 
 ```powershell
 .\Deploy-Kubernetes-Kubespray.ps1 -password {password} -servers {servers}
 ```
@@ -35,5 +35,6 @@ job submit /nodegroup:Kubernetes /numcores:6 bash -lc 'KubernetesWrapper --job c
 ```
 
 ## Limitations
-1. These scripts only works for Ubuntu distributions. Other distributions are not supported at this time.
+1. These scripts only work for Ubuntu distributions. Other distributions are not supported at this time.
 2. `KubernetsWrapper` only monitors `job`. Other resouce types are not supported at this time.
+3. As stated in the [kubespray documentation](https://kubespray.io/#/?id=requirements), the master node should have at least 1500 MB of memory and worker nodes should have at least 1024 MB of memory.
