@@ -1,6 +1,111 @@
 # Change Log for Release
 
 # HPC Pack 2019
+## [HPC Pack 2019 Update 3 (6.3.8310) - 11/23/2024](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019-update-3?view=hpc19-ps)
+
+## Enhancements to Job Scheduler
+
+* **Initial [support for Kubernetes workloads](https://github.com/Azure/hpcpack/blob/master/Scripts/Kubernetes-Integration.md) within HPC Pack**
+* **Supported head node FQDN from clients** - To enable client connection with head node FQDN, please add registry value named **EnableClientFQDN** with DWORD value 1 under registry key  `HKLM\SOFTWARE\Microsoft\HPC`
+* **Configurable job history auto-cleanup options** - Support the following configurations for job cleanup.
+  * These configurations can be viewed or set by `Get-HpcClusterProperty` or `Set-HpcClusterProperty`. Please use the default values unless there is any specific issue or requirement for the job history auto-cleanup.
+  ```CMD
+  SchedulerDeleteOldJobsTotalTimeout // default 14400 seconds
+  SchedulerDeleteOldJobsDefaultCommandTimeout // default 60 seconds
+  SchedulerDeleteOldJobRetryInterval // default 15000 milliseconds
+  SchedulerDeleteOldJobsMaxBatchSize // default 2048 jobs
+  SchedulerDeleteOldJobsMaxTimeout // default 480 seconds
+  ```
+
+* **Supported Windows environment configurations for Windows registry settings** - To use this feature, just set the environment variable with `CCP_CONFIG_` prefix, e.g., `CCP_CONFIG_CertificateValidationType`.
+  * The following set environment command would override the cluster registry `CertificateValidationType` and bypass the certificate validation.
+  ```CMD
+  set CCP_CONFIG_CertificateValidationType=0
+  ```
+* **Supported jobs packing and tasks spreading on nodes** - By default, jobs are spreading on nodes and tasks are packing on nodes.
+  * To enable jobs packing on nodes, run the following PowerShell cmdlet and then restart HpcScheduler service on all head nodes.
+  ```powershell
+  Set-HpcClusterProperty -SchedulerEnvFeatureFlags 'JOB_PACKING_ON_NODE'
+  ```
+
+  * To enable tasks spreading on nodes, run the following PowerShell cmdlet and then restart HpcScheduler service on all head nodes.
+  ```powershell
+  Set-HpcClusterProperty -SchedulerEnvFeatureFlags 'TASK_SPREADING_ON_NODE'
+  ```
+* **Fixed job failure when the cluster property DisableResourceValidation is set to True and the nodes are removed from job's node group** - The job would be requeued instead.
+* **Fixed runaway tasks under stress**
+* **Fixed clusrun job stuck when running on Linux node with a leftover named pipe from a failed task**
+* **Fixed cluster event dispatching issue which caused a scheduler memory leak, job slowness, broker timeouts, and client event loss**
+* **Fixed task stuck in queued state due to incorrect required core computation when adding tasks after a job is submitted with task dependencies**
+* **Fixed node allocation order for tasks in a job as default packing by node names**
+* **Fixed divided by zero exception when viewing job cost due to zero core nodes**
+* **Fixed the issue that GPU job finished immediately with all tasks in queued state**
+* **Fixed job failure when all nodes are removed from their node groups when `DisableResourceValidation` is set to True**
+* **Fixed a job project name cleanup bug where the `SP_DeleteOldJobs` stored procedure was not handling null entries in the `ProjectId` Column properly**
+* **Replaced an index in the `AllocationHistory` table to increase deletion performance**
+* **Linux node support updates (to be released)** - If you are currently using, or plan to use, Linux nodes in HPC Pack clusters, please postpone this upgrade and wait for the Linux node support updates.
+
+## Improvements to Setup and Management
+
+* **Fixes for bursting to Azure IaaS VMs**
+* **Fixes for bursting to Azure Batch pools**
+* **Fixed Entra ID service principal creation error**
+* **Fixed an authentication issue when bursting to IaaS VMs in regional Azure Cloud**
+* **Updated API versions in Azure node template**
+* **Supported Node Cool Down Time for auto grow and shrink on Azure** - A new auto grow shrink parameter `NodeCoolDownTime` was added for Azure IaaS VM nodes that failed to grow.
+* You may set it to 100 minutes using the following PowerShell cmdlet. By default it is set to 10 minutes.
+  ```powershell
+  Set-HpcClusterProperty -NodeCoolDownTime 100
+  ```
+* **Support for new Azure IaaS VM SKUs**
+* [**Improved logging integration with Azure Monitor**](https://aka.ms/hpcpack_bicep_am)
+* [**Enhanced Azure deployment using Bicep**](https://aka.ms/hpcpack_bicep_template)
+* **Inclusion of a Log Viewer GUI tool for easier log analysis**
+* **Improved logic for handling Service Fabric certificate keys during installation**
+* **Fixed an issue where service versions in `ServiceManifest.xml` were not set properly, causing Service Fabric cluster installation failure**
+* **Security updates for dependent libraries and applications**
+
+
+## SOA Runtime and Excel
+* **.NET 8 SOA service hosts available on Windows compute nodes** - To enable .Net 8 SOA service hosts follow the steps below.
+  * Download and install the latest .Net 8 Runtime and Asp.Net Core 8 Runtime from [here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+  * Copy the installed bits to the head node file share, e.g, `\\<HeadNode>\reminst`, and then run the following `clusrun` commands on the compute nodes.
+  ```CMD
+  clusrun /nodegroup:ComputeNodes \\<HeadNode>\reminst\dotnet-runtime-8.0.8-win-x64.exe /install /passive /quiet
+  clusrun /nodegroup:ComputeNodes \\<HeadNode>\reminst\aspnetcore-runtime-8.0.10-win-x64.exe /install /passive /quiet
+  ```
+  * Add or update **architecture="NET64"** under the **service** section in the service registraion files to switch from .Net Framework service hosts to .Net service hosts.
+  * To change the built-in Echo service for .Net 8 service hosts, just make the following changes in `CcpEchoSvc.config` file and run `EchoClient.exe` to try it out.
+  ```xml
+  <service assembly="%CCP_HOME%Net\NetEchoSvcLib.dll" architecture="NET64" ... >
+  ```
+* **Fixed SOA session stuck with slow progress for short echo requests**
+* **Fixed OnExit handler exception caused by race conditions under stress**
+* **Fixed the issue where the create session async call won't be called**
+* **Fixed the exception thrown when Excel.exe couldn't be found**
+* **Fixed the registration of the ExcelDriver Type Library (TLB)**
+* **Support for Excel 2021 in Excel VBA offloading**
+
+## UI & CMD & SDK
+
+* **Added SDK support for .NET Standard 2.0** - Check the NuGet package [here](https://www.nuget.org/packages/Microsoft.HPC.SDK).
+* **Added SDK support for Linux.** - See [here](https://github.com/Azure-Samples/hpcpack-samples) for more information.
+* **Fixed the job modify API exception**
+* **Fixed the connection leak in Store API**
+* **Fixed the SOA client random crash due to `System.InvalidOperationException` using .Net SDK**
+* **Fixed HPC Cluster Manager crashes**
+* **Supported fast job commands when the previous job Id macro '!!' is not used** - To enable fast job commands, just set user environment variable `CCP_NO_JOB_ID` as True, e.g.,
+
+  ```CMD
+  setx CCP_NO_JOB_ID true
+  ```
+* **Fixed potential deadlocks when `Wait()` on `ConnectAsync(SchedulerConnectionContext context, CancellationToken token)`**
+
+
+## [HPC Pack .Net SDK (6.3.8310) - 11/23/2024](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8310)
+* Fixed potential deadlocks when `Wait()` on `ConnectAsync(SchedulerConnectionContext context, CancellationToken token)`
+
+
 ## [HPC Pack .Net SDK (6.3.8187-beta) - 6/30/2024](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8187-beta)
 * Supported SDK Logging
    
