@@ -1,7 +1,9 @@
 # Change Log for Release
 
 # HPC Pack 2019
-## [HPC Pack 2019 Update 3 (6.3.8310) - 11/23/2024](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019-update-3?view=hpc19-ps)
+
+## [HPC Pack 2019 Update 3 Refreshed (6.3.8328) - 2/11/2025](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019-update-3?view=hpc19-ps)
+## [HPC Pack 2019 Update 3 (6.3.8310) - 11/23/2024]()
 
 ## Enhancements to Job Scheduler
 
@@ -43,7 +45,9 @@
 * **Fixed job failure when all nodes are removed from their node groups when `DisableResourceValidation` is set to True**
 * **Fixed a job project name cleanup bug where the `SP_DeleteOldJobs` stored procedure was not handling null entries in the `ProjectId` Column properly**
 * **Replaced an index in the `AllocationHistory` table to increase deletion performance**
-* **Linux node support updates (to be released)** - If you are currently using, or plan to use, Linux nodes in HPC Pack clusters, please postpone this upgrade and wait for the Linux node support updates.
+* **Linux node support updates for new Linux distro versions**
+* **Fixed job stuck in cancelling state due to race condition**
+* **Fixed node reservation in queue mode when MIN_MAX_ON_NODE feature is enabled**
 
 ## Improvements to Setup and Management
 
@@ -64,7 +68,8 @@
 * **Improved logic for handling Service Fabric certificate keys during installation**
 * **Fixed an issue where service versions in `ServiceManifest.xml` were not set properly, causing Service Fabric cluster installation failure**
 * **Security updates for dependent libraries and applications**
-
+* **Fixed node stuck in draining state due to divide by zero error when removing the node**
+* **Fixed Azure shared image version validation**
 
 ## SOA Runtime and Excel
 * **.NET 8 SOA service hosts available on Windows compute nodes** - To enable .Net 8 SOA service hosts follow the steps below.
