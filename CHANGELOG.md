@@ -3,7 +3,7 @@
 # HPC Pack 2019
 
 ## [HPC Pack 2019 Update 3 Refreshed (6.3.8328) - 2/11/2025](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019-update-3?view=hpc19-ps)
-## [HPC Pack 2019 Update 3 (6.3.8310) - 11/23/2024]()
+## HPC Pack 2019 Update 3 (6.3.8310) - 11/23/2024
 
 ## Enhancements to Job Scheduler
 
