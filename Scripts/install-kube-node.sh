@@ -22,4 +22,4 @@ echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt
 sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubectl
 
 # Join the Kubernetes cluster
-sudo kubeadm join 10.0.0.16:6443 --token cee55t.i4oyvr0g52t2q8nt --discovery-token-ca-cert-hash sha256:1c5fd76a299c2b15559bf4b520265c868deb458da2ae47977ae53e6c00fc72dd
+sudo kubeadm join 10.0.0.16:6443 --token {token} --discovery-token-ca-cert-hash {hash}
