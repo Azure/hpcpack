@@ -1,10 +1,8 @@
 # Microsoft HPC Pack
 This repository provides a communication channel for customers using [Microsoft HPC Pack](https://aka.ms/hpcpack) product.
 
->[!NOTE]
-> Please help us understand your use cases and workloads by answering this [questionnaire](https://forms.office.com/r/jhq5NGQwEM?origin=lprLink).
-
 * Announcements
+    * **HPC Pack 2019 Update 3 Fixes** (6.3.8352) - 8/18/2025 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=108341))
     * **HPC Pack 2019 Update 3 Refreshed** (6.3.8328) - 2/11/2025 ([What's New](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019-update-3?view=hpc19-ps), [Release Notes](https://docs.microsoft.com/en-us/powershell/high-performance-computing/release-notes-for-hpc-pack-2019-update-3?view=hpc19-ps), [Download](https://www.microsoft.com/en-us/download/details.aspx?id=106334), [Azure ARM Templates](https://github.com/Azure/hpcpack-template/tree/master))
     * **HPC Pack 2019 Update 3** (6.3.8310) - 11/23/2024
     * **HPC Pack .Net SDK** (6.3.8310) - 11/23/2024 ([What's New](CHANGELOG.md#hpc-pack-net-sdk-638310---11232024), [Nuget](https://www.nuget.org/packages/Microsoft.HPC.SDK/6.3.8310))
