@@ -3,7 +3,7 @@
 # HPC Pack 2019
 
 ## [HPC Pack 2019 Update 3 QFE KB5065994 (6.3.8352) - 8/18/2025](https://www.microsoft.com/en-us/download/details.aspx?id=108341)
-- Fix the security vulnerability for remote code execution in HPC Scheduler service on the head nodes.
+- Fix the remote code execution security vulnerability [CVE-2025-55232](https://www.cve.org/CVERecord?id=CVE-2025-55232) in the HpcSchedulerCore.dll for HPC Scheduler service on the head nodes.
 - Update the Red Hat Enterprise Linux (RHEL) image SKUs naming for Azure IaaS VM compute nodes.
 
 ## [HPC Pack 2019 Update 3 Refreshed (6.3.8328) - 2/11/2025](https://docs.microsoft.com/en-us/powershell/high-performance-computing/what-s-new-in-hpc-pack-2019-update-3?view=hpc19-ps)
