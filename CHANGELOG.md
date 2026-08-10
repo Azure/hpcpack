@@ -2,6 +2,11 @@
 
 # HPC Pack 2019
 
+## [HPC Pack 2019 Update 3 QFE KB5124659 (6.3.8359) - 8/10/2026](https://www.microsoft.com/en-us/download/details.aspx?id=108779)
+- Web Portal Security Enhancement. Fixed insecure deserialization of the Web Portal job-list preferences cookie, preventing authenticated users from executing unauthorized code on the head node through specially crafted requests.
+- Scheduler Communication Security Enhancement. Removed insecure BinaryFormatter deserialization from Scheduler WCF messages and replaced it with a controlled native identity serialization format, preventing specially crafted messages from executing code on the head node. Note Entra ID job authentication requires the patch on both client and server sides.
+- Certificate Authentication Enhancement. Strengthened X.509 client certificate validation for the Scheduler and related HPC services. Access to protected internal services is now restricted to certificates matching the cluster configuration, preventing certificate-based identity spoofing and privilege escalation.
+
 ## [HPC Pack 2019 Update 3 QFE KB5081004 (6.3.8355) - 2/21/2026](https://www.microsoft.com/en-us/download/details.aspx?id=108564)
 - Fix the authenticated remote code execution security vulnerability in the HpcSchedulerCore.dll and SchedulerServiceCore.dll for HPC Scheduler service and the HpcManagementCore.dll for HPC Management service on the head nodes.
 - Fix the task group dependency issue when submitting the job from HPC Cluster/Job Manager GUI.
