@@ -2,10 +2,29 @@
 
 # HPC Pack 2019
 
-## [HPC Pack 2019 Update 3 QFE KB5124659 (6.3.8359) - 8/10/2026](https://www.microsoft.com/en-us/download/details.aspx?id=108779)
+## [HPC Pack 2019 Update 3 QFE KB5128648 (6.3.8363) - 9/12/2026](https://www.microsoft.com/en-us/download/details.aspx?id=108832)
 - Web Portal Security Enhancement. Fixed insecure deserialization of the Web Portal job-list preferences cookie, preventing authenticated users from executing unauthorized code on the head node through specially crafted requests.
 - Scheduler Communication Security Enhancement. Removed insecure BinaryFormatter deserialization from Scheduler WCF messages and replaced it with a controlled native identity serialization format, preventing specially crafted messages from executing code on the head node. Note Entra ID job authentication requires the patch on both client and server sides.
-- Certificate Authentication Enhancement. Strengthened X.509 client certificate validation for the Scheduler and related HPC services. Access to protected internal services is now restricted to certificates matching the cluster configuration, preventing certificate-based identity spoofing and privilege escalation. **Note: this fix requires the same HPC communication certificate across the cluster nodes.**
+- Certificate Authentication Enhancement. Strengthened X.509 client certificate validation for the Scheduler and related HPC services. Access to protected internal services is now restricted to certificates matching the cluster configuration, preventing certificate-based identity spoofing and privilege escalation. **Note**, if the cluster has two communication certificates, one for head nodes and the other for compute nodes, please follow the additional instructions below to perform the patch or slipstream installations. One communication certificate across all cluster nodes is strongly recommended.
+  * **Patch**: Before running KB5128648_x64.exe on the cluster nodes,
+    *  Run this PowerShell command on the head node to import the cluster registry TrustedClusterCertThumbprints.
+      ```powershell
+      Set-HpcClusterRegistry -PropertyName TrustedClusterCertThumbprints -PropertyValue '<HN_Cert_Thrumbprint>,<CN_Cert_Thrumbprint>'
+      ```
+    *  Run this clusrun command on the head node to set the local registry TrustedClusterCertThumbprints on the cluster nodes other than head nodes. E.g. 
+      ```CMD
+      clusrun /nodegroup:ComputeNodes reg add HKLM\SOFTWARE\Microsoft\HPC /v TrustedClusterCertThumbprints /t REG_SZ /d <HN_Cert_Thrumbprint>,<CN_Cert_Thrumbprint> /f
+      ```
+  * **Slipstream Install**: After running setup.exe on the cluster nodes,
+    *  Run this PowerShell command on the head node to import the cluster registry TrustedClusterCertThumbprints.
+      ```powershell
+      Set-HpcClusterRegistry -PropertyName TrustedClusterCertThumbprints -PropertyValue '<HN_Cert_Thrumbprint>,<CN_Cert_Thrumbprint>'
+      ```
+    *  Run this command on the cluster nodes other than head nodes to set the local registry TrustedClusterCertThumbprints. After that, restart the node.
+      ```CMD
+      reg add HKLM\SOFTWARE\Microsoft\HPC /v TrustedClusterCertThumbprints /t REG_SZ /d <HN_Cert_Thrumbprint>,<CN_Cert_Thrumbprint> /f
+      ```  
+## [HPC Pack 2019 Update 3 QFE KB5124659 (6.3.8359) - 8/10/2026] - Recalled
 
 ## [HPC Pack 2019 Update 3 QFE KB5081004 (6.3.8355) - 2/21/2026](https://www.microsoft.com/en-us/download/details.aspx?id=108564)
 - Fix the authenticated remote code execution security vulnerability in the HpcSchedulerCore.dll and SchedulerServiceCore.dll for HPC Scheduler service and the HpcManagementCore.dll for HPC Management service on the head nodes.
