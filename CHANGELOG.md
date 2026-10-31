@@ -2,6 +2,13 @@
 
 # HPC Pack 2019
 
+## [HPC Pack 2019 Update 3 QFE KB5134825 (6.3.8364) - 10/30/2026](https://www.microsoft.com/en-us/download/details.aspx?id=108895)
+- REST API security. Strengthened access controls for Microsoft Entra ID and Azure Batch application secrets.
+- Management operations on multi-NIC nodes. Fixed an issue where management operations could fail on nodes with multiple network adapters e.g. InfiniBand NICs on HB-series.
+- Azure queue message security. Replaced unsafe deserialization in SOA Azure queue message processing with strict message validation to address a remote code execution risk.
+- SOA Broker management communication. Moved internal SOA Broker management communication from HTTP to access-controlled local named pipes, removing the need for the previous management listener on port 9093.
+- MSMQ message security. Replaced unsafe deserialization of SOA Broker persisted messages with strict message validation and restricted queue permissions to protect against malicious messages and unauthorized access.
+
 ## [HPC Pack 2019 Update 3 QFE KB5128648 (6.3.8363) - 9/12/2026](https://www.microsoft.com/en-us/download/details.aspx?id=108832)
 - Web Portal Security Enhancement. Fixed insecure deserialization of the Web Portal job-list preferences cookie, preventing authenticated users from executing unauthorized code on the head node through specially crafted requests.
 - Scheduler Communication Security Enhancement. Removed insecure BinaryFormatter deserialization from Scheduler WCF messages and replaced it with a controlled native identity serialization format, preventing specially crafted messages from executing code on the head node. Note Entra ID job authentication requires the patch on both client and server sides.
