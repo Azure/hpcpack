@@ -2,6 +2,7 @@
 This repository provides a communication channel for customers using [Microsoft HPC Pack](https://aka.ms/hpcpack) product.
 
 * Announcements
+    * **HPC Pack 2019 Update 3 Fixes** (6.3.8364) - 10/30/2026 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=108895))
     * **HPC Pack 2019 Update 3 Fixes** (6.3.8363) - 9/12/2026 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=108832))
     * **HPC Pack 2019 Update 3 Fixes** (6.3.8359) - 8/10/2026 - Recalled
     * **HPC Pack 2019 Update 3 Fixes** (6.3.8355) - 2/21/2026 ([Download](https://www.microsoft.com/en-us/download/details.aspx?id=108564))
